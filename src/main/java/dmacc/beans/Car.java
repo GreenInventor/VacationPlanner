@@ -24,6 +24,4 @@ public class Car {
 	private int mpg;
 	private int capacity;
 	private String fuelType;
-	private String dealershipName;
-	private Address dealershipAddress;
 }
