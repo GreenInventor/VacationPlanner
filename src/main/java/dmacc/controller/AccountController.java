@@ -58,7 +58,7 @@ public class AccountController {
 			if (l.getAccountType().equals("user")) {
 				return ""; // change to whatever our main page will be
 			} else {
-				return ""; // change to administrator main page
+				return "adminHome";
 			}
 
 		} else {
