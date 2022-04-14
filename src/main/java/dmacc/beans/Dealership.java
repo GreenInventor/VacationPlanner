@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Dealership {
 	@Id
 	@GeneratedValue
-	private int id;
+	private long id;
 	private String name;
 	private Address address;
 	@OneToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)

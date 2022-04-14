@@ -1,100 +1,32 @@
 package dmacc.beans;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Carson Allbee callbee
  *CIS175 - Fall 2021
  * Apr 13, 2022
  */
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Planner {
-
+	@Id
+	@GeneratedValue
 	private long id;
 	private String destination;
+	@ManyToOne
 	private Hotel hotel;
 	private String activities;
-	
-	
-	public Planner() {
-		super();
-	}
-	
-	public Planner(long id, String destination, Hotel hotel, String activities) {
-		super();
-		this.id = id;
-		this.destination = destination;
-		this.hotel = hotel;
-		this.activities = activities;
-	}
-	
-	public Planner(String destination, Hotel hotel, String activities) {
-		super();
-		this.destination = destination;
-		this.hotel = hotel;
-		this.destination = destination;
-	}
-	
-	public Planner(String destination, String activities) {
-		super();
-		this.destination = destination;
-		this.activities = activities;
-	}
-
-	/**
-	 * @return the destination
-	 */
-	public String getDestination() {
-		return destination;
-	}
-
-	/**
-	 * @param destination the destination to set
-	 */
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
-
-	/**
-	 * @return the hotel
-	 */
-	public Hotel getHotel() {
-		return hotel;
-	}
-
-	/**
-	 * @param hotel the hotel to set
-	 */
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
-	}
-
-	/**
-	 * @return the activities
-	 */
-	public String getActivities() {
-		return activities;
-	}
-
-	/**
-	 * @param activities the activities to set
-	 */
-	public void setActivities(String activities) {
-		this.activities = activities;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	
-	
-	
 }

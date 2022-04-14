@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Create Rental Car</title>
+</head>
+<body>
+<form th:object="${newCar}" th:action="@{/inputCar}" method='POST'>
+Make: <input name="make" size = "20" th:field="*{make}" required><br />
+Model: <input name="model" size="20" th:field="*{model}" required><br />
+Year: <input name="year" size="20" th:field="*{year}" required><br/>
+Color: <input name="color" size="20" th:field="*{color}" required><br/>
+Capacity: <input name="capacity" size="20" th:field="*{capacity}" required><br/>
+MPG / Range: <input name="mpg" size="20" th:field="*{mpg}" required><br/>
+Fuel Type: <select name="fuelType" th:field="*{mpg}" required>
+<option value="" >Select Fuel Type</option>
+  <option value="Gas">Gas</option>
+  <option value="Diesel">Diesel</option>
+  <option value="Electric">Electric</option>
+</select>><br/>
+<input name="submit" type="submit" value="submit" />
+</form>
+</body>
+</html>
