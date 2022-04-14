@@ -27,7 +27,7 @@ public class HotelController {
 	public String addNewHotel(@ModelAttribute Hotel h, Model model) {
 		repo.save(h);
 		System.out.println("Hotel Created!");
-		System.out.println(h.toString());
+		//System.out.println(h.toString());
 		return viewAllHotels(model);
 	}
 	
