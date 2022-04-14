@@ -20,4 +20,5 @@ public class Hotel {
 	private int roomNumber;
 	private boolean occupied;
 	private Address hotelAddress;
+	private double price;
 }
