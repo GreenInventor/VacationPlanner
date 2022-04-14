@@ -7,6 +7,7 @@ package dmacc.beans;
  */
 public class Planner {
 
+	private long id;
 	private String destination;
 	private Hotel hotel;
 	private String activities;
@@ -14,6 +15,14 @@ public class Planner {
 	
 	public Planner() {
 		super();
+	}
+	
+	public Planner(long id, String destination, Hotel hotel, String activities) {
+		super();
+		this.id = id;
+		this.destination = destination;
+		this.hotel = hotel;
+		this.activities = activities;
 	}
 	
 	public Planner(String destination, Hotel hotel, String activities) {
@@ -70,6 +79,21 @@ public class Planner {
 	public void setActivities(String activities) {
 		this.activities = activities;
 	}
+
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	
 	
 	
