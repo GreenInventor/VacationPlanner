@@ -1,5 +1,8 @@
 package dmacc.beans;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,4 +27,5 @@ public class Car {
 	private int mpg;
 	private int capacity;
 	private String fuelType;
+	private List<LocalDate> daysRented;
 }
