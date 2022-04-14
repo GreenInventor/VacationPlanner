@@ -8,11 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author Carson Allbee callbee
- *CIS175 - Fall 2021
- * Apr 13, 2022
- */
 @Entity
 @Data
 @NoArgsConstructor

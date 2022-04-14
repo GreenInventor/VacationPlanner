@@ -12,7 +12,6 @@ import dmacc.repository.HotelRepository;
 
 @Controller
 public class HotelController {
-
 	@Autowired
 	HotelRepository repo;
 
@@ -39,5 +38,4 @@ public class HotelController {
 		model.addAttribute("hotels", repo.findAll());
 		return "viewAllHotels";
 	}
-
 }

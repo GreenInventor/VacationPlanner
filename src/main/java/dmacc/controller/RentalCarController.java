@@ -15,7 +15,6 @@ import dmacc.beans.Dealership;
 import dmacc.repository.CarRepository;
 import dmacc.repository.DealershipRepository;
 
-
 @Controller
 public class RentalCarController {
 	@Autowired

@@ -11,14 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import dmacc.beans.Planner;
 import dmacc.repository.PlannerRepository;
 
-/**
- * @author Carson Allbee callbee
- *CIS175 - Fall 2021
- * Apr 13, 2022
- */
 @Controller
 public class PlannerController {
-	
 	@Autowired
 	PlannerRepository repo;
 	
@@ -55,6 +49,4 @@ public class PlannerController {
 		repo.save(p);
 		return viewAllPlans(model);
 	}
-	
-
 }
