@@ -5,15 +5,73 @@
 <title>Insert a new hotel</title>
 </head>
 <body>
-<form th:object="${newHotel}" th:action="@{/inputHotel}" method='POST'>
-Hotel Name: <input name="hotelName" size = "20" th:field="*{hotelName}" required><br />
-Room Number: <input name="roomNumber" size="20" th:field="*{roomNumber}" required><br />
-Price of Room: <input name="price" size="20" th:field="*{price}" required><br/>
-Street: <input name="address.street" size="20" th:field="*{hotelAddress.street}" required><br/>
-City: <input name="address.city" size="20" th:field="*{hotelAddress.city}" required><br/>
-State: <input name="address.state" size="20" th:field="*{hotelAddress.state}" required><br/>
-Zip: <input name="address.zip" size="20" th:field="*{hotelAddress.zip}" required><br/>
+<script>
+	function checkForm(form)
+	{
+		let re = /^[\w ]+$/;
+		
+		if(!re.test(form.hotelName.value))
+		{
+			alert("Hotel name contains invalid characters.");
+			form.hotelName.focus();
+			return false;
+		}
+		
+		if(form.roomNumber.value < 0)
+		{
+			alert("Please enter a room number greater than 0");
+			form.roomNumber.focus();
+			return false;
+		}
+		
+		if(form.price.value < 0)
+		{
+			alert("Please enter a price greater than 0");
+			form.price.focus();
+			return false;
+		}
+		
+		if(!re.test(form.street.value))
+		{
+			alert("Street contains invalid characters.");
+			form.street.focus();
+			return false;
+		}
+		
+		if(!re.test(form.city.value))
+		{
+			alert("City contains invalid characters.");
+			form.city.focus();
+			return false;
+		}
+		
+		if(!re.test(form.state.value))
+		{
+			alert("State contains invalid characters.");
+			form.state.focus();
+			return false;
+		}
+		
+		if(form.zip.value < 0)
+		{
+			alert("Please enter a zip greater than 0");
+			form.zip.focus();
+			return false;
+		}
+		
+		return true;
+	}
+</script>
+<form th:object="${newHotel}" th:action="@{/inputHotel}" method='POST' onsubmit="return checkForm(this);">
+Hotel Name: <input name="hotelName" type="text" th:field="*{hotelName}" required><br />
+Room Number: <input name="roomNumber" type="number" th:field="*{roomNumber}" required><br />
+Price of Room: <input name="price" type="number" th:field="*{price}" required><br/>
+Street: <input name="street" type="text" th:field="*{hotelAddress.street}" required><br/>
+City: <input name="city" type="text" th:field="*{hotelAddress.city}" required><br/>
+State: <input name="state" type="text" th:field="*{hotelAddress.state}" required><br/>
+Zip: <input name="zip" type="number" th:field="*{hotelAddress.zip}" required><br/>
 <input name="submit" type="submit" value="submit" />
+<input name="reset" type="reset" value="reset" />
 </form>
 <a href="viewAllHotels">View all rooms</a>
 </body>
