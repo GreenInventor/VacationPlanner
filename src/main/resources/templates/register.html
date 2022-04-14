@@ -5,7 +5,7 @@
 <title>Register Account</title>
 </head>
 <body>
-<form th:object="${newAccount}" th:action="@{/processRegistration}" method="POST">
+<form th:object="${newAccount}" th:action="@{/register}" method="POST">
 Email: <input type="email" name="email" th:field="*{email}" required><br/>
 First Name: <input name="firstName" th:field="*{firstName}" required><br/>
 Last Name: <input name="lastName" th:field="*{lastName}" required><br/>

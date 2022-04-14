@@ -5,7 +5,7 @@
 <title>Login</title>
 </head>
 <body>
-<form th:object="${newAccount}" th:action="@{/processLogin}" method="POST">
+<form th:object="${newAccount}" th:action="@{/login}" method="POST">
 Email: <input type="email" name="email" th:field="*{email}" required><br/>
 Password: <input name="password" th:field="*{password}" required><br/>
 <input name="submit" type="submit" value="Login"/>

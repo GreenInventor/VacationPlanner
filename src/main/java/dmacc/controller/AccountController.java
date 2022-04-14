@@ -17,14 +17,14 @@ public class AccountController {
 	@Autowired
 	AccountRepository repo;
 
-	@GetMapping("/registerAccount")
+	@GetMapping("/register")
 	public String addNewAccount(Model model) {
 		Account a = new Account();
 		model.addAttribute("newAccount", a);
 		return "register";
 	}
 
-	@PostMapping("/processRegistration")
+	@PostMapping("/register")
 	public String addNewAccount(@ModelAttribute Account a, Model model) {
 		try {
 			a.setAccountType("user");
@@ -50,7 +50,7 @@ public class AccountController {
 		return "login";
 	}
 
-	@PostMapping("/processLogin")
+	@PostMapping("/login")
 	public String loginAccount(@ModelAttribute Account a, Model model) {
 		Account l = repo.findOneByEmail(a.getEmail());
 		if (!Objects.isNull(l) && l.getPassword().equals(a.getPassword())) {

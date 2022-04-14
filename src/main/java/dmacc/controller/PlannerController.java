@@ -21,7 +21,7 @@ public class PlannerController {
 	@GetMapping("/viewAll")
 	public String viewAllPlans(Model model) {
 		model.addAttribute("plans", repo.findAll());
-		return "results";
+		return "plannerviewer";
 	}
 	
 	
