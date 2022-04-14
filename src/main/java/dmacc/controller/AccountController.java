@@ -16,6 +16,11 @@ import dmacc.repository.AccountRepository;
 public class AccountController {
 	@Autowired
 	AccountRepository repo;
+	
+	@GetMapping("/adminHome") //Temp for Development
+	public String adminHome(Model model) {
+		return "adminHome";
+	}
 
 	@GetMapping("/register")
 	public String addNewAccount(Model model) {
