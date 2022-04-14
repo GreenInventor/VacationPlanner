@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>View All Hotels</title>
+<style>
+table, th, td {
+  border:1px solid black;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+	<form>
+		<table>
+			<tr>
+				<th>Hotel Name</th>
+				<th>Room Number</th>
+				<th>Price</th>
+				<th>Street Address</th>
+				<th>City </th>
+				<th>State</th>
+				<th>Zip Code</th>
+			</tr>
+			<tr th:each="currentHotel : ${hotels}">
+			
+ 			<td th:text = "${currentHotel.hotelName}">
+			<td th:text = "${currentHotel.roomNumber}"/>
+			<td th:text = "${#numbers.formatCurrency(currentHotel.price)}"/> 
+			<td th:text = "${currentHotel.hotelAddress.street}"/>
+			<td th:text = "${currentHotel.hotelAddress.city}"/>
+			<td th:text = "${currentHotel.hotelAddress.state}"/>
+			<td th:text = "${currentHotel.hotelAddress.zip}"/>
+			
+		</table>
+	</form>
+</body>
+</html>

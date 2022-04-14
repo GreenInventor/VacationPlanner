@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Register Account</title>
+</head>
+<body>
+<form th:object="${newAccount}" th:action="@{/register}" method="POST">
+Email: <input type="email" name="email" th:field="*{email}" required><br/>
+First Name: <input name="firstName" th:field="*{firstName}" required><br/>
+Last Name: <input name="lastName" th:field="*{lastName}" required><br/>
+Password: <input name="password" th:field="*{password}" required><br/>
+Confirm Password: <input name="confirmPassword" th:field="*{confirmPassword}" required><br/>
+Phone Number: <input name="phoneNumber" th:field="*{phoneNumber}" required><br/>
+Street: <input name="address.street" size="20" th:field="*{address.street}" required><br/>
+City: <input name="address.city" size="20" th:field="*{address.city}" required><br/>
+State: <input name="address.state" size="20" th:field="*{address.state}" required><br/>
+Zip: <input name="address.zip" size="20" th:field="*{address.zip}" required><br/>
+<input name="submit" type="submit" value="Register"/>
+</form>
+  <script th:if="${error}">
+  window.onload = function(){
+	  alert("[[${error}]]");
+	 }
+  </script>
+</body>
+</html>

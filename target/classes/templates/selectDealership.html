@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Select Dealership</title>
+</head>
+<body>
+<form th:action="@{/selectDealership}" method='POST'>
+Select Dealership <select name="selectedDealership" required>
+<option th:each="currentDealership : ${allDealerships}" th:value="${currentDealership.id}" th:text="${currentDealership.name}"></option>
+</select><br/>
+<input name="submit" type="submit" value="submit" />
+</form>
+</body>
+</html>

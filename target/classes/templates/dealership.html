@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Create Dealership</title>
+</head>
+<body>
+<form th:object="${newDealership}" th:action="@{/inputDealership}" method='POST'>
+Name: <input name="name" size = "20" th:field="*{name}" required><br />
+Street: <input name="address.street" size="20" th:field="*{address.street}" required><br/>
+City: <input name="address.city" size="20" th:field="*{address.city}" required><br/>
+State: <input name="address.state" size="20" th:field="*{address.state}" required><br/>
+Zip: <input name="address.zip" size="20" th:field="*{address.zip}" required><br/>
+<input name="submit" type="submit" value="submit" />
+</form>
+</body>
+</html>

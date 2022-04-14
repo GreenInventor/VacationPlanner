@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>View all plans</title>
+<style>
+table, th, td {
+  border:1px solid black;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<form>
+<table>
+<tr>
+	<th>Id</th>
+	<th>Destination</th>
+	<th>Activities</th>
+	<th>Hotel Name</th>
+	<th>Hotel Address</th>
+</tr>
+<tr th:each="currentPlan : ${plans}">
+<td th:text="${currentPlan.id}" />
+<td th:text="${currentPlan.destination}" />
+<td th:text="${currentPlan.activities}" />
+<td th:text="${currentPlan.Hotel.hotelName} /">
+<td th:text="${currentPlan.Hotel.hotelAddress.street} ${currentPlan.Hotel.hotelAddress.city} ${currentPlan.Hotel.hotelAddress.state} ${currentPlan.Hotel.hotelAddress.zip}">
+</tr>
+</table>
+</form>
+<a href="../inputPlan">Input a new plan</a>
+</body>
+</html>

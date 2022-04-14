@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+</head>
+<body>
+<form th:object="${newAccount}" th:action="@{/login}" method="POST">
+Email: <input type="email" name="email" th:field="*{email}" required><br/>
+Password: <input name="password" th:field="*{password}" required><br/>
+<input name="submit" type="submit" value="Login"/>
+</form>
+  <script th:if="${error}">
+  window.onload = function(){
+	  alert("[[${error}]]");
+	 }
+  </script>
+</body>
+</html>
