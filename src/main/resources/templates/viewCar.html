@@ -1,17 +1,60 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Create Dealership</title>
+<title>View Cars</title>
+<style>
+table{
+width: 100%;
+}
+table, th, td {
+  border:1px solid black;
+  text-align: center;
+}
+</style>
 </head>
 <body>
-<form th:object="${newDealership}" th:action="@{/inputDealership}" method='POST'>
-Name: <input name="name" size = "20" th:field="*{name}" required><br />
-Street: <input name="address.street" size="20" th:field="*{address.street}" required><br/>
-City: <input name="address.city" size="20" th:field="*{address.city}" required><br/>
-State: <select name="address.state" th:field="*{address.state}" required>
-<option selected value="">Select A State</option>
-<option value="AL">Alabama</option>
+<form>
+		<table>
+			<tr>
+			
+				<th>Make</th>
+				<th>Model</th>
+				<th>Price</th>
+				<th>Year</th>
+				<th>Color</th>
+				<th>MPG/Range</th>
+				<th>Capacity</th>
+				<th>Fuel Type</th>
+				<th>Dealership Name</th>
+				<th>Street Address</th>
+				<th>City </th>
+				<th>State</th>
+				<th>Zip Code</th>
+				
+			</tr>
+			<tr th:each="currentCar : ${cars}">
+			
+ 			<td th:text = "${currentCar.make}">
+			<td th:text = "${currentCar.model}"/>
+			<td th:text = "${#numbers.formatCurrency(currentCar.pricePerDay)}"/> 
+			<td th:text = "${currentCar.year}"/>
+			<td th:text = "${currentCar.color}"/>
+			<td th:text = "${currentCar.mpg}"/>
+			<td th:text = "${currentCar.capacity}"/>
+			<td th:text = "${currentCar.fuelType}"/>
+			<td th:text = "${currentCar.dealership.name}"/>
+			<td th:text = "${currentCar.dealership.address.street}"/>
+			<td th:text = "${currentCar.dealership.address.city}"/>
+			<td th:text = "${currentCar.dealership.address.state}"/>
+			<td th:text = "${currentCar.dealership.address.zip}"/>
+			
+		</table>
+	</form>
+	<form th:action="@{/findByState}" method='POST'>
+	Sort By State:<select name="state"required>
+	<option selected value="">Select A State</option>
+	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
 	<option value="AR">Arkansas</option>
@@ -62,9 +105,9 @@ State: <select name="address.state" th:field="*{address.state}" required>
 	<option value="WV">West Virginia</option>
 	<option value="WI">Wisconsin</option>
 	<option value="WY">Wyoming</option>
-</select></br>
-Zip: <input name="address.zip" size="20" th:field="*{address.zip}" required><br/>
-<input name="submit" type="submit" value="submit" />
-</form>
+</select>
+	<input name="submit" type="submit" value="submit" />
+	</form>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package dmacc.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class RentalCarController {
 	@GetMapping("/inputCar")
 	public String addNewCar(Model model) {
 		Car c = new Car();
+		List<Dealership> dealerships = dealershipRepo.findAll();
+		model.addAttribute("dealerships", dealerships);
 		model.addAttribute("newCar", c);
 		return "car";
 	}
@@ -46,19 +49,30 @@ public class RentalCarController {
 		dealershipRepo.save(d);
 		return "adminHome";
 	}
-	@GetMapping("/selectDealership")
-	public String selectDealership(Model model) {
-		List<Dealership> d = dealershipRepo.findAll();
-		model.addAttribute("allDealerships", d);
-		return "selectDealership";
-	}
-	@PostMapping("/selectDealership")
-	public String selectDealership(Model model, @RequestParam(name = "selectedDealership", required = false) String selectedDealership) {
-		System.out.println(selectedDealership);
-		Dealership d = dealershipRepo.getById(Long.parseLong(selectedDealership));
+	@GetMapping("/viewCars")
+	public String viewCars(Model model) {
 		List<Car> c = carRepo.findAll();
-		model.addAttribute("dealership", d);
 		model.addAttribute("cars", c);
-		return "manageDealershipCars";
+		return "viewCar";
+	}
+	@GetMapping("/viewDealerships")
+	public String viewDealerships(Model model) {
+		List<Dealership> d = dealershipRepo.findAll();
+		model.addAttribute("dealerships", d);
+		return "viewDealerships";
+	}
+	@PostMapping("/findByState")
+	public String findByState(Model model, @RequestParam(name="state") String state) {
+		List<Dealership> d = dealershipRepo.findByAddressState(state);
+		List<Car>cars = new ArrayList<>();
+		for(Dealership currentDealership : d) {
+			List<Car> c = carRepo.findByDealership(currentDealership);
+			cars.addAll(c);
+		}		
+		for(Car currentCar: cars) {
+			System.out.println(currentCar.toString()); //For testing purposes
+		}
+		model.addAttribute("cars", cars);
+		return "viewCar"; //Also for testing purposes
 	}
 }

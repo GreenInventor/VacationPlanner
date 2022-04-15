@@ -3,9 +3,12 @@ package dmacc.beans;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +31,6 @@ public class Car {
 	private int capacity;
 	private String fuelType;
 	private ArrayList<LocalDate> daysRented;
+	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+	private Dealership dealership;
 }
