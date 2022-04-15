@@ -17,9 +17,13 @@ public class AccountController {
 	@Autowired
 	AccountRepository repo;
 	
-	@GetMapping("/adminHome") //Temp for Development
+	@GetMapping("/adminHome")
 	public String adminHome(Model model) {
 		return "adminHome";
+	}
+	@GetMapping("/userHome")
+	public String userHome(Model model) {
+		return "home";
 	}
 
 	@GetMapping("/register")
@@ -39,7 +43,9 @@ public class AccountController {
 				return "register";
 			} else {
 				repo.save(a);
-				return "index.html";
+				Account l = new Account();
+				model.addAttribute("newAccount", l);
+				return "index";
 			}
 		} catch (Exception e) {
 			model.addAttribute("newAccount", a);
@@ -61,7 +67,7 @@ public class AccountController {
 		if (!Objects.isNull(l) && l.getPassword().equals(a.getPassword())) {
 			System.out.println("Login Successfull");
 			if (l.getAccountType().equals("user")) {
-				return ""; // change to whatever our main page will be
+				return "home"; 
 			} else {
 				return "adminHome";
 			}
