@@ -48,11 +48,11 @@ public class AccountController {
 		}
 	}
 
-	@GetMapping("/login")
+	@GetMapping("/")
 	public String addLoginAccount(Model model) {
 		Account a = new Account();
 		model.addAttribute("newAccount", a);
-		return "login";
+		return "index";
 	}
 
 	@PostMapping("/login")
@@ -69,7 +69,7 @@ public class AccountController {
 		} else {
 			model.addAttribute("newAccount", a);
 			model.addAttribute("error", "Incorrect Email Or Password!");
-			return "login";
+			return "index";
 		}
 	}
 }

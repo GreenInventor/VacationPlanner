@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>View Dealerships</title>
@@ -29,7 +29,7 @@ table, th, td {
 			<td th:text = "${currentDealership.address.city}"/>
 			<td th:text = "${currentDealership.address.state}"/>
 			<td th:text = "${currentDealership.address.zip}"/>
-			
+			</tr>
 		</table>
 	</form>
 

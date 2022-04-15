@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>View Cars</title>
@@ -53,11 +53,12 @@ table, th, td {
 			<td th:text = "${currentCar.dealership.address.city}"/>
 			<td th:text = "${currentCar.dealership.address.state}"/>
 			<td th:text = "${currentCar.dealership.address.zip}"/>
-			
+			</tr>
 		</table>
 	</form>
+	<br>
 	<form th:action="@{/findByState}" method='POST'>
-	Sort By State:<select class="selectpicker" data-live-search="true" title= "Select A State" name="state"required>
+	Filter By State:<select class="selectpicker" data-live-search="true" title= "Select A State" name="state"required>
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
