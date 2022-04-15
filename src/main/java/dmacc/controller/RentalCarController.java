@@ -61,18 +61,21 @@ public class RentalCarController {
 		model.addAttribute("dealerships", d);
 		return "viewDealerships";
 	}
-	@PostMapping("/findByState")
-	public String findByState(Model model, @RequestParam(name="state") String state) {
+	@PostMapping("/findCarByState")
+	public String findCarByState(Model model, @RequestParam(name="state") String state) {
 		List<Dealership> d = dealershipRepo.findByAddressState(state);
 		List<Car>cars = new ArrayList<>();
 		for(Dealership currentDealership : d) {
 			List<Car> c = carRepo.findByDealership(currentDealership);
 			cars.addAll(c);
 		}		
-		for(Car currentCar: cars) {
-			System.out.println(currentCar.toString()); //For testing purposes
-		}
 		model.addAttribute("cars", cars);
-		return "viewCar"; //Also for testing purposes
+		return "viewCar";
+	}
+	@PostMapping("/findDealershipByState")
+	public String findDealershipByState(Model model, @RequestParam(name="state") String state) {
+		List<Dealership> d = dealershipRepo.findByAddressState(state);
+		model.addAttribute("dealerships", d);
+		return "viewDealerships";
 	}
 }

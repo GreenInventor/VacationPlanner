@@ -23,9 +23,6 @@ table, th, td {
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" >Vacation Planner</a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
   <div class="navbar-nav me-auto">
       <a class="nav-link active px-3" href="userHome">View As User</a>
   </div>
@@ -156,8 +153,9 @@ table, th, td {
 		</table>
 	</form>
 	<br>
-	<form th:action="@{/findByState}" method='POST'>
-	Filter By State: <select class="selectpicker" data-live-search="true" title= "Select A State" name="state"required>
+	<form th:action="@{/findCarByState}" method='POST'>
+	<div class="form-floating">
+	<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state" required>
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -210,7 +208,10 @@ table, th, td {
 	<option value="WI">Wisconsin</option>
 	<option value="WY">Wyoming</option>
 </select>
-	<input name="submit" type="submit" value="submit" />
+<label for="state">State</label>
+</div>
+<br>
+	<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Filter" />
 	</form>
 </main>
 </body>
