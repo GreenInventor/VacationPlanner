@@ -3,6 +3,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert a new hotel</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 </head>
 <body>
 <script>
@@ -45,12 +50,6 @@
 			return false;
 		}
 		
-		if(form.state.value =="")
-		{
-			alert("Please select a state.");
-			form.state.focus();
-			return false;
-		}
 		
 		if(form.zip.value < 0)
 		{
@@ -68,9 +67,8 @@ Room Number: <input name="roomNumber" type="number" th:field="*{roomNumber}" req
 Price of Room: <input name="price" type="number" th:field="*{price}" required><br/>
 Street: <input name="street" type="text" th:field="*{hotelAddress.street}" required><br/>
 City: <input name="city" type="text" th:field="*{hotelAddress.city}" required><br/>
-State: <select name="state" th:field="*{hotelAddress.state}" required>
-<option selected value="">Select A State</option>
-<option value="AL">Alabama</option>
+State: <select class="selectpicker" data-live-search="true" title= "Select A State" name="state" th:field="*{hotelAddress.state}" required>
+	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
 	<option value="AR">Arkansas</option>

@@ -3,6 +3,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Create Rental Car</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 </head>
 <body>
 <form th:object="${newCar}" th:action="@{/inputCar}" method='POST'>
@@ -13,14 +18,12 @@ Color: <input name="color" size="20" th:field="*{color}" required><br/>
 Capacity: <input name="capacity" size="20" th:field="*{capacity}" required><br/>
 MPG / Range: <input name="mpg" size="20" th:field="*{mpg}" required><br/>
 Price: <input name="pricePerDay" size="20" th:field="*{pricePerDay}" required><br/>
-Fuel Type: <select name="fuelType" th:field="*{fuelType}" required>
-<option value="" selected>Select an Option</option>
+Fuel Type: <select class="selectpicker" data-live-search="true" title= "Select A Fuel Type" name="fuelType" th:field="*{fuelType}" required>
   <option value="Gas">Gas</option>
   <option value="Diesel">Diesel</option>
   <option value="Electric">Electric</option>
 </select><br/>
-Dealership: <select name="dealership" th:field="*{dealership}" required>
-<option value="" selected >Select an Option</option>
+Dealership: <select class="selectpicker" data-live-search="true" title= "Select A Dealership" name="dealership" th:field="*{dealership}" required>
 <option th:each="currentDealership : ${dealerships}" th:value="${currentDealership.id}" th:text="${currentDealership.name}"></option>
 </select><br/>
 <input name="submit" type="submit" value="submit" />

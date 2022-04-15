@@ -3,14 +3,18 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Create Dealership</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 </head>
 <body>
 <form th:object="${newDealership}" th:action="@{/inputDealership}" method='POST'>
 Name: <input name="name" size = "20" th:field="*{name}" required><br />
 Street: <input name="address.street" size="20" th:field="*{address.street}" required><br/>
 City: <input name="address.city" size="20" th:field="*{address.city}" required><br/>
-State: <select name="address.state" th:field="*{address.state}" required>
-<option selected value="">Select A State</option>
+State: <select class="selectpicker" data-live-search="true" title= "Select A State" name="address.state" th:field="*{address.state}" required>
 <option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
