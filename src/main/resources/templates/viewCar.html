@@ -113,47 +113,8 @@ table, th, td {
     </nav>
     </div>
     </div>
-    <br>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-<form>
-		<table>
-			<tr>
-			
-				<th>Make</th>
-				<th>Model</th>
-				<th>Price</th>
-				<th>Year</th>
-				<th>Color</th>
-				<th>MPG/Range</th>
-				<th>Capacity</th>
-				<th>Fuel Type</th>
-				<th>Dealership Name</th>
-				<th>Street Address</th>
-				<th>City </th>
-				<th>State</th>
-				<th>Zip Code</th>
-				
-			</tr>
-			<tr th:each="currentCar : ${cars}">
-			
- 			<td th:text = "${currentCar.make}">
-			<td th:text = "${currentCar.model}"/>
-			<td th:text = "${#numbers.formatCurrency(currentCar.pricePerDay)}"/> 
-			<td th:text = "${currentCar.year}"/>
-			<td th:text = "${currentCar.color}"/>
-			<td th:text = "${currentCar.mpg}"/>
-			<td th:text = "${currentCar.capacity}"/>
-			<td th:text = "${currentCar.fuelType}"/>
-			<td th:text = "${currentCar.dealership.name}"/>
-			<td th:text = "${currentCar.dealership.address.street}"/>
-			<td th:text = "${currentCar.dealership.address.city}"/>
-			<td th:text = "${currentCar.dealership.address.state}"/>
-			<td th:text = "${currentCar.dealership.address.zip}"/>
-			</tr>
-		</table>
-	</form>
-	<br>
-	<form th:action="@{/findCarByState}" method='POST'>
+<form th:action="@{/findCarByState}" method='POST'>
 	<div class="form-floating">
 	<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state" required>
 	<option value="AL">Alabama</option>
@@ -164,7 +125,6 @@ table, th, td {
 	<option value="CO">Colorado</option>
 	<option value="CT">Connecticut</option>
 	<option value="DE">Delaware</option>
-	<option value="DC">District Of Columbia</option>
 	<option value="FL">Florida</option>
 	<option value="GA">Georgia</option>
 	<option value="HI">Hawaii</option>
@@ -208,10 +168,47 @@ table, th, td {
 	<option value="WI">Wisconsin</option>
 	<option value="WY">Wyoming</option>
 </select>
-<label for="state">State</label>
 </div>
 <br>
 	<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Filter" />
+	</form>
+	<br>
+<form>
+		<table>
+			<tr>
+			
+				<th>Make</th>
+				<th>Model</th>
+				<th>Price</th>
+				<th>Year</th>
+				<th>Color</th>
+				<th>MPG/Range</th>
+				<th>Capacity</th>
+				<th>Fuel Type</th>
+				<th>Dealership Name</th>
+				<th>Street Address</th>
+				<th>City </th>
+				<th>State</th>
+				<th>Zip Code</th>
+				
+			</tr>
+			<tr th:each="currentCar : ${cars}">
+			
+ 			<td th:text = "${currentCar.make}">
+			<td th:text = "${currentCar.model}"/>
+			<td th:text = "${#numbers.formatCurrency(currentCar.pricePerDay)}"/> 
+			<td th:text = "${currentCar.year}"/>
+			<td th:text = "${currentCar.color}"/>
+			<td th:text = "${currentCar.mpg}"/>
+			<td th:text = "${currentCar.capacity}"/>
+			<td th:text = "${currentCar.fuelType}"/>
+			<td th:text = "${currentCar.dealership.name}"/>
+			<td th:text = "${currentCar.dealership.address.street}"/>
+			<td th:text = "${currentCar.dealership.address.city}"/>
+			<td th:text = "${currentCar.dealership.address.state}"/>
+			<td th:text = "${currentCar.dealership.address.zip}"/>
+			</tr>
+		</table>
 	</form>
 </main>
 </body>
