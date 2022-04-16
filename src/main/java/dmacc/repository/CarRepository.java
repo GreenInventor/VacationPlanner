@@ -11,4 +11,5 @@ import dmacc.beans.Dealership;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
 	public List<Car> findByDealership(Dealership dealership);
+	public Car findOneById(long id);
 }

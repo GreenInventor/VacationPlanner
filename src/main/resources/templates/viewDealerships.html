@@ -23,8 +23,11 @@ table, th, td {
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img src="../static/img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png" th:src="@{img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
-  <div class="navbar-nav me-auto">
+  <div class="navbar-nav ms-auto">
       <a class="nav-link px-3" href="userHome">View As User</a>
+  </div>
+   <div class="navbar-nav">
+      <a class="nav-link px-3" href="#">Account Settings</a>
   </div>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
@@ -173,14 +176,14 @@ table, th, td {
 	<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Filter" />
 	</form>
 	<br>
-<form>
 		<table>
 			<tr>
 				<th>Dealership Name</th>
 				<th>Street Address</th>
 				<th>City </th>
 				<th>State</th>
-				<th>Zip Code</th>	
+				<th>Zip Code</th>
+				<th>Action</th>	
 			</tr>
 			<tr th:each="currentDealership : ${dealerships}">
 			<td th:text = "${currentDealership.name}"/>
@@ -188,9 +191,15 @@ table, th, td {
 			<td th:text = "${currentDealership.address.city}"/>
 			<td th:text = "${currentDealership.address.state}"/>
 			<td th:text = "${currentDealership.address.zip}"/>
+			<td>
+<form th:action="@{/editDealership}" method='POST'>
+<input type ="hidden" name ="id" value="${currentDealership.id}">
+<input class="btn btn-warning btn-sm" type = "submit" value= "Edit" name= "action">
+<input class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
+</form>
+</td>
 			</tr>
 		</table>
-	</form>
 </main>
 </body>
 </html>

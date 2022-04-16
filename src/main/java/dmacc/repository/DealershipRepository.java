@@ -10,4 +10,5 @@ import dmacc.beans.Dealership;
 @Repository
 public interface DealershipRepository extends JpaRepository<Dealership, Long> {
 	public List<Dealership> findByAddressState(String state);
+	public Dealership findOneById(long id);
 	}

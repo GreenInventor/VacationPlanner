@@ -33,7 +33,7 @@ public class RentalCarController {
 	}
 
 	@PostMapping("/inputCar")
-	public String addNewCar(@ModelAttribute Car c, Model model) {
+	public String addNewCar( Car c, Model model) {
 		carRepo.save(c);
 		return "adminHome";
 	}
@@ -45,7 +45,7 @@ public class RentalCarController {
 	}
 
 	@PostMapping("/inputDealership")
-	public String addNewDealership(@ModelAttribute Dealership d, Model model) {
+	public String addNewDealership(Dealership d, Model model) {
 		dealershipRepo.save(d);
 		return "adminHome";
 	}
@@ -77,5 +77,33 @@ public class RentalCarController {
 		List<Dealership> d = dealershipRepo.findByAddressState(state);
 		model.addAttribute("dealerships", d);
 		return "viewDealerships";
+	}
+	@PostMapping("/editCar") 
+	public String editCar(Model model, @RequestParam(name="id") String id, @RequestParam(name="action") String action) {
+		Car c = carRepo.findOneById(Long.parseLong(id));
+		if(action.equals("Edit")) {
+			List<Dealership> dealerships = dealershipRepo.findAll();
+			model.addAttribute("dealerships", dealerships);
+			model.addAttribute("newCar", c);
+			return "car";
+		}else {
+			carRepo.delete(c);
+			List<Car> cars = carRepo.findAll();
+			model.addAttribute("cars", cars);
+			return "viewCar";
+		}	
+	}
+	@PostMapping("/editDealership") 
+	public String editDealership(Model model, @RequestParam(name="id") String id, @RequestParam(name="action") String action) {
+		Dealership d = dealershipRepo.findOneById(Long.parseLong(id));
+		if(action.equals("Edit")) {
+			model.addAttribute("newDealership", d);
+			return "car";
+		}else {
+			dealershipRepo.delete(d);
+			List<Dealership> dealerships = dealershipRepo.findAll();
+			model.addAttribute("dealerships", dealerships);
+			return "viewDealerships";
+		}
 	}
 }
