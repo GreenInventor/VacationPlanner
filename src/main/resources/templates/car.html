@@ -133,12 +133,12 @@
 			</div>
 			<div class="form-floating">
 				<select class="selectpicker form-control" data-live-search="true" title="Select A Dealership" name="dealership" id="dealership" th:field="*{dealership}" required>
-					<option th:each="currentDealership : ${dealerships}" th:value="${currentDealership.id}" th:text="${currentDealership.name}"></option>
+					<option th:each="currentDealership : ${dealerships}" th:value="${currentDealership.id}" th:text="${currentDealership.name} + ' | ' + ${currentDealership.address.street} + ' ' + ${currentDealership.address.city} + ' ' + ${currentDealership.address.state} + ' ' + ${currentDealership.address.zip}"></option>
 				</select> 
 				<label for="dealership">Dealership</label>
 			</div>
 			<br /> 
-			<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Create Car" />
+			<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Submit" />
 		</form>
 		<br>
 	</main>
