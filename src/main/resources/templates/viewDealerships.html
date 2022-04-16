@@ -10,15 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link th:href= "@{/css/dashboard.css}" rel="stylesheet">
-<style>
-table{
-width: 100%;
-}
-table, th, td {
-  border:1px solid black;
-  text-align: center;
-}
-</style>
+
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -59,16 +51,16 @@ table, th, td {
               Create Dealership
             </a>
           </li>
+            <li class="nav-item">
+            <a class="nav-link" href="viewDealerships">
+              <span data-feather="file-text"></span>
+              View Dealerships
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="inputCar">
               <span data-feather="file-text"></span>
               Create Car
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="viewDealerships">
-              <span data-feather="file-text"></span>
-              View Dealerships
             </a>
           </li>
           <li class="nav-item">
@@ -176,7 +168,8 @@ table, th, td {
 	<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Filter" />
 	</form>
 	<br>
-		<table>
+	<div class="table-responsive">
+		<table class="table text-center table-bordered">
 			<tr>
 				<th>Dealership Name</th>
 				<th>Street Address</th>
@@ -194,12 +187,13 @@ table, th, td {
 			<td>
 <form th:action="@{/editDealership}" method='POST'>
 <input type ="hidden" name ="id" value="${currentDealership.id}">
-<input class="btn btn-warning btn-sm" type = "submit" value= "Edit" name= "action">
-<input class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
+<input style ="width: 60px;"class="btn btn-warning btn-sm" type = "submit" value= "Edit" name= "action">
+<input style ="width: 60px; margin-top: 2px;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
 </form>
 </td>
 			</tr>
 		</table>
+		</div>
 </main>
 </body>
 </html>

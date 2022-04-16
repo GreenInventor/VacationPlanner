@@ -53,11 +53,13 @@
 						<li class="nav-item"><a class="nav-link" href="inputDealership"> 
 							<span data-feather="file-text"></span> Create Dealership
 						</a></li>
+						  <li class="nav-item">
+            				<a class="nav-link" href="viewDealerships">
+              					<span data-feather="file-text"></span>
+              						View Dealerships
+            				</a></li>
 						<li class="nav-item"><a class="nav-link active" href="inputCar"> 
 							<span data-feather="file-text"></span> Create Car
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="viewDealerships"> 
-						<span data-feather="file-text"></span> View Dealerships
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="viewCars">
 								<span data-feather="file-text"></span> View Cars
@@ -133,7 +135,7 @@
 			</div>
 			<div class="form-floating">
 				<select class="selectpicker form-control" data-live-search="true" title="Select A Dealership" name="dealership" id="dealership" th:field="*{dealership}" required>
-					<option th:each="currentDealership : ${dealerships}" th:value="${currentDealership.id}" th:text="${currentDealership.name} + ' | ' + ${currentDealership.address.street} + ' ' + ${currentDealership.address.city} + ' ' + ${currentDealership.address.state} + ' ' + ${currentDealership.address.zip}"></option>
+					<option th:each="currentDealership : ${dealerships}" th:data-subtext="${currentDealership.address.street} + ' ' + ${currentDealership.address.city} + ' ' + ${currentDealership.address.state} + ' ' + ${currentDealership.address.zip}" th:value="${currentDealership.id}" th:text="${currentDealership.name}"></option>
 				</select> 
 				<label for="dealership">Dealership</label>
 			</div>
