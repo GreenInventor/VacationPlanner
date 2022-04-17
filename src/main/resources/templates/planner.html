@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Edit Plan</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link th:href= "@{/css/dashboard.css}" rel="stylesheet">
+</head>
+<body>
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+ <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img th:src="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
+   <div class="navbar-nav ms-auto">
+      <a class="nav-link px-3" href="#">Account Settings</a>
+  </div>
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="/">Sign out</a>
+    </div>
+  </div>
+</header>
+<main class="text-center">
+<table class="table text-center table-bordered caption-top">
+<tr>
+<th colspan ="">Name</th>
+</tr>
+<tr>
+<td th:text ="${plan.name}"></td>
+</tr>
+</table>
+<form th:action="@{/editName/{id}(id=${id})}" method='POST'>
+<input style ="width: 100%;" class="btn btn-warning btn-sm" type = "submit" value= "Edit Name" name= "action">
+</form>
+<br>
+<a class="w-100 btn btn-lg btn-primary" th:href="@{/addActivity/{id}(id=${id})}">Add Activity</a>
+<table class="table text-center table-bordered caption-top">
+<tr>
+<th colspan ="3">Activities</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><form th:action="@{/deleteActivity/{id}(id=${id})}" method='POST'>
+<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
+</form></td>
+</tr>
+</table>
+<a class="w-100 btn btn-lg btn-primary" th:href="@{/addCar/{id}(id=${id})}">Add Car</a>
+<table class="table text-center table-bordered caption-top">
+<tr>
+<th colspan ="3">Cars</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><form th:action="@{/deleteCar/{id}(id=${id})}" method='POST'>
+<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
+</form></td>
+</tr>
+</table>
+<a class="w-100 btn btn-lg btn-primary" th:href="@{/addHotel/{id}(id=${id})}">Add Hotel</a>
+<table class="table text-center table-bordered caption-top">
+<tr>
+<th colspan ="3">Hotels</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><form th:action="@{/deleteHotel/{id}(id=${id})}" method='POST'>
+<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
+</form></td>
+</tr>
+</table>
+<a class="w-100 btn btn-lg btn-primary" th:href="@{/addDestination/{id}(id=${id})}">Add Destination</a>
+<table class="table text-center table-bordered caption-top">
+<tr>
+<th colspan ="3">Destinations</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><form th:action="@{/deleteDestination/{id}(id=${id})}" method='POST'>
+<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
+</form></td>
+</tr>
+</table>
+</main>
+</body>
+</html>

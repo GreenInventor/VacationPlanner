@@ -16,8 +16,11 @@ public class Planner {
 	@Id
 	@GeneratedValue
 	private long id;
+	private String name;
 	private String destination;
 	@ManyToOne
 	private Hotel hotel;
 	private String activities;
+	@ManyToOne
+	private Account account;
 }

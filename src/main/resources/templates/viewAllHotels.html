@@ -12,20 +12,21 @@
 <link th:href= "@{/css/dashboard.css}" rel="stylesheet">
 </head>
 <body>
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
- <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img src="../static/img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png" th:src="@{img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
-  <div class="navbar-nav ms-auto">
-      <a class="nav-link px-3" href="userHome">View As User</a>
+<header
+		class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img th:src="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
+		<div class="navbar-nav ms-auto">
+      <a class="nav-link px-3" th:href="@{/userHome/{id}(id=${id})}">View As User</a>
   </div>
    <div class="navbar-nav">
       <a class="nav-link px-3" href="#">Account Settings</a>
   </div>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="/">Sign out</a>
+      <a class="nav-link px-3" href="../">Sign out</a>
     </div>
   </div>
-</header>
+	</header>
 
 <div class="container-fluid">
   <div class="row">
@@ -33,7 +34,7 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="adminHome">
+            <a class="nav-link" aria-current="page" th:href="@{/adminHome/{id}(id=${id})}">
               <span data-feather="home"></span>
               Home
             </a>
@@ -45,25 +46,25 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="inputDealership">
+            <a class="nav-link" th:href="@{/inputDealership/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               Create Dealership
             </a>
           </li>
-            <li class="nav-item">
-            <a class="nav-link" href="viewDealerships">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/viewDealerships/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               View Dealerships
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="inputCar">
+            <li class="nav-item">
+            <a class="nav-link" th:href="@{/inputCar/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               Create Car
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="viewCars">
+            <a class="nav-link" th:href="@{/viewCars/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               View Cars
             </a>
@@ -74,13 +75,13 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="inputHotel">
+            <a class="nav-link" th:href="@{/inputHotel/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               Create Hotel
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="viewAllHotels">
+            <a class="nav-link active" th:href="@{/viewAllHotels/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               View Hotels
             </a>
@@ -91,24 +92,18 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="inputPlan">
+            <a class="nav-link" th:href="@{/inputPlan/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               Create Plan
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="viewAll">
-              <span data-feather="file-text"></span>
-              View Plans
-            </a>
-          </li> 
         </ul>
       </div>
     </nav>
     </div>
     </div>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-	<form th:action="@{/findHotelByState}" method='POST'>
+	<form th:action="@{/findHotelByState/{id}(id=${id})}" method='POST'>
 	<div class="form-floating">
 	<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state" required>
 	<option value="AL">Alabama</option>
