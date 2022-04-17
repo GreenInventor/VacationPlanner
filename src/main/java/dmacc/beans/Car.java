@@ -31,6 +31,6 @@ public class Car {
 	private int capacity;
 	private String fuelType;
 	private ArrayList<LocalDate> daysRented;
-	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToOne
 	private Dealership dealership;
 }
