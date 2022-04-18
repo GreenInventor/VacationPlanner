@@ -1,10 +1,8 @@
 package dmacc.controller;
 
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors; 
 
@@ -26,7 +24,8 @@ import dmacc.repository.DealershipRepository;
 import dmacc.repository.PlannerRepository;
 
 @Controller
-public class RentalCarController {
+public class RentalCarController 
+{
 	@Autowired
 	CarRepository carRepo;
 	@Autowired
@@ -227,5 +226,12 @@ public class RentalCarController {
 			model.addAttribute("state", state);
 		return "rentCar";
 	}
-	
+	@PostMapping("/editRental/{id}") //TODO edit rentals
+	public String editRental(Model model, @PathVariable("id") String rentalid, @RequestParam(name="startDate") String startDate, 
+			@RequestParam(name="endDate") String endDate, @RequestParam(name="id") String carId, @RequestParam(name="planId") String planId) 
+	{
+		//CarRental cr = rentalRepo.getById(Long.parseLong(rentalid));
+		//model.addAttribute("id" id);
+		return null;
+	}
 }

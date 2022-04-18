@@ -1,5 +1,7 @@
 package dmacc.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dmacc.beans.Account;
+import dmacc.beans.CarRental;
 import dmacc.beans.Planner;
 import dmacc.repository.AccountRepository;
+import dmacc.repository.CarRentalRepository;
 import dmacc.repository.PlannerRepository;
 
 @Controller
@@ -19,6 +23,8 @@ public class PlannerController {
 	PlannerRepository repo;
 	@Autowired
 	AccountRepository aRepo;
+	@Autowired
+	CarRentalRepository rentalRepo; //For viewing rental cars in planner
 	
 	@GetMapping("/adminHome/{id}")
 	public String viewAllPlans(Model model, @PathVariable("id") long id) {
@@ -46,11 +52,13 @@ public class PlannerController {
 		return "home";
 	}
 	
-	@PostMapping("/editPlan/{id}")
+	@PostMapping("/editPlan/{id}") 
 	public String updatePlanner(@RequestParam("id") long plannerId, Model model, @PathVariable("id") long id, @RequestParam(name="action") String action) {
 		model.addAttribute("id", id);
 		if(action.equals("Edit")) {
+			List<CarRental> cr = rentalRepo.findAll(); //TODO car rentals aren't separated by account
 			model.addAttribute("plan", repo.getById(plannerId));
+			model.addAttribute("rentalCars", cr);
 			return "planner";
 		}else {
 			repo.deleteById(plannerId);
