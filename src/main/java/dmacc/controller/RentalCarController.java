@@ -1,7 +1,12 @@
 package dmacc.controller;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dmacc.beans.Car;
+import dmacc.beans.CarRental;
 import dmacc.beans.Dealership;
+import dmacc.beans.Planner;
+import dmacc.repository.CarRentalRepository;
 import dmacc.repository.CarRepository;
 import dmacc.repository.DealershipRepository;
+import dmacc.repository.PlannerRepository;
 
 @Controller
 public class RentalCarController {
@@ -22,6 +31,10 @@ public class RentalCarController {
 	CarRepository carRepo;
 	@Autowired
 	DealershipRepository dealershipRepo;
+	@Autowired
+	PlannerRepository plannerRepo;
+	@Autowired
+	CarRentalRepository rentalRepo;
 
 	@GetMapping("/inputCar/{id}")
 	public String addNewCar(Model model, @PathVariable("id") long id) {
@@ -69,7 +82,7 @@ public class RentalCarController {
 	}
 	@PostMapping("/findCarByState/{id}")
 	public String findCarByState(Model model, @RequestParam(name="state") String state, @PathVariable("id") long id) {
-			List<Car> c = carRepo.findByDealershipAddressState(state);	
+			List<Car> c = carRepo.findByDealershipAddressStateOrderByDealershipAddressCity(state);	
 		model.addAttribute("cars", c);
 		model.addAttribute("id", id);
 		return "viewCar";
@@ -111,4 +124,108 @@ public class RentalCarController {
 			return "viewDealerships";
 		}
 	}
+	@PostMapping("/addCar/{id}")
+	public String addCar(Model model, @PathVariable("id") long id, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="state") String state, @RequestParam(name="id") String planId) {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
+		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate).collect(Collectors.toList());
+		List<Car> cars = carRepo.findByDealershipAddressStateOrderByDealershipAddressCity(state);
+		List<Car> avalibleCars = new ArrayList<Car>();
+		List<String> cities = new ArrayList<String>();
+		for(Car car : cars) {
+			String city = car.getDealership().getAddress().getCity();
+			try {
+			if(car.getDaysRented().stream().anyMatch(listOfDates::contains)) {
+				avalibleCars.add(car);
+				if(!cities.contains(city)) {
+					cities.add(city);
+				}
+			}
+			}catch(Exception e) {
+				avalibleCars.add(car);
+				if(!cities.contains(city)) {
+					cities.add(city);
+				}
+			}
+			}
+		model.addAttribute("planId", planId);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("cars", avalibleCars);
+		model.addAttribute("id", id);
+		model.addAttribute("cities", cities);
+		model.addAttribute("state", state);
+		return "rentCar";
+	}
+	@PostMapping("/rentCar/{id}")
+	public String rentCar(Model model, @PathVariable("id") long id, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="id") String carId, @RequestParam(name="planId") String planId) {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
+		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate).collect(Collectors.toList());
+		CarRental rental = new CarRental();
+		Car car = carRepo.getById(Long.parseLong(carId));
+		ArrayList<LocalDate> rentalDates = new ArrayList<LocalDate>();
+		try {
+			rentalDates.addAll(car.getDaysRented());
+		}catch(Exception e) {}
+			
+		rentalDates.addAll(listOfDates);
+		car.setDaysRented(rentalDates);
+		carRepo.save(car);
+		rental.setRentalStartDate(formatedStartDate);
+		rental.setRentalEndDate(formatedEndDate);
+		rental.setRentalTotal(car.getPricePerDay() * listOfDates.size());
+		rental.setCar(car);
+		rentalRepo.save(rental);
+		Planner plan = plannerRepo.getById(Long.parseLong(planId));
+		List<CarRental> rentals = plan.getCarRentals();
+		rentals.add(rental);
+		plan.setCarRentals(rentals);
+		plannerRepo.save(plan);
+		model.addAttribute("plan", plan);
+		return "planner";
+	}
+	@PostMapping("/findCarByCity/{id}")
+	public String findCarByCity(Model model, @PathVariable("id") long id, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="city") String city, @RequestParam(name="planId") String planId, @RequestParam(name="state") String state) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
+		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate).collect(Collectors.toList());	
+		List<Car> avalibleCars = new ArrayList<Car>();
+		List<String> cities = new ArrayList<String>();
+		if(!city.equals("All Cities")) {
+			List<Car> c = carRepo.findByDealershipAddressCityOrderByDealershipName(city);	
+			for(Car car : c) {
+				try {
+				if(car.getDaysRented().stream().anyMatch(listOfDates::contains)) {
+					avalibleCars.add(car);
+				}
+				}catch(Exception e) {
+					avalibleCars.add(car);
+				}
+				}
+		}else {
+			return addCar(model,id,startDate,endDate,state,planId);
+		}
+		List<Car> stateCars = carRepo.findByDealershipAddressStateOrderByDealershipAddressCity(state);
+		for(Car car : stateCars) {
+			String testCity = car.getDealership().getAddress().getCity();
+			if(!cities.contains(testCity)) {
+				cities.add(testCity);
+			}
+		}
+			model.addAttribute("planId", planId);
+			model.addAttribute("startDate", startDate);
+			model.addAttribute("endDate", endDate);
+			model.addAttribute("cars", avalibleCars);
+			model.addAttribute("id", id);
+			model.addAttribute("cities", cities);
+			model.addAttribute("state", state);
+		return "rentCar";
+	}
+	
 }
