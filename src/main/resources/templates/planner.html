@@ -140,9 +140,11 @@
 		<tr>
 			<th colspan ="3">Hotels</th>
 		</tr>
-		<tr> <!-- List of Hotels -->
-			<td></td>
-			<td></td>
+		<tr th:each="currentHotel : ${hotels}"> <!-- List of Hotels -->
+			<td><p th:text="${currentHotel.hotelName}"/></td> <!-- TODO format this better. Ex: Marriot, Room 120 (123 Maple St., Des Moines, Iowa) instead of only showing the name-->
+			<td><form th:action="@{/editHotel/{id}(id=${id})}" method='POST'> <!-- Edit Hotel -->
+				<input style ="width: 100%;" class="btn btn-warning btn-sm" type = "submit" value= "Edit" name= "action">
+			</form></td>
 			<td><form th:action="@{/deleteHotel/{id}(id=${id})}" method='POST'> <!-- Delete Hotel -->
 				<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
 			</form></td>

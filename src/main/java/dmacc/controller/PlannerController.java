@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import dmacc.beans.Account;
 import dmacc.beans.CarRental;
+import dmacc.beans.Hotel;
 import dmacc.beans.Planner;
 import dmacc.repository.AccountRepository;
 import dmacc.repository.CarRentalRepository;
+import dmacc.repository.HotelRepository;
 import dmacc.repository.PlannerRepository;
 
 @Controller
@@ -25,6 +27,8 @@ public class PlannerController {
 	AccountRepository aRepo;
 	@Autowired
 	CarRentalRepository rentalRepo; //For viewing rental cars in planner
+	@Autowired
+	HotelRepository hotelRepo; //For viewing hotels in the planner
 	
 	@GetMapping("/adminHome/{id}")
 	public String viewAllPlans(Model model, @PathVariable("id") long id) {
@@ -57,8 +61,10 @@ public class PlannerController {
 		model.addAttribute("id", id);
 		if(action.equals("Edit")) {
 			List<CarRental> cr = rentalRepo.findAll(); //TODO car rentals aren't separated by account
+			List<Hotel> h = hotelRepo.findAll(); //TODO hotels aren't separated by account
 			model.addAttribute("plan", repo.getById(plannerId));
 			model.addAttribute("rentalCars", cr);
+			model.addAttribute("hotels", h);
 			return "planner";
 		}else {
 			repo.deleteById(plannerId);
