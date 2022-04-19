@@ -38,16 +38,10 @@ public class AccountController {
 	public String addNewAccount(@ModelAttribute Account a, Model model) {
 		try {
 			a.setAccountType("user");
-			if (!a.getPassword().equals(a.getConfirmPassword())) {
-				model.addAttribute("newAccount", a);
-				model.addAttribute("error", "Passwords Must match!");
-				return "register";
-			} else {
-				repo.save(a);
-				Account l = new Account();
-				model.addAttribute("newAccount", l);
-				return "index";
-			}
+			repo.save(a);
+			Account l = new Account();
+			model.addAttribute("newAccount", l);
+			return "index";
 		} catch (Exception e) {
 			model.addAttribute("newAccount", a);
 			model.addAttribute("error", "Email is already registered");
@@ -66,7 +60,6 @@ public class AccountController {
 	public String loginAccount(@ModelAttribute Account a, Model model) {
 		Account l = repo.findOneByEmail(a.getEmail());
 		if (!Objects.isNull(l) && l.getPassword().equals(a.getPassword())) {
-			System.out.println("Login Successfull");
 			model.addAttribute("id", l.getId());
 			if (l.getAccountType().equals("user")) {
 				model.addAttribute("plans", pRepo.findByAccountId(l.getId()));

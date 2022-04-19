@@ -9,17 +9,48 @@
      <link th:href= "@{/css/signin.css}" rel="stylesheet">
   </head>
   <body class="text-center">  
+  <script>
+function checkForm(form){
+	let error = false;
+	document.getElementById("alert").style.display = "none";
+	document.getElementById("alert1").style.display = "none";
+	document.getElementById("alert2").style.display = "none";
+	document.getElementById("alert3").style.display = "none";
+
+	if(form.email.value==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert2").style.display = "block";
+		error = true;
+	}
+	if(form.password.value == ""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert3").style.display = "block";
+		error = true;
+	}
+	
+	if(error == true) {
+		return false;
+		}
+	else return true;
+}
+</script>
+  
 <main class="form-signin">
-  <form th:object="${newAccount}" th:action="@{/login}" method="POST">
+<div id="alert" style = "display: none;" class="alert alert-danger" role="alert">
+<p id="alert1" style="display: none" th:text="${error}"></p>
+<p id="alert2" style="display: none">Email Field Must Not Be Empty!</p>
+<p id="alert3" style="display:none">Password Field Must Not Be Empty!</p>
+</div>
+  <form th:object="${newAccount}" th:action="@{/login}" method="POST" onsubmit="return checkForm(this);">
   <img class="mb-4" src="../static/img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png" th:src="@{img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">Please Sign In</h1>
 
     <div class="form-floating">
-      <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" th:field="*{email}" required>
+      <input type="text" class="form-control" id="email" name="email" placeholder="name@example.com" th:field="*{email}">
       <label for="email">Email address</label>
     </div>
     <div class="form-floating">
-      <input class="form-control" id="password" name="password" placeholder="Password" th:field="*{password}" required>
+      <input class="form-control" id="password" name="password" placeholder="Password" th:field="*{password}">
       <label for="password">Password</label>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign In</button>
@@ -27,9 +58,8 @@
   <br>
   <button onclick="location.href = 'register';"class="btn btn-primary btn-block" type="button" id="btn-signup">Create Account</button>
 <script th:if="${error}">
-  window.onload = function(){
-	  alert("[[${error}]]");
-	 }
+document.getElementById("alert").style.display = "block";
+document.getElementById("alert1").style.display = "block";
   </script>
   <br>
   <a href="adminHome/12">Admin Home</a>

@@ -30,6 +30,7 @@
 function checkForm(form){
 	let error = false;
 	document.getElementById("alert").style.display = "none";
+	document.getElementById("alert1").style.display = "none";
 	document.getElementById("alert2").style.display = "none";
 	document.getElementById("alert3").style.display = "none";
 	document.getElementById("alert4").style.display = "none";
@@ -133,6 +134,7 @@ function checkForm(form){
 <main class=" px-md-4 form-signin">
 <br>
 <div id="alert" style = "display: none;" class="alert alert-danger" role="alert">
+<p id="alert1" style="display: none" th:text="${error}"></p>
 <p id="alert2" style="display: none">Email Field Must Not Be Empty!</p>
 <p id="alert3" style="display:none">Invalid Email!</p>
 <p id="alert4" style="display:none">Password Field Must Not Be Empty!</p>
@@ -246,9 +248,8 @@ function checkForm(form){
 </form>
 <br>
   <script th:if="${error}">
-  window.onload = function(){
-	  alert("[[${error}]]");
-	 }
+  document.getElementById("alert").style.display = "block";
+  document.getElementById("alert1").style.display = "block";
   </script>
   </main>
 </body>
