@@ -107,6 +107,10 @@
 <label for="name">Name</label>
 </div>
 <div class="form-floating">
+<input name="phoneNumber" id="phoneNumber" class="form-control" th:field="*{phoneNumber}" required>
+ <label for="phoneNumber">Phone Number</label>
+</div>
+<div class="form-floating">
 <input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}" required>
 <label for="street">Street</label>
 </div>

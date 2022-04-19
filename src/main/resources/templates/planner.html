@@ -54,6 +54,7 @@
 		<tr>
 			<th>Rental Car</th>
 			<th>Dealership</th>
+			<th>Phone Number</th>
 			<th>Dealership Address</th>
 			<th>Rental Start Date</th>
 			<th>Rental End Date</th>
@@ -63,6 +64,7 @@
 		<tr th:each="currentCar : ${plan.carRentals}"> <!-- List of Rental cars -->
 			<td th:text="${currentCar.car.year} + ' ' + ${currentCar.car.make} + ' ' + ${currentCar.car.model}"/> <!-- TODO format this better. Ex: 2020 Ford F150 (3/15/22 to 3/25/22) instead of only showing the make-->
 			<td th:text="${currentCar.car.dealership.name}"/>
+			<td th:text="${currentCar.car.dealership.phoneNumber}"/>
 			<td th:text="${currentCar.car.dealership.address.street} + ' ' + ${currentCar.car.dealership.address.city} + ' ' + ${currentCar.car.dealership.address.state} + ' ' + ${currentCar.car.dealership.address.zip}"/>
 			<td th:text="${#temporals.format(currentCar.rentalStartDate, 'MM/dd/yyyy')}"/>
 			<td th:text="${#temporals.format(currentCar.rentalEndDate, 'MM/dd/yyyy')}"/>

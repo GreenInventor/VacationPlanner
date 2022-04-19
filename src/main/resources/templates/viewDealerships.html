@@ -157,6 +157,7 @@
 		<table class="table text-center table-bordered">
 			<tr>
 				<th>Dealership Name</th>
+				<th>Phone Number</th>
 				<th>Street Address</th>
 				<th>City </th>
 				<th>State</th>
@@ -165,6 +166,7 @@
 			</tr>
 			<tr th:each="currentDealership : ${dealerships}">
 			<td th:text = "${currentDealership.name}"/>
+			<td th:text = "${currentDealership.phoneNumber}"/>
 			<td th:text = "${currentDealership.address.street}"/>
 			<td th:text = "${currentDealership.address.city}"/>
 			<td th:text = "${currentDealership.address.state}"/>

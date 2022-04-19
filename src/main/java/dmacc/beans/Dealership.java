@@ -20,4 +20,5 @@ public class Dealership {
 	private long id;
 	private String name;
 	private Address address;
+	private String phoneNumber;
 }

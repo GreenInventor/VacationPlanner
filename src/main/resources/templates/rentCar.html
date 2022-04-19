@@ -53,6 +53,7 @@
 				<th>Capacity</th>
 				<th>Fuel Type</th>
 				<th>Dealership Name</th>
+				<th>Phone Number</th>
 				<th>Street Address</th>
 				<th>City </th>
 				<th>State</th>
@@ -71,6 +72,7 @@
 			<td th:text = "${currentCar.capacity}"/>
 			<td th:text = "${currentCar.fuelType}"/>
 			<td th:text = "${currentCar.dealership.name}"/>
+			<td th:text = "${currentCar.dealership.phoneNumber}"/>
 			<td th:text = "${currentCar.dealership.address.street}"/>
 			<td th:text = "${currentCar.dealership.address.city}"/>
 			<td th:text = "${currentCar.dealership.address.state}"/>
