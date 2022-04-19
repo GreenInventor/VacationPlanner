@@ -15,6 +15,13 @@
 		.form-floating{
 		padding-bottom: 5px;
 		}
+		*:focus {
+    outline: none;
+    border: none;
+    }
+    .customSelect{
+  background-color: #f8f9fa;
+}
 		</style>
 </head>
 <body>
@@ -29,7 +36,17 @@
 <script>
 function checkForm(form){
 	let error = false;
-	document.getElementById("alert").style.display = "none";
+	var y = document.getElementsByClassName('customSelect');
+	y[0].style.boxShadow = "none";
+	document.getElementById("email").style.boxShadow = "none";
+	document.getElementById("password").style.boxShadow = "none";
+	document.getElementById("confirmPassword").style.boxShadow = "none";
+	document.getElementById("firstName").style.boxShadow = "none";
+	document.getElementById("lastName").style.boxShadow = "none";
+	document.getElementById("phoneNumber").style.boxShadow = "none";
+	document.getElementById("street").style.boxShadow = "none";
+	document.getElementById("city").style.boxShadow = "none";
+	document.getElementById("zip").style.boxShadow = "none";
 	document.getElementById("alert1").style.display = "none";
 	document.getElementById("alert2").style.display = "none";
 	document.getElementById("alert3").style.display = "none";
@@ -46,85 +63,99 @@ function checkForm(form){
 	document.getElementById("alert14").style.display = "none";
 	document.getElementById("alert15").style.display = "none";
 	document.getElementById("alert16").style.display = "none";
-	if(form.email.value==""){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert2").style.display = "block";
-		error = true;
-	}
-	else if(!form.email.value.match(/.+\@.+\..+/)){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert3").style.display = "block";
-		error = true;
-	}
-	if(form.password.value == ""){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert4").style.display = "block";
-		error = true;
-	}
-	else if(!form.password.value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/)){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert5").style.display = "block";
-		error = true;
-	}
-	if(form.confirmPassword.value ==""){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert6").style.display = "block";
-		error = true;
-	}
-	else if(form.confirmPassword.value != form.password.value){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert7").style.display = "block";
-		error = true;
-	}
-	if(form.firstName.value ==""){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert8").style.display = "block";
-		error = true;
-	}
-	if(form.lastName.value ==""){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert9").style.display = "block";
-		error = true;
-	}
-	if(form.phoneNumber.value ==""){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert10").style.display = "block";
-		error = true;
-	}
-	else if(!form.phoneNumber.value.match(/^\(\d{3}\)\d{3}\-\d{4}$/m)){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert11").style.display = "block";
-		error = true;
-	}
-
-	if(form.street.value ==""){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert12").style.display = "block";
-		error = true;
-	}
-	if(form.city.value ==""){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert13").style.display = "block";
-		error = true;
-	}
-	if(form.state.value ==""){
-		document.getElementById("alert").style.display = "block";
-		document.getElementById("alert14").style.display = "block";
-		error = true;
-	}
+	
 	if(form.zip.value ==""){
-		document.getElementById("alert").style.display = "block";
 		document.getElementById("alert15").style.display = "block";
+		document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.zip.focus();
 		error = true;
 	}
 	else if(!form.zip.value.match(/(^[0-9]{4}?[0-9]$)/)){
-		document.getElementById("alert").style.display = "block";
 		document.getElementById("alert16").style.display = "block";
+		document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.zip.focus();
 		error = true;
 	}
-	
+	if(form.state.value ==""){
+		document.getElementById("alert14").style.display = "block";
+		document.getElementById("state").style.outline = "5px auto solid red";
+		var y = document.getElementsByClassName('customSelect');
+		y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		error = true;
+	}
+	if(form.city.value ==""){
+		document.getElementById("alert13").style.display = "block";
+		document.getElementById("city").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.city.focus();
+		error = true;
+	}
+	if(form.street.value ==""){
+		document.getElementById("alert12").style.display = "block";
+		error = true;
+		document.getElementById("street").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.street.focus();
+	}
+	if(form.phoneNumber.value ==""){
+		document.getElementById("alert10").style.display = "block";
+		document.getElementById("phoneNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.phoneNumber.focus();
+		error = true;
+	}
+	else if(!form.phoneNumber.value.match(/^\(\d{3}\)\d{3}\-\d{4}$/m)){
+		document.getElementById("alert11").style.display = "block";
+		document.getElementById("phoneNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.phoneNumber.focus();
+		error = true;
+	}
+	if(form.lastName.value ==""){
+		document.getElementById("alert9").style.display = "block";
+		document.getElementById("lastName").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.lastName.focus();
+		error = true;
+	}
+	if(form.firstName.value ==""){
+		document.getElementById("alert8").style.display = "block";
+		document.getElementById("firstName").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.firstName.focus();
+		error = true;
+	}
+	if(form.confirmPassword.value ==""){
+		document.getElementById("alert6").style.display = "block";
+		document.getElementById("confirmPassword").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.confirmPassword.focus();
+		error = true;
+	}
+	else if(form.confirmPassword.value != form.password.value){
+		document.getElementById("alert7").style.display = "block";
+		document.getElementById("confirmPassword").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.confirmPassword.focus();
+		error = true;
+	}
+	if(form.password.value == ""){
+		document.getElementById("alert4").style.display = "block";
+		document.getElementById("password").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.password.focus();
+		error = true;
+	}
+	else if(!form.password.value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/)){
+		document.getElementById("alert5").style.display = "block";
+		document.getElementById("password").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.password.focus();
+		error = true;
+	}
+	if(form.email.value==""){
+		document.getElementById("alert2").style.display = "block";
+		document.getElementById("email").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.email.focus();
+		error = true;
+	}
+	else if(!form.email.value.match(/.+\@.+\..+/)){
+		document.getElementById("alert3").style.display = "block";
+		document.getElementById("email").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.email.focus();
+		error = true;
+	}
 	if(error == true) {
-		scroll(0,0);
 		return false;
 		}
 	else return true;
@@ -133,59 +164,54 @@ function checkForm(form){
 
 <main class=" px-md-4 form-signin">
 <br>
-<div id="alert" style = "display: none;" class="alert alert-danger" role="alert">
-<p id="alert1" style="display: none" th:text="${error}"></p>
-<p id="alert2" style="display: none">Email Field Must Not Be Empty!</p>
-<p id="alert3" style="display:none">Invalid Email!</p>
-<p id="alert4" style="display:none">Password Field Must Not Be Empty!</p>
-<p id="alert5" style="display:none">Password Must Be At Least 8 Characters And Must Have At Least 1 Upercase, 1 Lowercase, 1 Number, And 1 Special Character!</p>
-<p id="alert6" style="display:none">Confirm Password Field Must Not Be Empty!</p>
-<p id="alert7" style="display:none">Password Fields Must Match!</p>
-<p id="alert8" style="display:none">First Name Field Must Not Be Empty!</p>
-<p id="alert9" style="display:none">Last Name Field Must Not Be Empty!</p>
-<p id="alert10" style="display:none">Phone Number Field Must Not Be Empty!</p>
-<p id="alert11" style="display:none">Invalid Phone Number! Format: (###)###-####)</p>
-<p id="alert12" style="display: none">Street Field Must Not Be Empty!</p>
-<p id="alert13" style="display: none">City Field Must Not Be Empty!</p>
-<p id="alert14" style="display: none">State Field Must Not Be Empty!</p>
-<p id="alert15" style="display: none">Zip Field Must Not Be Empty!</p>
-<p id="alert16" style="display: none">Invalid Zip code!</p>
-</div>
 <form th:object="${newAccount}" th:action="@{/register}" method="POST" onsubmit="return checkForm(this);">
 <div class="form-floating">
 <input type="text" class="form-control" id="email" name="email" th:field="*{email}">
 <label for="email">Email address</label>
 </div>
+<p id="alert1" class="alert alert-danger" style="display: none" th:text="${error}"></p>
+<p id="alert2" class="alert alert-danger" style="display: none">Email Field Must Not Be Empty!</p>
+<p id="alert3" class="alert alert-danger" style="display:none">Invalid Email!</p>
 <div class="form-floating">
 <input type="text" id="password" class="form-control" th:field="*{password}">
  <label for="password">Password</label>
 </div>
+<p id="alert4" class="alert alert-danger" style="display:none">Password Field Must Not Be Empty!</p>
+<p id="alert5" class="alert alert-danger" style="display:none">Password Must Be At Least 8 Characters And Must Have At Least 1 Upercase, 1 Lowercase, 1 Number, And 1 Special Character!</p>
 <div class="form-floating">
 <input name="confirmPassword" id="confirmPassword" class="form-control" th:field="*{confirmPassword}" >
  <label for="confirmPassword">Confirm Password</label>
 </div>
+<p id="alert6" class="alert alert-danger" style="display:none">Confirm Password Field Must Not Be Empty!</p>
+<p id="alert7" class="alert alert-danger" style="display:none">Password Fields Must Match!</p>
 <div class="form-floating">
 <input name="firstName" id="firstName" class="form-control" th:field="*{firstName}" >
  <label for="firstName">First Name</label>
 </div>
+<p id="alert8" class="alert alert-danger" style="display:none">First Name Field Must Not Be Empty!</p>
 <div class="form-floating">
 <input name="lastName" id="lastName" class="form-control" th:field="*{lastName}" >
  <label for="lastName">Last Name</label>
 </div>
+<p id="alert9" class="alert alert-danger" style="display:none">Last Name Field Must Not Be Empty!</p>
 <div class="form-floating">
 <input type ="tel" name="phoneNumber" id="phoneNumber" class="form-control" th:field="*{phoneNumber}">
  <label for="phoneNumber">Phone Number</label>
 </div>
+<p id="alert10" class="alert alert-danger" style="display:none">Phone Number Field Must Not Be Empty!</p>
+<p id="alert11" class="alert alert-danger" style="display:none">Invalid Phone Number! Format: (###)###-####)</p>
 <div class="form-floating">
 <input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}" >
 <label for="street">Street</label>
 </div>
+<p id="alert12" class="alert alert-danger" style="display: none">Street Field Must Not Be Empty!</p>
 <div class="form-floating">
 <input name="address.city" id="city" class="form-control" size="20" th:field="*{address.city}" >
 <label for="city">City</label>
 </div>
+<p id="alert13" class="alert alert-danger" style="display: none">City Field Must Not Be Empty!</p>
 <div class="form-floating">
-<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="address.state" id="state" th:field="*{address.state}" >
+<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="address.state" id="state" th:field="*{address.state}" data-style="customSelect" >
 <option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -239,17 +265,21 @@ function checkForm(form){
 </select>
 <label for="state">State</label>
 </div>
+<p id="alert14" class="alert alert-danger" style="display: none; margin-top: 6px">State Field Must Not Be Empty!</p>
 <br>
 <div class="form-floating">
 <input name="address.zip" id="zip" class="form-control" size="20" th:field="*{address.zip}">
 <label for="zip">Zip</label>
 </div>
+<p id="alert15" class="alert alert-danger" style="display: none">Zip Field Must Not Be Empty!</p>
+<p id="alert16" class="alert alert-danger" style="display: none">Invalid Zip code!</p>
 <input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Register" />
 </form>
 <br>
   <script th:if="${error}">
-  document.getElementById("alert").style.display = "block";
   document.getElementById("alert1").style.display = "block";
+  document.getElementById("email").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+  document.getElementById("email").focus();
   </script>
   </main>
 </body>
