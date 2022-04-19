@@ -18,43 +18,164 @@
 		</style>
 </head>
 <body>
+<script>
+function checkForm(form){
+	let error = false;
+	document.getElementById("alert").style.display = "none";
+	document.getElementById("alert2").style.display = "none";
+	document.getElementById("alert3").style.display = "none";
+	document.getElementById("alert4").style.display = "none";
+	document.getElementById("alert5").style.display = "none";
+	document.getElementById("alert6").style.display = "none";
+	document.getElementById("alert7").style.display = "none";
+	document.getElementById("alert8").style.display = "none";
+	document.getElementById("alert9").style.display = "none";
+	document.getElementById("alert10").style.display = "none";
+	document.getElementById("alert11").style.display = "none";
+	document.getElementById("alert12").style.display = "none";
+	document.getElementById("alert13").style.display = "none";
+	document.getElementById("alert14").style.display = "none";
+	document.getElementById("alert15").style.display = "none";
+	document.getElementById("alert16").style.display = "none";
+	if(form.email.value==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert2").style.display = "block";
+		error = true;
+	}
+	else if(!form.email.value.match(/.+\@.+\..+/)){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert3").style.display = "block";
+		error = true;
+	}
+	if(form.password.value == ""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert4").style.display = "block";
+		error = true;
+	}
+	else if(!form.password.value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/)){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert5").style.display = "block";
+		error = true;
+	}
+	if(form.confirmPassword.value ==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert6").style.display = "block";
+		error = true;
+	}
+	else if(form.confirmPassword.value != form.password.value){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert7").style.display = "block";
+		error = true;
+	}
+	if(form.firstName.value ==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert8").style.display = "block";
+		error = true;
+	}
+	if(form.lastName.value ==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert9").style.display = "block";
+		error = true;
+	}
+	if(form.phoneNumber.value ==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert10").style.display = "block";
+		error = true;
+	}
+	else if(!form.phoneNumber.value.match(/^\(\d{3}\)\d{3}\-\d{4}$/m)){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert11").style.display = "block";
+		error = true;
+	}
+
+	if(form.street.value ==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert12").style.display = "block";
+		error = true;
+	}
+	if(form.city.value ==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert13").style.display = "block";
+		error = true;
+	}
+	if(form.state.value ==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert14").style.display = "block";
+		error = true;
+	}
+	if(form.zip.value ==""){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert15").style.display = "block";
+		error = true;
+	}
+	else if(!form.zip.value.match(/(^[0-9]{4}?[0-9]$)/)){
+		document.getElementById("alert").style.display = "block";
+		document.getElementById("alert16").style.display = "block";
+		error = true;
+	}
+	
+	if(error == true) {
+		scroll(0,0);
+		return false;
+		}
+	else return true;
+}
+</script>
+
 <main class=" px-md-4 form-signin">
 <br>
-<form th:object="${newAccount}" th:action="@{/register}" method="POST">
+<div id="alert" style = "display: none;" class="alert alert-danger" role="alert">
+<p id="alert2" style="display: none">Email Field Must Not Be Empty!</p>
+<p id="alert3" style="display:none">Invalid Email!</p>
+<p id="alert4" style="display:none">Password Field Must Not Be Empty!</p>
+<p id="alert5" style="display:none">Password Must Be At Least 8 Characters And Must Have At Least 1 Upercase, 1 Lowercase, 1 Number, And 1 Special Character!</p>
+<p id="alert6" style="display:none">Confirm Password Field Must Not Be Empty!</p>
+<p id="alert7" style="display:none">Password Fields Must Match!</p>
+<p id="alert8" style="display:none">First Name Field Must Not Be Empty!</p>
+<p id="alert9" style="display:none">Last Name Field Must Not Be Empty!</p>
+<p id="alert10" style="display:none">Phone Number Field Must Not Be Empty!</p>
+<p id="alert11" style="display:none">Invalid Phone Number! Format: (###)###-####)</p>
+<p id="alert12" style="display: none">Street Field Must Not Be Empty!</p>
+<p id="alert13" style="display: none">City Field Must Not Be Empty!</p>
+<p id="alert14" style="display: none">State Field Must Not Be Empty!</p>
+<p id="alert15" style="display: none">Zip Field Must Not Be Empty!</p>
+<p id="alert16" style="display: none">Invalid Zip code!</p>
+</div>
+<form th:object="${newAccount}" th:action="@{/register}" method="POST" onsubmit="return checkForm(this);">
 <div class="form-floating">
-<input type="email" class="form-control" id="email" name="email" th:field="*{email}" required>
+<input type="text" class="form-control" id="email" name="email" th:field="*{email}">
 <label for="email">Email address</label>
 </div>
 <div class="form-floating">
-<input name="password" id="password" class="form-control" th:field="*{password}" required>
+<input type="text" id="password" class="form-control" th:field="*{password}">
  <label for="password">Password</label>
 </div>
 <div class="form-floating">
-<input name="confirmPassword" id="confirmPassword" class="form-control" th:field="*{confirmPassword}" required>
+<input name="confirmPassword" id="confirmPassword" class="form-control" th:field="*{confirmPassword}" >
  <label for="confirmPassword">Confirm Password</label>
 </div>
 <div class="form-floating">
-<input name="firstName" id="firstName" class="form-control" th:field="*{firstName}" required>
+<input name="firstName" id="firstName" class="form-control" th:field="*{firstName}" >
  <label for="firstName">First Name</label>
 </div>
 <div class="form-floating">
-<input name="lastName" id="lastName" class="form-control" th:field="*{lastName}" required>
+<input name="lastName" id="lastName" class="form-control" th:field="*{lastName}" >
  <label for="lastName">Last Name</label>
 </div>
 <div class="form-floating">
-<input name="phoneNumber" id="phoneNumber" class="form-control" th:field="*{phoneNumber}" required>
+<input type ="tel" name="phoneNumber" id="phoneNumber" class="form-control" th:field="*{phoneNumber}">
  <label for="phoneNumber">Phone Number</label>
 </div>
 <div class="form-floating">
-<input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}" required>
+<input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}" >
 <label for="street">Street</label>
 </div>
 <div class="form-floating">
-<input name="address.city" id="city" class="form-control" size="20" th:field="*{address.city}" required>
+<input name="address.city" id="city" class="form-control" size="20" th:field="*{address.city}" >
 <label for="city">City</label>
 </div>
 <div class="form-floating">
-<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="address.state" id="state" th:field="*{address.state}" required>
+<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="address.state" id="state" th:field="*{address.state}" >
 <option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -110,7 +231,7 @@
 </div>
 <br>
 <div class="form-floating">
-<input name="address.zip" id="zip" class="form-control" size="20" th:field="*{address.zip}" required>
+<input name="address.zip" id="zip" class="form-control" size="20" th:field="*{address.zip}">
 <label for="zip">Zip</label>
 </div>
 <input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Register" />
