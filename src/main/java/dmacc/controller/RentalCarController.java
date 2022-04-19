@@ -226,12 +226,4 @@ public class RentalCarController
 			model.addAttribute("state", state);
 		return "rentCar";
 	}
-	@PostMapping("/editRental/{id}") //TODO edit rentals
-	public String editRental(Model model, @PathVariable("id") String rentalid, @RequestParam(name="startDate") String startDate, 
-			@RequestParam(name="endDate") String endDate, @RequestParam(name="id") String carId, @RequestParam(name="planId") String planId) 
-	{
-		//CarRental cr = rentalRepo.getById(Long.parseLong(rentalid));
-		//model.addAttribute("id" id);
-		return null;
-	}
 }
