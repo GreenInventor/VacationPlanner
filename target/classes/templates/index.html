@@ -12,7 +12,7 @@
 <main class="form-signin">
   <form th:object="${newAccount}" th:action="@{/login}" method="POST">
   <img class="mb-4" src="../static/img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png" th:src="@{img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <h1 class="h3 mb-3 fw-normal">Please Sign In</h1>
 
     <div class="form-floating">
       <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" th:field="*{email}" required>
@@ -22,7 +22,7 @@
       <input class="form-control" id="password" name="password" placeholder="Password" th:field="*{password}" required>
       <label for="password">Password</label>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign In</button>
   </form>
   <br>
   <button onclick="location.href = 'register';"class="btn btn-primary btn-block" type="button" id="btn-signup">Create Account</button>

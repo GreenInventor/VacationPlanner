@@ -173,7 +173,7 @@
 			<td th:text = "${currentDealership.address.zip}"/>
 			<td>
 <form th:action="@{/editDealership/{id}(id=${id})}" method='POST'>
-<input type ="hidden" name ="id" value="${currentDealership.id}">
+<input type ="hidden" name ="id" th:value="${currentDealership.id}">
 <input style ="width: 60px;"class="btn btn-warning btn-sm" type = "submit" value= "Edit" name= "action">
 <input style ="width: 60px; margin-top: 2px;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
 </form>

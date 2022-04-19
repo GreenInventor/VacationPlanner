@@ -15,7 +15,10 @@
 <body>
 	<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"> <!-- Top of page -->
  		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img th:src="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
-   		<div class="navbar-nav ms-auto">
+   		   		<div class="navbar-nav ms-auto">
+      		<a class="nav-link px-3" th:href="@{/userHome/{id}(id=${id})}">View Plans</a>
+  		</div>
+   		<div class="navbar-nav">
       		<a class="nav-link px-3" href="#">Account Settings</a>
   		</div>
   		<div class="navbar-nav">
@@ -28,6 +31,7 @@
 	<form th:object="${plan}" th:action="@{/editName/{id}(id=${id})}" method='POST'> <!-- Manage plan -->
 		<div class="form-floating">
 			<input style="text-align:center;" name="name" id="name" size="20" class="form-control" th:field="*{name}" required> <!-- Plan name -->
+			<input type="hidden" name="id" id="id" th:value="*{id}" required>
 		</div>
 		<br>
 		<input style ="width: 100%;" class="btn btn-warning btn-sm" type = "submit" value= "Edit Name" name= "action"> <!-- Edit Name button -->
@@ -69,7 +73,9 @@
 			<td th:text="${#temporals.format(currentCar.rentalStartDate, 'MM/dd/yyyy')}"/>
 			<td th:text="${#temporals.format(currentCar.rentalEndDate, 'MM/dd/yyyy')}"/>
 			<td th:text="${#numbers.formatCurrency(currentCar.rentalTotal)}"/>
-			<td><form th:action="@{/deleteCar/{id}(id=${id})}" method='POST'> <!-- Delete Rental -->
+			<td><form th:action="@{/cancelRentalCar/{id}(id=${id})}" method='POST'> <!-- Delete Rental -->
+			<input type="hidden" th:value="${currentCar.id}" name="rentalId"/>
+			<input type="hidden" th:value="${plan.id}" name="planId"/>
 				<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
 			</form></td>
 		</tr>

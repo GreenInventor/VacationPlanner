@@ -16,6 +16,13 @@
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img th:src="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
    <div class="navbar-nav ms-auto">
+   <form th:action="@{/editPlan/{id}(id=${id})}" method='POST'>
+	<input type ="hidden" name="id"  th:value="${planId}" required>
+	<input type ="hidden" name="action"  value="Edit" required>
+	<input style="background: none; border: none;" class="nav-link px-3" name="submit" type="submit" value="View Plan" />
+	</form>
+  		</div>
+   <div class="navbar-nav">
       <a class="nav-link px-3" href="#">Account Settings</a>
   </div>
   <div class="navbar-nav">

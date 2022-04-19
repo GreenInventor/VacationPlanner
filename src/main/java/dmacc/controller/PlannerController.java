@@ -48,8 +48,8 @@ public class PlannerController {
 		repo.save(p);
 		System.out.println("Planner Created");
 		System.out.println(p.toString());
-		model.addAttribute("plans", repo.findByAccountId(id));
-		return "home";
+		model.addAttribute("plan", p);
+		return "planner";
 	}
 	
 	@PostMapping("/editPlan/{id}") 
@@ -72,5 +72,15 @@ public class PlannerController {
 	public String revisePlanner(Planner p, Model model, @PathVariable("id") long id) {
 		repo.save(p);
 		return viewAllPlans(model, id);
+	}
+	@PostMapping("/editName/{id}") 
+	public String editName(@RequestParam("id") long plannerId, @RequestParam("name") String name, Model model, @PathVariable("id") long id) {
+		Planner p = repo.getById(plannerId);
+		p.setName(name);
+		repo.save(p);
+		model.addAttribute("plan", p);
+		model.addAttribute("id", id);
+		return "planner";
+		
 	}
 }

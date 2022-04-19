@@ -115,8 +115,12 @@ public class RentalCarController
 		model.addAttribute("id", id);
 		if(action.equals("Edit")) {
 			model.addAttribute("newDealership", d);
-			return "car";
+			return "dealership";
 		}else {
+			List<Car> cars = carRepo.findByDealership(d);
+			for(Car car : cars) {
+				carRepo.delete(car);
+			}
 			dealershipRepo.delete(d);
 			List<Dealership> dealerships = dealershipRepo.findAll();
 			model.addAttribute("dealerships", dealerships);
@@ -129,14 +133,19 @@ public class RentalCarController
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
-		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate).collect(Collectors.toList());
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1)).collect(Collectors.toList());
+		
+		for(LocalDate date: listOfDates) {
+			System.out.println(date);
+		}
+		
 		List<Car> cars = carRepo.findByDealershipAddressStateOrderByDealershipAddressCity(state);
 		List<Car> avalibleCars = new ArrayList<Car>();
 		List<String> cities = new ArrayList<String>();
 		for(Car car : cars) {
 			String city = car.getDealership().getAddress().getCity();
 			try {
-			if(car.getDaysRented().stream().anyMatch(listOfDates::contains)) {
+			if(!car.getDaysRented().stream().anyMatch(listOfDates::contains)) {
 				avalibleCars.add(car);
 				if(!cities.contains(city)) {
 					cities.add(city);
@@ -164,7 +173,7 @@ public class RentalCarController
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
-		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate).collect(Collectors.toList());
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1)).collect(Collectors.toList());
 		CarRental rental = new CarRental();
 		Car car = carRepo.getById(Long.parseLong(carId));
 		ArrayList<LocalDate> rentalDates = new ArrayList<LocalDate>();
@@ -185,6 +194,7 @@ public class RentalCarController
 		rentals.add(rental);
 		plan.setCarRentals(rentals);
 		plannerRepo.save(plan);
+		System.out.println(rentalDates);
 		model.addAttribute("plan", plan);
 		return "planner";
 	}
@@ -225,5 +235,28 @@ public class RentalCarController
 			model.addAttribute("cities", cities);
 			model.addAttribute("state", state);
 		return "rentCar";
+	}
+	@PostMapping("/cancelRentalCar/{id}") 
+	public String cancelRentalCar(Model model, @RequestParam(name="rentalId") String rentalId, @RequestParam(name="planId") String planId,@PathVariable("id") long id) {
+		CarRental rental = rentalRepo.getById(Long.parseLong(rentalId));
+		LocalDate startDate = rental.getRentalStartDate();
+		LocalDate endDate = rental.getRentalEndDate();
+		List<LocalDate> listOfDates = startDate.datesUntil(endDate.plusDays(1)).collect(Collectors.toList());	
+		Car c = rental.getCar();
+		ArrayList<LocalDate> dates = c.getDaysRented();
+		for(LocalDate date : listOfDates) {
+			dates.remove(date);
+		}
+		c.setDaysRented(dates);
+		carRepo.save(c);
+		Planner plan = plannerRepo.getById(Long.parseLong(planId));
+		List<CarRental> rentals = plan.getCarRentals();
+		rentals.remove(rental);
+		plan.setCarRentals(rentals);
+		plannerRepo.save(plan);
+		rentalRepo.delete(rental);
+		model.addAttribute("id", id);
+		model.addAttribute("plan", plan);
+		return "planner";
 	}
 }
