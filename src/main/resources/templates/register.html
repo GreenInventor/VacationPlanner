@@ -36,7 +36,7 @@
 <script>
 function checkForm(form){
 	let error = false;
-	var y = document.getElementsByClassName('customSelect');
+	let y = document.getElementsByClassName('customSelect');
 	y[0].style.boxShadow = "none";
 	document.getElementById("email").style.boxShadow = "none";
 	document.getElementById("password").style.boxShadow = "none";
@@ -79,8 +79,8 @@ function checkForm(form){
 	if(form.state.value ==""){
 		document.getElementById("alert14").style.display = "block";
 		document.getElementById("state").style.outline = "5px auto solid red";
-		var y = document.getElementsByClassName('customSelect');
 		y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.state.focus();
 		error = true;
 	}
 	if(form.city.value ==""){
@@ -199,7 +199,7 @@ function checkForm(form){
  <label for="phoneNumber">Phone Number</label>
 </div>
 <p id="alert10" class="alert alert-danger" style="display:none">Phone Number Field Must Not Be Empty!</p>
-<p id="alert11" class="alert alert-danger" style="display:none">Invalid Phone Number! Format: (###)###-####)</p>
+<p id="alert11" class="alert alert-danger" style="display:none">Invalid Phone Number! Format: (###)###-####</p>
 <div class="form-floating">
 <input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}" >
 <label for="street">Street</label>

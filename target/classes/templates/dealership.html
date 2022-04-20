@@ -15,6 +15,13 @@
 		.form-floating{
 		padding-bottom: 5px;
 		}
+		*:focus {
+    outline: none;
+    border: none;
+    }
+    .customSelect{
+  background-color: #f8f9fa;
+}
 		</style>
 </head>
 <body>
@@ -99,27 +106,108 @@
     </div>
     <br>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 form-signin">
+<script>
+function checkForm(form){
+	let error = false;
+	let y = document.getElementsByClassName('customSelect');
+	y[0].style.boxShadow = "none";
+	document.getElementById("alert1").style.display = "none";
+	document.getElementById("alert2").style.display = "none";
+	document.getElementById("alert3").style.display = "none";
+	document.getElementById("alert4").style.display = "none";
+	document.getElementById("alert5").style.display = "none";
+	document.getElementById("alert6").style.display = "none";
+	document.getElementById("alert7").style.display = "none";
+	document.getElementById("alert8").style.display = "none";
+	document.getElementById("name").style.boxShadow = "none";
+	document.getElementById("phoneNumber").style.boxShadow = "none";
+	document.getElementById("street").style.boxShadow = "none";
+	document.getElementById("city").style.boxShadow = "none";
+	document.getElementById("zip").style.boxShadow = "none";
+	if(form.zip.value ==""){
+		document.getElementById("alert7").style.display = "block";
+		document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.zip.focus();
+		error = true;
+	}
+	else if(!form.zip.value.match(/(^[0-9]{4}?[0-9]$)/)){
+		document.getElementById("alert8").style.display = "block";
+		document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.zip.focus();
+		error = true;
+	}
+	if(form.state.value ==""){
+		document.getElementById("alert6").style.display = "block";
+		document.getElementById("state").style.outline = "5px auto solid red";
+		y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.state.focus();
+		error = true;
+	}
+	if(form.city.value ==""){
+		document.getElementById("alert5").style.display = "block";
+		document.getElementById("city").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.city.focus();
+		error = true;
+	}
+	if(form.street.value ==""){
+		document.getElementById("alert4").style.display = "block";
+		error = true;
+		document.getElementById("street").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.street.focus();
+	}
+	if(form.phoneNumber.value ==""){
+		document.getElementById("alert2").style.display = "block";
+		document.getElementById("phoneNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.phoneNumber.focus();
+		error = true;
+	}
+	else if(!form.phoneNumber.value.match(/^\(\d{3}\)\d{3}\-\d{4}$/m)){
+		document.getElementById("alert3").style.display = "block";
+		document.getElementById("phoneNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.phoneNumber.focus();
+		error = true;
+	}
+	if(form.name.value ==""){
+		document.getElementById("alert1").style.display = "block";
+		document.getElementById("name").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.city.focus();
+		error = true;
+	}
+	
+	if(error == true) {
+		return false;
+		}
+	else return true;
+}
 
-<form th:object="${newDealership}" th:action="@{/inputDealership/{id}(id=${id})}" method='POST'>
-<input name="id" id="id" type="hidden" th:field="*{id}" required>
+
+
+</script>
+<form th:object="${newDealership}" th:action="@{/inputDealership/{id}(id=${id})}" method='POST' onsubmit="return checkForm(this);">
+<input name="id" id="id" type="hidden" th:field="*{id}">
 <div class="form-floating">
-<input name="name" id="name" class="form-control" size = "20" th:field="*{name}" required>
+<input name="name" id="name" class="form-control" size = "20" th:field="*{name}">
 <label for="name">Name</label>
 </div>
+<p id="alert1" class="alert alert-danger" style="display: none">Name Field Must Not Be Empty!</p>
 <div class="form-floating">
-<input name="phoneNumber" id="phoneNumber" class="form-control" th:field="*{phoneNumber}" required>
+<input name="phoneNumber" id="phoneNumber" class="form-control" th:field="*{phoneNumber}">
  <label for="phoneNumber">Phone Number</label>
 </div>
+<p id="alert2" class="alert alert-danger" style="display: none">Phone Number Field Must Not Be Empty!</p>
+<p id="alert3" class="alert alert-danger" style="display:none">Invalid Phone Number! Format: (###)###-####</p>
 <div class="form-floating">
-<input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}" required>
+<input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}">
 <label for="street">Street</label>
 </div>
+<p id="alert4" class="alert alert-danger" style="display: none">Street Field Must Not Be Empty!</p>
 <div class="form-floating">
-<input name="address.city" id="city" class="form-control" size="20" th:field="*{address.city}" required>
+<input name="address.city" id="city" class="form-control" size="20" th:field="*{address.city}">
 <label for="city">City</label>
 </div>
+<p id="alert5" class="alert alert-danger" style="display: none">City Field Must Not Be Empty!</p>
 <div class="form-floating">
-<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="address.state" id="state" th:field="*{address.state}" required>
+<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="address.state" id="state" th:field="*{address.state}" data-style="customSelect">
 <option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -173,11 +261,14 @@
 </select>
 <label for="state">State</label>
 </div>
+<p id="alert6" class="alert alert-danger" style="display: none">State Field Must Not Be Empty!</p>
 <br>
 <div class="form-floating">
-<input name="address.zip" id="zip" class="form-control" size="20" th:field="*{address.zip}" required>
+<input name="address.zip" id="zip" class="form-control" size="20" th:field="*{address.zip}">
 <label for="zip">Zip</label>
 </div>
+<p id="alert7" class="alert alert-danger" style="display: none">Zip Field Must Not Be Empty!</p>
+<p id="alert8" class="alert alert-danger" style="display: none">Invalid Zip code!</p>
 <input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Submit" />
 </form>
 </main>
