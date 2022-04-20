@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +29,6 @@ public class Car {
 	private int capacity;
 	private String fuelType;
 	private ArrayList<LocalDate> daysRented;
+	@ManyToOne
+	private Dealership dealership;
 }

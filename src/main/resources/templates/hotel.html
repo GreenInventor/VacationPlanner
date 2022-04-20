@@ -1,20 +1,241 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="ISO-8859-1">
 <title>Insert a new hotel</title>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link th:href= "@{/css/dashboard.css}" rel="stylesheet">
+<link rel="icon" th:href="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}">
+<style>
+		.form-floating{
+		padding-bottom: 5px;
+		}
+		</style>
 </head>
 <body>
-<form th:object="${newHotel}" th:action="@{/inputHotel}" method='POST'>
-Hotel Name: <input name="hotelName" size = "20" th:field="*{hotelName}" required><br />
-Room Number: <input name="roomNumber" size="20" th:field="*{roomNumber}" required><br />
-Price of Room: <input name="price" size="20" th:field="*{price}" required><br/>
-Street: <input name="address.street" size="20" th:field="*{hotelAddress.street}" required><br/>
-City: <input name="address.city" size="20" th:field="*{hotelAddress.city}" required><br/>
-State: <input name="address.state" size="20" th:field="*{hotelAddress.state}" required><br/>
-Zip: <input name="address.zip" size="20" th:field="*{hotelAddress.zip}" required><br/>
-<input name="submit" type="submit" value="submit" />
+<script>
+	function checkForm(form)
+	{
+		let re = /^[\w ]+$/;
+		
+		if(!re.test(form.hotelName.value))
+		{
+			alert("Hotel name contains invalid characters.");
+			form.hotelName.focus();
+			return false;
+		}
+		
+		if(form.roomNumber.value < 0)
+		{
+			alert("Please enter a room number greater than 0");
+			form.roomNumber.focus();
+			return false;
+		}
+		
+		if(form.price.value < 0)
+		{
+			alert("Please enter a price greater than 0");
+			form.price.focus();
+			return false;
+		}
+		
+		if(!re.test(form.street.value))
+		{
+			alert("Street contains invalid characters.");
+			form.street.focus();
+			return false;
+		}
+		
+		if(!re.test(form.city.value))
+		{
+			alert("City contains invalid characters.");
+			form.city.focus();
+			return false;
+		}
+		
+		
+		if(form.zip.value < 0)
+		{
+			alert("Please enter a zip greater than 0");
+			form.zip.focus();
+			return false;
+		}
+		
+		return true;
+	}
+</script>
+<header
+		class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img th:src="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
+		<div class="navbar-nav ms-auto">
+      <a class="nav-link px-3" th:href="@{/userHome/{id}(id=${id})}">View As User</a>
+  </div>
+   <div class="navbar-nav">
+      <a class="nav-link px-3" href="#">Account Settings</a>
+  </div>
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="../">Sign out</a>
+    </div>
+  </div>
+	</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" th:href="@{/adminHome/{id}(id=${id})}">
+              <span data-feather="home"></span>
+              Home
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Rental Car</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/inputDealership/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              Create Dealership
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/viewDealerships/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              View Dealerships
+            </a>
+          </li>
+            <li class="nav-item">
+            <a class="nav-link" th:href="@{/inputCar/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              Create Car
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/viewCars/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              View Cars
+            </a>
+          </li>
+        </ul>
+         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Hotel</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/inputHotel/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              Create Hotel
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/viewAllHotels/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              View Hotels
+            </a>
+          </li> 
+        </ul>
+      </div>
+    </nav>
+    </div>
+    </div>
+    <br>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+<form th:object="${newHotel}" th:action="@{/inputHotel/{id}(id=${id})}" method='POST' onsubmit="return checkForm(this);">
+<div class="form-floating">
+<input name="hotelName" id="hotelName" class="form-control" type="text" th:field="*{hotelName}" required>
+<label for="hotelName">Hotel Name</label>
+</div>
+<div class="form-floating">
+<input name="roomNumber" id="roomNumber" class="form-control" type="number" th:field="*{roomNumber}" required>
+<label for="roomNumber">Room Number</label>
+</div>
+<div class="form-floating">
+<input name="price" id="price" class="form-control" type="number" th:field="*{price}" required>
+<label for="price">Price</label>
+</div>
+<div class="form-floating">
+<input name="street" id="street" class="form-control" type="text" th:field="*{hotelAddress.street}" required>
+<label for="street">Street</label>
+</div>
+<div class="form-floating">
+<input name="city" id="city" class="form-control" type="text" th:field="*{hotelAddress.city}" required>
+<label for="city">City</label>
+</div>
+<div class="form-floating">
+<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state" th:field="*{hotelAddress.state}" required>
+	<option value="AL">Alabama</option>
+	<option value="AK">Alaska</option>
+	<option value="AZ">Arizona</option>
+	<option value="AR">Arkansas</option>
+	<option value="CA">California</option>
+	<option value="CO">Colorado</option>
+	<option value="CT">Connecticut</option>
+	<option value="DE">Delaware</option>
+	<option value="FL">Florida</option>
+	<option value="GA">Georgia</option>
+	<option value="HI">Hawaii</option>
+	<option value="ID">Idaho</option>
+	<option value="IL">Illinois</option>
+	<option value="IN">Indiana</option>
+	<option value="IA">Iowa</option>
+	<option value="KS">Kansas</option>
+	<option value="KY">Kentucky</option>
+	<option value="LA">Louisiana</option>
+	<option value="ME">Maine</option>
+	<option value="MD">Maryland</option>
+	<option value="MA">Massachusetts</option>
+	<option value="MI">Michigan</option>
+	<option value="MN">Minnesota</option>
+	<option value="MS">Mississippi</option>
+	<option value="MO">Missouri</option>
+	<option value="MT">Montana</option>
+	<option value="NE">Nebraska</option>
+	<option value="NV">Nevada</option>
+	<option value="NH">New Hampshire</option>
+	<option value="NJ">New Jersey</option>
+	<option value="NM">New Mexico</option>
+	<option value="NY">New York</option>
+	<option value="NC">North Carolina</option>
+	<option value="ND">North Dakota</option>
+	<option value="OH">Ohio</option>
+	<option value="OK">Oklahoma</option>
+	<option value="OR">Oregon</option>
+	<option value="PA">Pennsylvania</option>
+	<option value="RI">Rhode Island</option>
+	<option value="SC">South Carolina</option>
+	<option value="SD">South Dakota</option>
+	<option value="TN">Tennessee</option>
+	<option value="TX">Texas</option>
+	<option value="UT">Utah</option>
+	<option value="VT">Vermont</option>
+	<option value="VA">Virginia</option>
+	<option value="WA">Washington</option>
+	<option value="WV">West Virginia</option>
+	<option value="WI">Wisconsin</option>
+	<option value="WY">Wyoming</option>
+</select>
+<label for="state">State</label>
+</div>
+<br>
+<div class="form-floating">
+<input name="zip" id="zip" class="form-control" type="number" th:field="*{hotelAddress.zip}" required><br/>
+<label for="zip">Zip</label>
+</div>
+<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Submit" />
 </form>
-<a href="viewAllHotels">View all rooms</a>
+<br>
+</main>
 </body>
 </html>

@@ -27,5 +27,5 @@ public class Account {
 	private String lastName;
 	private String phoneNumber;
 	private String accountType;
-	Address address;
+	private Address address;
 }

@@ -2,24 +2,285 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Create Rental Car</title>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link th:href="@{/css/dashboard.css}" rel="stylesheet">
+<link rel="icon" th:href="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}">
+<style>
+		.form-floating{
+		padding-bottom: 5px;
+		}
+		*:focus {
+    outline: none;
+    border: none;
+    }
+    .customSelect{
+  background-color: #f8f9fa;
+}
+		</style>
 </head>
 <body>
-<form th:object="${newCar}" th:action="@{/inputCar}" method='POST'>
-Make: <input name="make" size = "20" th:field="*{make}" required><br />
-Model: <input name="model" size="20" th:field="*{model}" required><br />
-Year: <input name="year" size="20" th:field="*{year}" required><br/>
-Color: <input name="color" size="20" th:field="*{color}" required><br/>
-Capacity: <input name="capacity" size="20" th:field="*{capacity}" required><br/>
-MPG / Range: <input name="mpg" size="20" th:field="*{mpg}" required><br/>
-Price: <input name="pricePerDay" size="20" th:field="*{pricePerDay}" required><br/>
-Fuel Type: <select name="fuelType" th:field="*{fuelType}" required>
-<option value="" >Select Fuel Type</option>
-  <option value="Gas">Gas</option>
-  <option value="Diesel">Diesel</option>
-  <option value="Electric">Electric</option>
-</select><br/>
-<input name="submit" type="submit" value="submit" />
-</form>
+	<header
+		class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img th:src="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
+		<div class="navbar-nav ms-auto">
+      <a class="nav-link px-3" th:href="@{/userHome/{id}(id=${id})}">View As User</a>
+  </div>
+   <div class="navbar-nav">
+      <a class="nav-link px-3" href="#">Account Settings</a>
+  </div>
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="../">Sign out</a>
+    </div>
+  </div>
+	</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" th:href="@{/adminHome/{id}(id=${id})}">
+              <span data-feather="home"></span>
+              Home
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Rental Car</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/inputDealership/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              Create Dealership
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/viewDealerships/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              View Dealerships
+            </a>
+          </li>
+            <li class="nav-item">
+            <a class="nav-link active" th:href="@{/inputCar/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              Create Car
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/viewCars/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              View Cars
+            </a>
+          </li>
+        </ul>
+         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Hotel</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/inputHotel/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              Create Hotel
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/viewAllHotels/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              View Hotels
+            </a>
+          </li> 
+        </ul>
+      </div>
+    </nav>
+    </div>
+    </div>
+	<br>
+	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 form-signin">
+<script>
+
+function checkForm(form){
+	let priceFormat = /^\d+(?:\.\d+)?(?:,\d+(?:\.\d+)?)*$/gm;
+	let numberFormat = /^[0-9]+$/;
+	let error = false;
+	let y = document.getElementsByClassName('customSelect');
+	y[0].style.boxShadow = "none";
+	y[1].style.boxShadow = "none";
+	document.getElementById("make").style.boxShadow = "none";
+	document.getElementById("model").style.boxShadow = "none";
+	document.getElementById("year").style.boxShadow = "none";
+	document.getElementById("color").style.boxShadow = "none";
+	document.getElementById("capacity").style.boxShadow = "none";
+	document.getElementById("mpg").style.boxShadow = "none";
+	document.getElementById("price").style.boxShadow = "none";
+	document.getElementById("alert1").style.display = "none";
+	document.getElementById("alert2").style.display = "none";
+	document.getElementById("alert3").style.display = "none";
+	document.getElementById("alert4").style.display = "none";
+	document.getElementById("alert5").style.display = "none";
+	document.getElementById("alert6").style.display = "none";
+	document.getElementById("alert7").style.display = "none";
+	document.getElementById("alert8").style.display = "none";
+	document.getElementById("alert9").style.display = "none";
+	document.getElementById("alert10").style.display = "none";
+	document.getElementById("alert11").style.display = "none";
+	document.getElementById("alert12").style.display = "none";
+	document.getElementById("alert13").style.display = "none";
+	if(form.dealership.value == ""){
+		document.getElementById("alert13").style.display = "block";
+		y[1].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.dealership.focus();
+		error = true;
+	}
+	if(form.fuelType.value == ""){
+		document.getElementById("alert12").style.display = "block";
+		y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.fuelType.focus();
+		error = true;
+	}
+	if(form.price.value == 0.0 || form.price.value == "" ||form.price.value == 0){
+		document.getElementById("alert10").style.display = "block";
+		document.getElementById("price").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.price.focus();
+		error = true;
+	}
+	else if(!priceFormat.test(form.price.value) || form.price.value.indexOf(".") != -1 && form.price.value.length - (form.price.value.indexOf(".") + 1) > 2){
+		document.getElementById("alert11").style.display = "block";
+		document.getElementById("price").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.price.focus();
+		error = true;
+	}
+	if(form.mpg.value == 0 || form.mpg.value == ""){
+		document.getElementById("alert8").style.display = "block";
+		document.getElementById("mpg").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.mpg.focus();
+		error = true;
+	}
+	else if(!numberFormat.test(form.mpg.value)){
+		document.getElementById("alert9").style.display = "block";
+		document.getElementById("mpg").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.mpg.focus();
+		error = true;
+	}
+	if(form.capacity.value == 0 || form.capacity.value == ""){
+		document.getElementById("alert6").style.display = "block";
+		document.getElementById("capacity").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.capacity.focus();
+		error = true;
+	}
+	else if(!numberFormat.test(form.capacity.value)){
+		document.getElementById("alert7").style.display = "block";
+		document.getElementById("capacity").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.capacity.focus();
+		error = true;
+	}
+	if(form.color.value == ""){
+		document.getElementById("alert5").style.display = "block";
+		document.getElementById("color").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.color.focus();
+		error = true;
+	}
+	if(form.year.value == 0 || form.year.value == ""){
+		document.getElementById("alert3").style.display = "block";
+		document.getElementById("year").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.year.focus();
+		error = true;
+	}
+	else if(!numberFormat.test(form.year.value) || form.year.value.length != 4){
+		document.getElementById("alert4").style.display = "block";
+		document.getElementById("year").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.year.focus();
+		error = true;
+	}
+	if(form.model.value == ""){
+		document.getElementById("alert2").style.display = "block";
+		document.getElementById("model").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.model.focus();
+		error = true;
+	}
+	if(form.make.value == ""){
+		document.getElementById("alert1").style.display = "block";
+		document.getElementById("make").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.make.focus();
+		error = true;
+	}
+	if(error == true) return false;
+	else return true;
+}
+
+
+</script>
+		<form th:object="${newCar}" th:action="@{/inputCar/{id}(id=${id})}" method='POST' onsubmit="return checkForm(this);">
+				<input name="id" id="id" type="hidden" th:field="*{id}">
+			<div class="form-floating">
+				<input name="make" id="make" class="form-control" size="20" th:field="*{make}">
+				<label for="make">Make</label>
+			</div>
+			<p id="alert1" class="alert alert-danger" style="display: none">Make Field Must Not Be Empty!</p>
+			<div class="form-floating">
+				<input name="model" id="model" class="form-control" size="20" th:field="*{model}"> 
+				<label for="model">Model</label>
+			</div>
+			<p id="alert2" class="alert alert-danger" style="display: none">Model Field Must Not Be Empty!</p>
+			<div class="form-floating">
+				<input name="year" id="year" size="20" class="form-control" th:field="*{year}">
+				<label for="year">Year</label>
+			</div>
+			<p id="alert3" class="alert alert-danger" style="display: none">Year Field Must Not Be Empty!</p>
+			<p id="alert4" class="alert alert-danger" style="display: none">Please Enter A Valid Year!</p>
+			<div class="form-floating">
+				<input name="color" id="color" size="20" class="form-control" th:field="*{color}"> 
+				<label for="color">Color</label>
+			</div>
+			<p id="alert5" class="alert alert-danger" style="display: none">Color Field Must Not Be Empty!</p>
+			<div class="form-floating">
+				<input name="capacity" id="capacity" size="20" class="form-control" th:field="*{capacity}"> 
+					<label for="capacity">Capacity</label>
+			</div>
+			
+			<p id="alert6" class="alert alert-danger" style="display: none">Capacity Field Must Not Be Empty!</p>
+			<p id="alert7" class="alert alert-danger" style="display: none">Please Enter A Valid Capacity!</p>
+			<div class="form-floating">
+				<input name="mpg" id="mpg" size="20" class="form-control" th:field="*{mpg}">
+				<label for="mpg">MPG / Range</label>
+			</div>
+			<p id="alert8" class="alert alert-danger" style="display: none">MPG / Range Field Must Not Be Empty!</p>
+			<p id="alert9" class="alert alert-danger" style="display: none">Please Enter A Valid MPG / Range!</p>
+			<div class="form-floating">
+				<input name="pricePerDay" id="price" size="20" class="form-control" th:field="*{pricePerDay}">
+				<label for="pricePerDay">Price</label>
+			</div>
+			<p id="alert10" class="alert alert-danger" style="display: none">Price Field Must Not Be Empty!</p>
+			<p id="alert11" class="alert alert-danger" style="display: none">Please Enter A Valid Price!</p>
+			<div class="form-floating">
+				<select class="selectpicker form-control" id="fuelType" data-live-search="true" title="Select A Fuel Type" name="fuelType" th:field="*{fuelType}" data-style="customSelect">
+					<option value="Gas">Gas</option>
+					<option value="Diesel">Diesel</option>
+					<option value="Electric">Electric</option>
+				</select> <label for="fuelType">Fuel Type</label>
+			</div>
+			<p id="alert12" class="alert alert-danger" style="display: none; margin-top: 6px;">Fuel Type Field Must Not Be Empty!</p>
+			<div class="form-floating">
+				<select class="selectpicker form-control" data-live-search="true" title="Select A Dealership" name="dealership" id="dealership" th:field="*{dealership}" data-style="customSelect">
+					<option th:each="currentDealership : ${dealerships}" th:data-subtext="${currentDealership.address.street} + ' ' + ${currentDealership.address.city} + ' ' + ${currentDealership.address.state} + ' ' + ${currentDealership.address.zip}" th:value="${currentDealership.id}" th:text="${currentDealership.name}"></option>
+				</select> 
+				<label for="dealership">Dealership</label>
+			</div>
+			<p id="alert13" class="alert alert-danger" style="display: none; margin-top: 6px;">Dealership Field Must Not Be Empty!</p>
+			<br /> 
+			<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Submit" />
+		</form>
+		<br>
+	</main>
 </body>
 </html>
