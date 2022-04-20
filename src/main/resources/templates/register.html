@@ -155,9 +155,7 @@ function checkForm(form){
 		form.email.focus();
 		error = true;
 	}
-	if(error == true) {
-		return false;
-		}
+	if(error == true) return false;
 	else return true;
 }
 </script>
@@ -265,7 +263,7 @@ function checkForm(form){
 </select>
 <label for="state">State</label>
 </div>
-<p id="alert14" class="alert alert-danger" style="display: none; margin-top: 6px">State Field Must Not Be Empty!</p>
+<p id="alert14" class="alert alert-danger" style="display: none; margin-top: 6px;">State Field Must Not Be Empty!</p>
 <br>
 <div class="form-floating">
 <input name="address.zip" id="zip" class="form-control" size="20" th:field="*{address.zip}">

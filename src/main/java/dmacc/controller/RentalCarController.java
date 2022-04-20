@@ -48,8 +48,7 @@ public class RentalCarController
 	@PostMapping("/inputCar/{id}")
 	public String addNewCar( Car c, Model model, @PathVariable("id") long id) {
 		carRepo.save(c);
-		model.addAttribute("id", id);
-		return "adminHome";
+		return viewCars(model, id);
 	}
 	@GetMapping("/inputDealership/{id}")
 	public String addNewDealership(Model model, @PathVariable("id") long id) {
@@ -62,12 +61,14 @@ public class RentalCarController
 	@PostMapping("/inputDealership/{id}")
 	public String addNewDealership(Dealership d, Model model, @PathVariable("id") long id) {
 		dealershipRepo.save(d);
-		model.addAttribute("id", id);
-		return "adminHome";
+		return viewDealerships(model, id);
 	}
 	@GetMapping("/viewCars/{id}")
 	public String viewCars(Model model, @PathVariable("id") long id) {
 		List<Car> c = carRepo.findAll();
+		if(c.isEmpty()) {
+			return addNewCar(model, id);
+		}
 		model.addAttribute("cars", c);
 		model.addAttribute("id", id);
 		return "viewCar";
@@ -75,6 +76,9 @@ public class RentalCarController
 	@GetMapping("/viewDealerships/{id}")
 	public String viewDealerships(Model model, @PathVariable("id") long id) {
 		List<Dealership> d = dealershipRepo.findAll();
+		if(d.isEmpty()) {
+			return addNewDealership(model, id);
+		}
 		model.addAttribute("dealerships", d);
 		model.addAttribute("id", id);
 		return "viewDealerships";
@@ -104,9 +108,7 @@ public class RentalCarController
 			return "car";
 		}else {
 			carRepo.delete(c);
-			List<Car> cars = carRepo.findAll();
-			model.addAttribute("cars", cars);
-			return "viewCar";
+			return viewCars(model, id);
 		}	
 	}
 	@PostMapping("/editDealership/{id}") 
@@ -122,9 +124,7 @@ public class RentalCarController
 				carRepo.delete(car);
 			}
 			dealershipRepo.delete(d);
-			List<Dealership> dealerships = dealershipRepo.findAll();
-			model.addAttribute("dealerships", dealerships);
-			return "viewDealerships";
+			return viewDealerships(model, id);
 		}
 	}
 	@PostMapping("/addCar/{id}")

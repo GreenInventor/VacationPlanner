@@ -16,6 +16,13 @@
 		.form-floating{
 		padding-bottom: 5px;
 		}
+		*:focus {
+    outline: none;
+    border: none;
+    }
+    .customSelect{
+  background-color: #f8f9fa;
+}
 		</style>
 </head>
 <body>
@@ -100,50 +107,176 @@
     </div>
 	<br>
 	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 form-signin">
+<script>
 
-		<form th:object="${newCar}" th:action="@{/inputCar/{id}(id=${id})}" method='POST'>
-				<input name="id" id="id" type="hidden" th:field="*{id}" required>
+function checkForm(form){
+	let priceFormat = /^\d+(?:\.\d+)?(?:,\d+(?:\.\d+)?)*$/gm;
+	let numberFormat = /^[0-9]+$/;
+	let error = false;
+	let y = document.getElementsByClassName('customSelect');
+	y[0].style.boxShadow = "none";
+	y[1].style.boxShadow = "none";
+	document.getElementById("make").style.boxShadow = "none";
+	document.getElementById("model").style.boxShadow = "none";
+	document.getElementById("year").style.boxShadow = "none";
+	document.getElementById("color").style.boxShadow = "none";
+	document.getElementById("capacity").style.boxShadow = "none";
+	document.getElementById("mpg").style.boxShadow = "none";
+	document.getElementById("price").style.boxShadow = "none";
+	document.getElementById("alert1").style.display = "none";
+	document.getElementById("alert2").style.display = "none";
+	document.getElementById("alert3").style.display = "none";
+	document.getElementById("alert4").style.display = "none";
+	document.getElementById("alert5").style.display = "none";
+	document.getElementById("alert6").style.display = "none";
+	document.getElementById("alert7").style.display = "none";
+	document.getElementById("alert8").style.display = "none";
+	document.getElementById("alert9").style.display = "none";
+	document.getElementById("alert10").style.display = "none";
+	document.getElementById("alert11").style.display = "none";
+	document.getElementById("alert12").style.display = "none";
+	document.getElementById("alert13").style.display = "none";
+	if(form.dealership.value == ""){
+		document.getElementById("alert13").style.display = "block";
+		y[1].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.dealership.focus();
+		error = true;
+	}
+	if(form.fuelType.value == ""){
+		document.getElementById("alert12").style.display = "block";
+		y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.fuelType.focus();
+		error = true;
+	}
+	if(form.price.value == 0.0 || form.price.value == "" ||form.price.value == 0){
+		document.getElementById("alert10").style.display = "block";
+		document.getElementById("price").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.price.focus();
+		error = true;
+	}
+	else if(!priceFormat.test(form.price.value) || form.price.value.indexOf(".") != -1 && form.price.value.length - (form.price.value.indexOf(".") + 1) > 2){
+		document.getElementById("alert11").style.display = "block";
+		document.getElementById("price").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.price.focus();
+		error = true;
+	}
+	if(form.mpg.value == 0 || form.mpg.value == ""){
+		document.getElementById("alert8").style.display = "block";
+		document.getElementById("mpg").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.mpg.focus();
+		error = true;
+	}
+	else if(!numberFormat.test(form.mpg.value)){
+		document.getElementById("alert9").style.display = "block";
+		document.getElementById("mpg").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.mpg.focus();
+		error = true;
+	}
+	if(form.capacity.value == 0 || form.capacity.value == ""){
+		document.getElementById("alert6").style.display = "block";
+		document.getElementById("capacity").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.capacity.focus();
+		error = true;
+	}
+	else if(!numberFormat.test(form.capacity.value)){
+		document.getElementById("alert7").style.display = "block";
+		document.getElementById("capacity").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.capacity.focus();
+		error = true;
+	}
+	if(form.color.value == ""){
+		document.getElementById("alert5").style.display = "block";
+		document.getElementById("color").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.color.focus();
+		error = true;
+	}
+	if(form.year.value == 0 || form.year.value == ""){
+		document.getElementById("alert3").style.display = "block";
+		document.getElementById("year").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.year.focus();
+		error = true;
+	}
+	else if(!numberFormat.test(form.year.value) || form.year.value.length != 4){
+		document.getElementById("alert4").style.display = "block";
+		document.getElementById("year").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.year.focus();
+		error = true;
+	}
+	if(form.model.value == ""){
+		document.getElementById("alert2").style.display = "block";
+		document.getElementById("model").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.model.focus();
+		error = true;
+	}
+	if(form.make.value == ""){
+		document.getElementById("alert1").style.display = "block";
+		document.getElementById("make").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.make.focus();
+		error = true;
+	}
+	if(error == true) return false;
+	else return true;
+}
+
+
+</script>
+		<form th:object="${newCar}" th:action="@{/inputCar/{id}(id=${id})}" method='POST' onsubmit="return checkForm(this);">
+				<input name="id" id="id" type="hidden" th:field="*{id}">
 			<div class="form-floating">
-				<input name="make" id="make" class="form-control" size="20" th:field="*{make}" required>
+				<input name="make" id="make" class="form-control" size="20" th:field="*{make}">
 				<label for="make">Make</label>
 			</div>
+			<p id="alert1" class="alert alert-danger" style="display: none">Make Field Must Not Be Empty!</p>
 			<div class="form-floating">
-				<input name="model" id="model" class="form-control" size="20" th:field="*{model}" required> 
+				<input name="model" id="model" class="form-control" size="20" th:field="*{model}"> 
 				<label for="model">Model</label>
 			</div>
+			<p id="alert2" class="alert alert-danger" style="display: none">Model Field Must Not Be Empty!</p>
 			<div class="form-floating">
-				<input name="year" id="year" size="20" class="form-control" th:field="*{year}" required>
+				<input name="year" id="year" size="20" class="form-control" th:field="*{year}">
 				<label for="year">Year</label>
 			</div>
+			<p id="alert3" class="alert alert-danger" style="display: none">Year Field Must Not Be Empty!</p>
+			<p id="alert4" class="alert alert-danger" style="display: none">Please Enter A Valid Year!</p>
 			<div class="form-floating">
-				<input name="color" id="color" size="20" class="form-control" th:field="*{color}" required> 
+				<input name="color" id="color" size="20" class="form-control" th:field="*{color}"> 
 				<label for="color">Color</label>
 			</div>
+			<p id="alert5" class="alert alert-danger" style="display: none">Color Field Must Not Be Empty!</p>
 			<div class="form-floating">
-				<input name="capacity" id="capacity" size="20" class="form-control" th:field="*{capacity}" required> 
+				<input name="capacity" id="capacity" size="20" class="form-control" th:field="*{capacity}"> 
 					<label for="capacity">Capacity</label>
 			</div>
+			
+			<p id="alert6" class="alert alert-danger" style="display: none">Capacity Field Must Not Be Empty!</p>
+			<p id="alert7" class="alert alert-danger" style="display: none">Please Enter A Valid Capacity!</p>
 			<div class="form-floating">
-				<input name="mpg" id="mpg" size="20" class="form-control" th:field="*{mpg}" required>
+				<input name="mpg" id="mpg" size="20" class="form-control" th:field="*{mpg}">
 				<label for="mpg">MPG / Range</label>
 			</div>
+			<p id="alert8" class="alert alert-danger" style="display: none">MPG / Range Field Must Not Be Empty!</p>
+			<p id="alert9" class="alert alert-danger" style="display: none">Please Enter A Valid MPG / Range!</p>
 			<div class="form-floating">
-				<input name="pricePerDay" id="pricePerDay" size="20" class="form-control" th:field="*{pricePerDay}" required>
+				<input name="pricePerDay" id="price" size="20" class="form-control" th:field="*{pricePerDay}">
 				<label for="pricePerDay">Price</label>
 			</div>
+			<p id="alert10" class="alert alert-danger" style="display: none">Price Field Must Not Be Empty!</p>
+			<p id="alert11" class="alert alert-danger" style="display: none">Please Enter A Valid Price!</p>
 			<div class="form-floating">
-				<select class="selectpicker form-control" id="fuelType" data-live-search="true" title="Select A Fuel Type" name="fuelType" th:field="*{fuelType}" required>
+				<select class="selectpicker form-control" id="fuelType" data-live-search="true" title="Select A Fuel Type" name="fuelType" th:field="*{fuelType}" data-style="customSelect">
 					<option value="Gas">Gas</option>
 					<option value="Diesel">Diesel</option>
 					<option value="Electric">Electric</option>
 				</select> <label for="fuelType">Fuel Type</label>
 			</div>
+			<p id="alert12" class="alert alert-danger" style="display: none; margin-top: 6px;">Fuel Type Field Must Not Be Empty!</p>
 			<div class="form-floating">
-				<select class="selectpicker form-control" data-live-search="true" title="Select A Dealership" name="dealership" id="dealership" th:field="*{dealership}" required>
+				<select class="selectpicker form-control" data-live-search="true" title="Select A Dealership" name="dealership" id="dealership" th:field="*{dealership}" data-style="customSelect">
 					<option th:each="currentDealership : ${dealerships}" th:data-subtext="${currentDealership.address.street} + ' ' + ${currentDealership.address.city} + ' ' + ${currentDealership.address.state} + ' ' + ${currentDealership.address.zip}" th:value="${currentDealership.id}" th:text="${currentDealership.name}"></option>
 				</select> 
 				<label for="dealership">Dealership</label>
 			</div>
+			<p id="alert13" class="alert alert-danger" style="display: none; margin-top: 6px;">Dealership Field Must Not Be Empty!</p>
 			<br /> 
 			<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Submit" />
 		</form>
