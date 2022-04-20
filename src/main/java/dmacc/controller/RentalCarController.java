@@ -107,6 +107,16 @@ public class RentalCarController
 			model.addAttribute("newCar", c);
 			return "car";
 		}else {
+			List<CarRental> rentals = rentalRepo.findByCar(c);
+			for(CarRental rental : rentals) {
+				List<CarRental> cr = new ArrayList<CarRental>();
+				cr.add(rental);
+				Planner p = plannerRepo.findAllByCarRentalsIn(cr);
+				List<CarRental> r = p.getCarRentals();
+				r.remove(rental);
+				plannerRepo.save(p);
+				rentalRepo.delete(rental);
+			}
 			carRepo.delete(c);
 			return viewCars(model, id);
 		}	
@@ -121,6 +131,16 @@ public class RentalCarController
 		}else {
 			List<Car> cars = carRepo.findByDealership(d);
 			for(Car car : cars) {
+				List<CarRental> rentals = rentalRepo.findByCar(car);
+				for(CarRental rental : rentals) {
+					List<CarRental> cr = new ArrayList<CarRental>();
+					cr.add(rental);
+					Planner p = plannerRepo.findAllByCarRentalsIn(cr);
+					List<CarRental> r = p.getCarRentals();
+					r.remove(rental);
+					plannerRepo.save(p);
+					rentalRepo.delete(rental);
+				}
 				carRepo.delete(car);
 			}
 			dealershipRepo.delete(d);
