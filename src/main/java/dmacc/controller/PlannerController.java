@@ -1,6 +1,9 @@
 package dmacc.controller;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,9 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dmacc.beans.Account;
+import dmacc.beans.Car;
+import dmacc.beans.CarRental;
 import dmacc.beans.Hotel;
 import dmacc.beans.Planner;
 import dmacc.repository.AccountRepository;
+import dmacc.repository.CarRentalRepository;
+import dmacc.repository.CarRepository;
 import dmacc.repository.HotelRepository;
 import dmacc.repository.PlannerRepository;
 
@@ -25,6 +32,10 @@ public class PlannerController {
 	AccountRepository aRepo;
 	@Autowired
 	HotelRepository hotelRepo; 
+	@Autowired
+	CarRepository carRepo; 
+	@Autowired
+	CarRentalRepository carRentalRepo; 
 	
 	@GetMapping("/adminHome/{id}")
 	public String viewAllPlans(Model model, @PathVariable("id") long id) {
@@ -61,7 +72,22 @@ public class PlannerController {
 			model.addAttribute("hotels", h);
 			return "planner";
 		}else {
-			repo.deleteById(plannerId);
+			Planner p = repo.getById(plannerId);
+			List<CarRental> rentals = p.getCarRentals();
+			for(CarRental r : rentals) {
+				LocalDate startDate = r.getRentalStartDate();
+				LocalDate endDate = r.getRentalEndDate();
+				List<LocalDate> listOfDates = startDate.datesUntil(endDate.plusDays(1)).collect(Collectors.toList());	
+				Car c = r.getCar();
+				ArrayList<LocalDate> dates = c.getDaysRented();
+				for(LocalDate date : listOfDates) {
+					dates.remove(date);
+				}
+				c.setDaysRented(dates);
+				carRepo.save(c);
+				carRentalRepo.delete(r);
+			}
+			repo.delete(p);
 			model.addAttribute("plans", repo.findByAccountId(id));
 			return "home";
 		}
