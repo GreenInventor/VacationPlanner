@@ -13,6 +13,11 @@
 <link th:href="@{/css/dashboard.css}" rel="stylesheet">
 <link rel="icon" th:href="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}">
 <style>
+@media (max-width: 768px) {
+.sidebar {
+  position: static;
+  }
+}
 		.form-floating{
 		padding-bottom: 5px;
 		}
@@ -22,6 +27,15 @@
     }
     .customSelect{
   background-color: #f8f9fa;
+}
+.sidebar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll; 
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
 }
 		</style>
 </head>
@@ -44,8 +58,8 @@
 
 <div class="container-fluid">
   <div class="row">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-      <div class="position-sticky pt-3">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+      <div class="position-sticky pt-3 overflow-auto">
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link" aria-current="page" th:href="@{/adminHome/{id}(id=${id})}">
@@ -98,6 +112,21 @@
             <a class="nav-link" th:href="@{/viewAllHotels/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               View Hotels
+            </a>
+          </li> 
+        </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"><span>Activities</span></h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/addActivity/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              Create Activity
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/viewAllActivities/{id}(id=${id})}">
+              <span data-feather="file-text"></span>
+              View Activities
             </a>
           </li> 
         </ul>
