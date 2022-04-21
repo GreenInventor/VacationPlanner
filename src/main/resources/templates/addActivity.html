@@ -5,11 +5,12 @@
 <title>Adding an activity</title>
 </head>
 <body>
-<form th:object="${newActivity}" th:action="@{/inputActivity}" method='POST'>
-Activity: <input name="activity" size="20"><br />
-Price: <input name="price" size="20"><br />
-<input name="submit" type="submit" value="submit" />
-</form>
+	<form th:object="${newActivity}" th:action="@{/inputActivity}"
+		method='POST'>
+		Activity: <input name="activity" size="20"><br /> Price: <input
+			name="price" size="20"><br /> <input name="submit"
+			type="submit" value="submit" />
+	</form>
 
 </body>
 </html>
