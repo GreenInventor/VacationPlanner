@@ -24,10 +24,10 @@
 	{
 		let re = /^[\w ]+$/;
 		
-		if(!re.test(form.hotelName.value))
+		if(!re.test(form.name.value))
 		{
 			alert("Hotel name contains invalid characters.");
-			form.hotelName.focus();
+			form.name.focus();
 			return false;
 		}
 		
@@ -154,7 +154,7 @@
 
 <form th:object="${newHotel}" th:action="@{/inputHotel/{id}(id=${id})}" method='POST' onsubmit="return checkForm(this);">
 <div class="form-floating">
-<input name="hotelName" id="hotelName" class="form-control" type="text" th:field="*{hotelName}" required>
+<input name="name" id="name" class="form-control" type="text" th:field="*{name}" required>
 <label for="hotelName">Hotel Name</label>
 </div>
 <div class="form-floating">
@@ -162,19 +162,19 @@
 <label for="roomNumber">Room Number</label>
 </div>
 <div class="form-floating">
-<input name="price" id="price" class="form-control" type="number" th:field="*{price}" required>
+<input name="price" id="price" class="form-control" type="number" th:field="*{pricePerDay}" required>
 <label for="price">Price</label>
 </div>
 <div class="form-floating">
-<input name="street" id="street" class="form-control" type="text" th:field="*{hotelAddress.street}" required>
+<input name="street" id="street" class="form-control" type="text" th:field="*{address.street}" required>
 <label for="street">Street</label>
 </div>
 <div class="form-floating">
-<input name="city" id="city" class="form-control" type="text" th:field="*{hotelAddress.city}" required>
+<input name="city" id="city" class="form-control" type="text" th:field="*{address.city}" required>
 <label for="city">City</label>
 </div>
 <div class="form-floating">
-<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state" th:field="*{hotelAddress.state}" required>
+<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state" th:field="*{address.state}" required>
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -230,7 +230,7 @@
 </div>
 <br>
 <div class="form-floating">
-<input name="zip" id="zip" class="form-control" type="number" th:field="*{hotelAddress.zip}" required><br/>
+<input name="zip" id="zip" class="form-control" type="number" th:field="*{address.zip}" required><br/>
 <label for="zip">Zip</label>
 </div>
 <input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Submit" />

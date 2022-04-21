@@ -22,8 +22,8 @@ public class Planner {
 	private long id;
 	private String name;
 	private String destination;
-	@ManyToOne
-	private Hotel hotel;
+	@OneToMany
+	private List<HotelRental> hotelRentals;
 	private String activities;
 	@ManyToOne
 	private Account account;

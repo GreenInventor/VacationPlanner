@@ -168,13 +168,13 @@
 			</tr>
 			<tr th:each="currentHotel : ${hotels}">
 			
- 			<td th:text = "${currentHotel.hotelName}">
+ 			<td th:text = "${currentHotel.name}">
 			<td th:text = "${currentHotel.roomNumber}"/>
-			<td th:text = "${#numbers.formatCurrency(currentHotel.price)}"/> 
-			<td th:text = "${currentHotel.hotelAddress.street}"/>
-			<td th:text = "${currentHotel.hotelAddress.city}"/>
-			<td th:text = "${currentHotel.hotelAddress.state}"/>
-			<td th:text = "${currentHotel.hotelAddress.zip}"/>
+			<td th:text = "${#numbers.formatCurrency(currentHotel.pricePerDay)}"/> 
+			<td th:text = "${currentHotel.address.street}"/>
+			<td th:text = "${currentHotel.address.city}"/>
+			<td th:text = "${currentHotel.address.state}"/>
+			<td th:text = "${currentHotel.address.zip}"/>
 			
 		</table>
 		</div>

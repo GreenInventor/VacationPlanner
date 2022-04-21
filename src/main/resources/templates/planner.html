@@ -25,6 +25,89 @@
 		</style>
 </head>
 <body>
+<script>
+		function validateCar(form){
+			let error = false
+			let y = document.getElementsByClassName('customSelect');
+			y[0].style.boxShadow = "none";
+			document.getElementById("alert").style.display = "none";
+			document.getElementById("alert1").style.display = "none";
+			document.getElementById("alert2").style.display = "none";
+			document.getElementById("alert3").style.display = "none";
+			document.getElementById("startDate").style.boxShadow = "none";
+			document.getElementById("endDate").style.boxShadow = "none";
+			let startDate = form.startDate.value
+			let endDate = form.endDate.value
+			if(endDate ==""){
+				document.getElementById("alert2").style.display = "block";
+				document.getElementById("endDate").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.endDate.focus();
+				error = true;
+			}
+			if(endDate < startDate && startDate != "" && endDate != ""){
+				document.getElementById("alert3").style.display = "block";
+				document.getElementById("endDate").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.endDate.focus();
+				error = true;
+			}
+			if(startDate == ""){
+				document.getElementById("alert1").style.display = "block";
+				document.getElementById("startDate").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.startDate.focus();
+				error = true;
+			}
+			if(form.state.value ==""){
+				document.getElementById("alert").style.display = "block";
+				document.getElementById("state").style.outline = "5px auto solid red";
+				y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.state.focus();
+				error = true;
+			}
+			if(error == true) return false
+			else return true;
+		}
+		function validateHotel(form){
+			let error = false
+			let y = document.getElementsByClassName('customSelect');
+			y[1].style.boxShadow = "none";
+			document.getElementById("alert4").style.display = "none";
+			document.getElementById("alert5").style.display = "none";
+			document.getElementById("alert6").style.display = "none";
+			document.getElementById("alert7").style.display = "none";
+			document.getElementById("startDate").style.boxShadow = "none";
+			document.getElementById("endDate2").style.boxShadow = "none";
+			let startDate = form.startDate.value
+			let endDate = form.endDate.value
+			if(endDate ==""){
+				document.getElementById("alert6").style.display = "block";
+				document.getElementById("endDate2").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.endDate.focus();
+				error = true;
+			}
+			if(endDate < startDate && startDate != "" && endDate != ""){
+				document.getElementById("alert7").style.display = "block";
+				document.getElementById("endDate2").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.endDate.focus();
+				error = true;
+			}
+			if(startDate == ""){
+				document.getElementById("alert5").style.display = "block";
+				document.getElementById("startDate2").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.startDate.focus();
+				error = true;
+			}
+			if(form.state.value ==""){
+				document.getElementById("alert4").style.display = "block";
+				document.getElementById("state2").style.outline = "5px auto solid red";
+				y[1].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.state.focus();
+				error = true;
+			}
+			if(error == true) return false
+			else return true;
+		}
+	</script>
+
 	<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"> <!-- Top of page -->
  		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img th:src="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
    		   		<div class="navbar-nav ms-auto">
@@ -67,52 +150,7 @@
 	<br>
 	
 	
-	<script>
-		function validateCar(form){
-			let error = false
-			let y = document.getElementsByClassName('customSelect');
-			y[0].style.boxShadow = "none";
-			document.getElementById("alert").style.display = "none";
-			document.getElementById("alert1").style.display = "none";
-			document.getElementById("alert2").style.display = "none";
-			document.getElementById("alert3").style.display = "none";
-			document.getElementById("startDate").style.boxShadow = "none";
-			document.getElementById("endDate").style.boxShadow = "none";
-			let startDate = form.startDate.value
-			let endDate = form.endDate.value
-			if(endDate ==""){
-				document.getElementById("alert2").style.display = "block";
-				document.getElementById("endDate").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
-				form.endDate.focus();
-				error = true;
-			}
-			if(endDate < startDate && startDate != "" && endDate != ""){
-				document.getElementById("alert3").style.display = "block";
-				document.getElementById("endDate").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
-				form.endDate.focus();
-				error = true;
-			}
-			if(startDate == ""){
-				document.getElementById("alert1").style.display = "block";
-				document.getElementById("startDate").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
-				form.startDate.focus();
-				error = true;
-			}
-			if(form.state.value ==""){
-				document.getElementById("alert").style.display = "block";
-				document.getElementById("state").style.outline = "5px auto solid red";
-				y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
-				form.state.focus();
-				error = true;
-			}
-			
-			if(error == true) return false
-			else return true;
-			
-			
-			
-		}
-	</script>
+	
 	
 	
 	<table class="table text-center table-bordered caption-top" style = "margin-bottom:0px;"> <!-- Rental Car Section -->
@@ -234,7 +272,7 @@
 	</table>
 	<form th:action="@{/addHotel/{id}(id=${id})}" method='POST'>
 		<div class="form-floating">
-			<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state" required>
+			<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state2" required>
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
@@ -290,16 +328,21 @@
 		<br>
 		<div class="row" style = "margin:1px;">
 			<div class="form-floating col">
-				<input type="date" name="startDate" id="startDate" size="20" class="form-control" required> 
+				<input type="date" name="startDate" id="startDate2" size="20" class="form-control" required> 
 				<label for="startDate">Start Date</label>
 			</div>
 			<div class="form-floating col">
-				<input type="date" name="endDate" id="endDate" size="20" class="form-control" required> 
+				<input type="date" name="endDate" id="endDate2" size="20" class="form-control" required> 
 				<label for="endDate">End Date</label>
 			</div>
+			<p id="alert5" class="alert alert-danger" style="display: none; margin-top: 6px;">Start Date Field Must Not Be Empty!</p>
+			<p id="alert6" class="alert alert-danger" style="display: none; margin-top: 6px;">End Date Field Must Not Be Empty!</p>
+			<p id="alert7" class="alert alert-danger" style="display: none; margin-top: 6px;">End Date Can Not Be Before Start Date!</p>
 		</div>
+		<p id="alert4" class="alert alert-danger" style="display: none; margin-top: 6px; margin-bottom: 0px;">State Field Must Not Be Empty!</p>
 		<br>
-		<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Add Hotel" />
+		<input name="id" id="id" type="hidden" th:field="*{id}" required>
+		<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="See Avalible Hotels" />
 	</form>
 	
 	<table class="table text-center table-bordered caption-top"> <!-- Destinations Section -->

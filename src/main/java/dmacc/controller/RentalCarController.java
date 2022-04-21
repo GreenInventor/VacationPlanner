@@ -92,7 +92,7 @@ public class RentalCarController
 	}
 	@PostMapping("/findDealershipByState/{id}")
 	public String findDealershipByState(Model model, @RequestParam(name="state") String state, @PathVariable("id") long id) {
-		List<Dealership> d = dealershipRepo.findByAddressState(state);
+		List<Dealership> d = dealershipRepo.findByAddressStateOrderByAddressCity(state);
 		model.addAttribute("dealerships", d);
 		model.addAttribute("id", id);
 		return "viewDealerships";

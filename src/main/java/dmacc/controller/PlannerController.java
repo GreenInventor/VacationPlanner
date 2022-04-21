@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import dmacc.beans.Account;
 import dmacc.beans.Car;
 import dmacc.beans.CarRental;
-import dmacc.beans.Hotel;
 import dmacc.beans.Planner;
 import dmacc.repository.AccountRepository;
 import dmacc.repository.CarRentalRepository;
@@ -67,9 +66,7 @@ public class PlannerController {
 	public String updatePlanner(@RequestParam("id") long plannerId, Model model, @PathVariable("id") long id, @RequestParam(name="action") String action) {
 		model.addAttribute("id", id);
 		if(action.equals("Edit")) {
-			List<Hotel> h = hotelRepo.findAll(); //TODO hotels aren't separated by account
 			model.addAttribute("plan", repo.getById(plannerId));
-			model.addAttribute("hotels", h);
 			return "planner";
 		}else {
 			Planner p = repo.getById(plannerId);

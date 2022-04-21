@@ -1,5 +1,8 @@
 package dmacc.beans;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,9 +19,9 @@ public class Hotel {
 	@Id
 	@GeneratedValue
 	private long id;
-	private String hotelName;
+	private String name;
 	private int roomNumber;
-	private boolean occupied;
-	private Address hotelAddress;
-	private double price;
+	private ArrayList<LocalDate> daysRented;
+	private Address address;
+	private double pricePerDay;
 }
