@@ -90,13 +90,13 @@
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"><span>Activities</span></h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/addActivity}">
+            <a class="nav-link" th:href="@{/addActivity/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               Create Activity
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/viewAllActivities}">
+            <a class="nav-link" th:href="@{/viewAllActivities/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               View Activities
             </a>

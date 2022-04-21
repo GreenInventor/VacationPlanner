@@ -18,4 +18,5 @@ public class Activity {
 	private long id;
 	private String activityName;
 	private double price;
+	private Address address;
 }
