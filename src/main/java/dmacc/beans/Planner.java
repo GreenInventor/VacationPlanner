@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,8 @@ public class Planner {
 	private String destination;
 	@OneToMany
 	private List<HotelRental> hotelRentals;
-	private String activities;
+	@ManyToMany
+	private List<Activity> activities;
 	@ManyToOne
 	private Account account;
 	@OneToMany

@@ -127,7 +127,10 @@
 <td th:text="${currentPlan.name}" />
 <td th:text="${currentPlan.account.firstName} + ' ' + ${currentPlan.account.lastName} " />
 <td th:text="${currentPlan.destination}" />
-<td th:text="${currentPlan.activities}" />
+<td><form th:action="@{/viewPlansActivities/{id}(id=${id})}" method='POST'>
+<input type ="hidden" name ="id" th:value="${currentPlan.id}">
+<input class="btn btn-primary btn-sm w-100" type = "submit" value= "View Activities" name= "action">
+</form></td>
 <td><form th:action="@{/viewPlansHotels/{id}(id=${id})}" method='POST'>
 <input type ="hidden" name ="id" th:value="${currentPlan.id}">
 <input class="btn btn-primary btn-sm w-100" type = "submit" value= "View Hotels" name= "action">
