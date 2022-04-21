@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -22,7 +23,7 @@ public class ActivityController {
 		return "addActivity";
 	}
 	
-<<<<<<< HEAD
+
 	@GetMapping("/editActivity/{id}")
 	public String editActivity(@PathVariable("id") long id, Model model) {
 		Activity a = ar.findById(id).orElse(null);
@@ -32,15 +33,16 @@ public class ActivityController {
 	
 	@PostMapping("/updateActivity/{id}")
 	public String updateActivity(Activity a, Model model) {
-=======
+	
+	return null;
+	}
+
 	@PostMapping("/inputActivity")
-	public String addNewActivity(@ModelAttribute Activities a, Model model) {
->>>>>>> 3553dc0 (added create and view all activities and updated admin page with links)
+	public String addNewActivity(@ModelAttribute Activity a, Model model) {
 		ar.save(a);
 		return viewAllActivities(model);
 	}
 	
-<<<<<<< HEAD
 	@GetMapping("/deleteActivity/{id}")
 	public String deleteActivity(@PathVariable("id") long id, Model model) {
 		Activity a = ar.findById(id).orElse(null);
@@ -48,24 +50,12 @@ public class ActivityController {
 		return viewAllActivities(model);
 	}
 	
-	@GetMapping({"/viewAllActivities" })
-	public String viewAllActivities(Model model) {
-		if(ar.findAll().isEmpty()) {
-			return addActivity(model);
-			}
-		model.addAttribute("allActivities",ar.findAll());
-		return "results";
-	}
-=======
 	@GetMapping("/viewAllActivities")
 	public String viewAllActivities(Model model) {
 		if(ar.findAll().isEmpty()) {
-			return addNewActivity(model);
+			return addActivity(model);
 		}
 		model.addAttribute("activities", ar.findAll());
 		return "viewAllActivities";
 	}
-	
-	
->>>>>>> 3553dc0 (added create and view all activities and updated admin page with links)
 }
