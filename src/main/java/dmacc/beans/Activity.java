@@ -16,6 +16,6 @@ public class Activity {
 	@Id
 	@GeneratedValue
 	private long id;
-	private String activity;
+	private String activityName;
 	private double price;
 }

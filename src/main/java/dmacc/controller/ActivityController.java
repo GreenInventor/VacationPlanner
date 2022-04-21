@@ -24,29 +24,10 @@ public class ActivityController {
 	}
 	
 
-	@GetMapping("/editActivity/{id}")
-	public String editActivity(@PathVariable("id") long id, Model model) {
-		Activity a = ar.findById(id).orElse(null);
-		model.addAttribute("newActivity", a);
-		return "input";
-	}
-	
-	@PostMapping("/updateActivity/{id}")
-	public String updateActivity(Activity a, Model model) {
-	
-	return null;
-	}
-
-	@PostMapping("/inputActivity")
-	public String addNewActivity(@ModelAttribute Activity a, Model model) {
+	@PostMapping("/addActivity")
+	public String addActivity(@ModelAttribute Activity a, Model model) {
+		System.out.println("reached it");
 		ar.save(a);
-		return viewAllActivities(model);
-	}
-	
-	@GetMapping("/deleteActivity/{id}")
-	public String deleteActivity(@PathVariable("id") long id, Model model) {
-		Activity a = ar.findById(id).orElse(null);
-		ar.delete(a);
 		return viewAllActivities(model);
 	}
 	
