@@ -9,8 +9,7 @@ import dmacc.beans.CarRental;
 import dmacc.beans.Planner;
 
 @Repository
-public interface PlannerRepository extends JpaRepository<Planner, Long>{
+public interface PlannerRepository extends JpaRepository<Planner, Long> {
 	public List<Planner> findByAccountId(long id);
-
 	public Planner findAllByCarRentalsIn(List<CarRental> rentals);
 }

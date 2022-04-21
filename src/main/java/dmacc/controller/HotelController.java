@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import dmacc.beans.Hotel;
 import dmacc.beans.HotelRental;
 import dmacc.beans.Planner;
@@ -45,7 +44,7 @@ public class HotelController {
 		repo.save(h);
 		return viewAllHotels(model, id);
 	}
-	
+
 	@GetMapping("/viewAllHotels/{id}")
 	public String viewAllHotels(Model model, @PathVariable("id") long id) {
 		if (repo.findAll().isEmpty()) {
@@ -55,50 +54,54 @@ public class HotelController {
 		model.addAttribute("id", id);
 		return "viewAllHotels";
 	}
+
 	@PostMapping("/findHotelByState/{id}")
-	public String findHotelByState(Model model, @RequestParam(name="state") String state, @PathVariable("id") long id) {
+	public String findHotelByState(Model model, @RequestParam(name = "state") String state,
+			@PathVariable("id") long id) {
 		List<Hotel> h = repo.findByAddressStateOrderByAddressCity(state);
 		model.addAttribute("hotels", h);
 		model.addAttribute("id", id);
 		return "viewAllHotels";
 	}
-	
-	
+
 	@PostMapping("/addHotel/{id}")
-	public String addHotel(Model model, @PathVariable("id") long id, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="state") String state, @RequestParam(name="id") String planId) {
-		
+	public String addHotel(Model model, @PathVariable("id") long id, @RequestParam(name = "startDate") String startDate,
+			@RequestParam(name = "endDate") String endDate, @RequestParam(name = "state") String state,
+			@RequestParam(name = "id") String planId) {
+
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
-		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1)).collect(Collectors.toList());
-		
-		for(LocalDate date: listOfDates) {
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1))
+				.collect(Collectors.toList());
+
+		for (LocalDate date : listOfDates) {
 			System.out.println(date);
 		}
-		
+
 		List<Hotel> hotels = repo.findByAddressStateOrderByAddressCity(state);
 		List<Hotel> avalibleHotels = new ArrayList<Hotel>();
 		List<String> cities = new ArrayList<String>();
-		for(Hotel hotel : hotels) {
+		for (Hotel hotel : hotels) {
 			String city = hotel.getAddress().getCity();
 			try {
-			if(!hotel.getDaysRented().stream().anyMatch(listOfDates::contains)) {
+				if (!hotel.getDaysRented().stream().anyMatch(listOfDates::contains)) {
+					avalibleHotels.add(hotel);
+					if (!cities.contains(city)) {
+						cities.add(city);
+					}
+				}
+			} catch (Exception e) {
 				avalibleHotels.add(hotel);
-				if(!cities.contains(city)) {
+				if (!cities.contains(city)) {
 					cities.add(city);
 				}
 			}
-			}catch(Exception e) {
-				avalibleHotels.add(hotel);
-				if(!cities.contains(city)) {
-					cities.add(city);
-				}
-			}
-			}
-		for(Hotel hotel : avalibleHotels) {
+		}
+		for (Hotel hotel : avalibleHotels) {
 			System.out.println(hotel.toString());
 		}
-		
+
 		model.addAttribute("planId", planId);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
@@ -108,22 +111,25 @@ public class HotelController {
 		model.addAttribute("state", state);
 		return "rentHotel";
 	}
-	
-	
+
 	@PostMapping("/rentHotel/{id}")
-	public String rentHotel(Model model, @PathVariable("id") long id, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="id") String hotelId, @RequestParam(name="planId") String planId) {
-		
+	public String rentHotel(Model model, @PathVariable("id") long id,
+			@RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate,
+			@RequestParam(name = "id") String hotelId, @RequestParam(name = "planId") String planId) {
+
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
-		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1)).collect(Collectors.toList());
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1))
+				.collect(Collectors.toList());
 		HotelRental rental = new HotelRental();
 		Hotel hotel = repo.getById(Long.parseLong(hotelId));
 		ArrayList<LocalDate> rentalDates = new ArrayList<LocalDate>();
 		try {
 			rentalDates.addAll(hotel.getDaysRented());
-		}catch(Exception e) {}
-			
+		} catch (Exception e) {
+		}
+
 		rentalDates.addAll(listOfDates);
 		hotel.setDaysRented(rentalDates);
 		repo.save(hotel);
@@ -141,56 +147,59 @@ public class HotelController {
 		model.addAttribute("plan", plan);
 		return "planner";
 	}
-	
+
 	@PostMapping("/findHotelByCity/{id}")
-	public String findHotelByCity(Model model, @PathVariable("id") long id, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="city") String city, @RequestParam(name="planId") String planId, @RequestParam(name="state") String state) {
+	public String findHotelByCity(Model model, @PathVariable("id") long id,
+			@RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate,
+			@RequestParam(name = "city") String city, @RequestParam(name = "planId") String planId,
+			@RequestParam(name = "state") String state) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
-		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate).collect(Collectors.toList());	
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate).collect(Collectors.toList());
 		List<Hotel> avalibleHotels = new ArrayList<Hotel>();
 		List<String> cities = new ArrayList<String>();
-		if(!city.equals("All Cities")) {
-			List<Hotel> h = repo.findByAddressCityOrderByName(city);	
-			for(Hotel hotel : h) {
+		if (!city.equals("All Cities")) {
+			List<Hotel> h = repo.findByAddressCityOrderByName(city);
+			for (Hotel hotel : h) {
 				try {
-				if(hotel.getDaysRented().stream().anyMatch(listOfDates::contains)) {
+					if (hotel.getDaysRented().stream().anyMatch(listOfDates::contains)) {
+						avalibleHotels.add(hotel);
+					}
+				} catch (Exception e) {
 					avalibleHotels.add(hotel);
 				}
-				}catch(Exception e) {
-					avalibleHotels.add(hotel);
-				}
-				}
-		}else {
-			return addHotel(model,id,startDate,endDate,state,planId);
+			}
+		} else {
+			return addHotel(model, id, startDate, endDate, state, planId);
 		}
 		List<Hotel> stateHotels = repo.findByAddressStateOrderByAddressCity(state);
-		for(Hotel hotel : stateHotels) {
+		for (Hotel hotel : stateHotels) {
 			String testCity = hotel.getAddress().getCity();
-			if(!cities.contains(testCity)) {
+			if (!cities.contains(testCity)) {
 				cities.add(testCity);
 			}
 		}
-			model.addAttribute("planId", planId);
-			model.addAttribute("startDate", startDate);
-			model.addAttribute("endDate", endDate);
-			model.addAttribute("hotels", avalibleHotels);
-			model.addAttribute("id", id);
-			model.addAttribute("cities", cities);
-			model.addAttribute("state", state);
+		model.addAttribute("planId", planId);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("hotels", avalibleHotels);
+		model.addAttribute("id", id);
+		model.addAttribute("cities", cities);
+		model.addAttribute("state", state);
 		return "rentHotel";
 	}
-	
-	
-	@PostMapping("/cancelHotelRental/{id}") 
-	public String cancelHotelRental(Model model, @RequestParam(name="rentalId") String rentalId, @RequestParam(name="planId") String planId,@PathVariable("id") long id) {
+
+	@PostMapping("/cancelHotelRental/{id}")
+	public String cancelHotelRental(Model model, @RequestParam(name = "rentalId") String rentalId,
+			@RequestParam(name = "planId") String planId, @PathVariable("id") long id) {
 		HotelRental rental = rentalRepo.getById(Long.parseLong(rentalId));
 		LocalDate startDate = rental.getRentalStartDate();
 		LocalDate endDate = rental.getRentalEndDate();
-		List<LocalDate> listOfDates = startDate.datesUntil(endDate.plusDays(1)).collect(Collectors.toList());	
+		List<LocalDate> listOfDates = startDate.datesUntil(endDate.plusDays(1)).collect(Collectors.toList());
 		Hotel h = rental.getHotel();
 		ArrayList<LocalDate> dates = h.getDaysRented();
-		for(LocalDate date : listOfDates) {
+		for (LocalDate date : listOfDates) {
 			dates.remove(date);
 		}
 		h.setDaysRented(dates);
@@ -205,5 +214,5 @@ public class HotelController {
 		model.addAttribute("plan", plan);
 		return "planner";
 	}
-	
+
 }

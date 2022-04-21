@@ -8,10 +8,8 @@ import org.springframework.stereotype.Repository;
 import dmacc.beans.Hotel;
 
 @Repository
-public interface HotelRepository extends JpaRepository<Hotel, Long>{
-
+public interface HotelRepository extends JpaRepository<Hotel, Long> {
 	public List<Hotel> findByAddressStateOrderByAddressCity(String state);
-
 	public List<Hotel> findByAddressCityOrderByName(String city);
 
 }

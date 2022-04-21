@@ -10,4 +10,4 @@ import dmacc.beans.Dealership;
 @Repository
 public interface DealershipRepository extends JpaRepository<Dealership, Long> {
 	public List<Dealership> findByAddressStateOrderByAddressCity(String state);
-	}
+}

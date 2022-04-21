@@ -24,8 +24,7 @@ import dmacc.repository.DealershipRepository;
 import dmacc.repository.PlannerRepository;
 
 @Controller
-public class RentalCarController 
-{
+public class RentalCarController {
 	@Autowired
 	CarRepository carRepo;
 	@Autowired
@@ -50,6 +49,7 @@ public class RentalCarController
 		carRepo.save(c);
 		return viewCars(model, id);
 	}
+	
 	@GetMapping("/inputDealership/{id}")
 	public String addNewDealership(Model model, @PathVariable("id") long id) {
 		Dealership d = new Dealership();
@@ -63,6 +63,7 @@ public class RentalCarController
 		dealershipRepo.save(d);
 		return viewDealerships(model, id);
 	}
+	
 	@GetMapping("/viewCars/{id}")
 	public String viewCars(Model model, @PathVariable("id") long id) {
 		List<Car> c = carRepo.findAll();
@@ -73,6 +74,7 @@ public class RentalCarController
 		model.addAttribute("id", id);
 		return "viewCar";
 	}
+	
 	@GetMapping("/viewDealerships/{id}")
 	public String viewDealerships(Model model, @PathVariable("id") long id) {
 		List<Dealership> d = dealershipRepo.findAll();
@@ -83,6 +85,7 @@ public class RentalCarController
 		model.addAttribute("id", id);
 		return "viewDealerships";
 	}
+	
 	@PostMapping("/findCarByState/{id}")
 	public String findCarByState(Model model, @RequestParam(name="state") String state, @PathVariable("id") long id) {
 			List<Car> c = carRepo.findByDealershipAddressStateOrderByDealershipAddressCity(state);	
@@ -90,6 +93,7 @@ public class RentalCarController
 		model.addAttribute("id", id);
 		return "viewCar";
 	}
+	
 	@PostMapping("/findDealershipByState/{id}")
 	public String findDealershipByState(Model model, @RequestParam(name="state") String state, @PathVariable("id") long id) {
 		List<Dealership> d = dealershipRepo.findByAddressStateOrderByAddressCity(state);
@@ -97,6 +101,7 @@ public class RentalCarController
 		model.addAttribute("id", id);
 		return "viewDealerships";
 	}
+	
 	@PostMapping("/editCar/{id}") 
 	public String editCar(Model model, @RequestParam(name="id") String carId, @RequestParam(name="action") String action, @PathVariable("id") long id) {
 		Car c = carRepo.getById(Long.parseLong(carId));
@@ -121,6 +126,7 @@ public class RentalCarController
 			return viewCars(model, id);
 		}	
 	}
+	
 	@PostMapping("/editDealership/{id}") 
 	public String editDealership(Model model, @RequestParam(name="id") String dealershipId, @RequestParam(name="action") String action, @PathVariable("id") long id) {
 		Dealership d = dealershipRepo.getById(Long.parseLong(dealershipId));
@@ -147,6 +153,7 @@ public class RentalCarController
 			return viewDealerships(model, id);
 		}
 	}
+	
 	@PostMapping("/addCar/{id}")
 	public String addCar(Model model, @PathVariable("id") long id, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="state") String state, @RequestParam(name="id") String planId) {
 		
@@ -187,6 +194,7 @@ public class RentalCarController
 		model.addAttribute("state", state);
 		return "rentCar";
 	}
+	
 	@PostMapping("/rentCar/{id}")
 	public String rentCar(Model model, @PathVariable("id") long id, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="id") String carId, @RequestParam(name="planId") String planId) {
 		
@@ -218,6 +226,7 @@ public class RentalCarController
 		model.addAttribute("plan", plan);
 		return "planner";
 	}
+	
 	@PostMapping("/findCarByCity/{id}")
 	public String findCarByCity(Model model, @PathVariable("id") long id, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="city") String city, @RequestParam(name="planId") String planId, @RequestParam(name="state") String state) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -256,6 +265,7 @@ public class RentalCarController
 			model.addAttribute("state", state);
 		return "rentCar";
 	}
+	
 	@PostMapping("/cancelRentalCar/{id}") 
 	public String cancelRentalCar(Model model, @RequestParam(name="rentalId") String rentalId, @RequestParam(name="planId") String planId,@PathVariable("id") long id) {
 		CarRental rental = rentalRepo.getById(Long.parseLong(rentalId));
