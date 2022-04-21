@@ -22,6 +22,7 @@
 <script>
 	function checkForm(form)
 	{
+		return true;
 		let re = /^[\w ]+$/;
 		
 		if(!re.test(form.name.value))
@@ -163,7 +164,7 @@
 </div>
 <div class="form-floating">
 <input name="phoneNumber" id="phoneNumber" class="form-control" type="text" th:field="*{phoneNumber}" required>
-<label for="phoneNumber">Room Number</label>
+<label for="phoneNumber">Phone Number</label>
 </div>
 <div class="form-floating">
 <input name="price" id="price" class="form-control" type="number" th:field="*{pricePerDay}" required>

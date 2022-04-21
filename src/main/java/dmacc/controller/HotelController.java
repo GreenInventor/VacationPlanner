@@ -95,10 +95,14 @@ public class HotelController {
 				}
 			}
 			}
+		for(Hotel hotel : avalibleHotels) {
+			System.out.println(hotel.toString());
+		}
+		
 		model.addAttribute("planId", planId);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
-		model.addAttribute("cars", avalibleHotels);
+		model.addAttribute("hotels", avalibleHotels);
 		model.addAttribute("id", id);
 		model.addAttribute("cities", cities);
 		model.addAttribute("state", state);
@@ -170,7 +174,7 @@ public class HotelController {
 			model.addAttribute("planId", planId);
 			model.addAttribute("startDate", startDate);
 			model.addAttribute("endDate", endDate);
-			model.addAttribute("cars", avalibleHotels);
+			model.addAttribute("hotels", avalibleHotels);
 			model.addAttribute("id", id);
 			model.addAttribute("cities", cities);
 			model.addAttribute("state", state);

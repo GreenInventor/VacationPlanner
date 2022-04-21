@@ -158,7 +158,7 @@
 			<th>Rental Car</th>
 			<th>Dealership</th>
 			<th>Phone Number</th>
-			<th>Dealership Address</th>
+			<th>Address</th>
 			<th>Rental Start Date</th>
 			<th>Rental End Date</th>
 			<th>Total</th>
@@ -258,21 +258,33 @@
 	
 	<table class="table text-center table-bordered caption-top" style = "margin-bottom:0px;"> <!-- Hotels Section -->
 		<tr>
-			<th colspan ="3">Hotels</th>
+			<th>Hotel</th>
+			<th>Room Number</th>
+			<th>Phone Number</th>
+			<th>Address</th>
+			<th>Rental Start Date</th>
+			<th>Rental End Date</th>
+			<th>Price</th>
+			<th>Cancel Rental</th>
 		</tr>
-		<tr th:each="currentHotel : ${hotels}"> <!-- List of Hotels -->
-			<td><p th:text="${currentHotel.hotelName}"/></td> <!-- TODO format this better. Ex: Marriot, Room 120 (123 Maple St., Des Moines, Iowa) instead of only showing the name-->
-			<td><form th:action="@{/editHotel/{id}(id=${id})}" method='POST'> <!-- Edit Hotel -->
-				<input style ="width: 100%;" class="btn btn-warning btn-sm" type = "submit" value= "Edit" name= "action">
-			</form></td>
-			<td><form th:action="@{/deleteHotel/{id}(id=${id})}" method='POST'> <!-- Delete Hotel -->
-				<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
+		<tr th:each="currentHotel : ${plan.hotelRentals}"> <!-- List of Hotels -->
+			<td th:text="${currentHotel.hotel.name}"/>
+			<td th:text="${currentHotel.hotel.roomNumber}"/>
+			<td th:text="${currentHotel.hotel.phoneNumber}"/>
+			<td th:text="${currentHotel.hotel.address.street} + ' ' + ${currentHotel.hotel.address.city} + ' ' + ${currentHotel.hotel.address.state} + ' ' + ${currentHotel.hotel.address.zip}"/>
+			<td th:text="${#temporals.format(currentHotel.rentalStartDate, 'MM/dd/yyyy')}"/>
+			<td th:text="${#temporals.format(currentHotel.rentalEndDate, 'MM/dd/yyyy')}"/>
+			<td th:text="${#numbers.formatCurrency(currentHotel.rentalTotal)}"/>
+			<td><form th:action="@{/cancelHotelRental/{id}(id=${id})}" method='POST'> <!-- Delete Hotel -->
+					<input type="hidden" th:value="${currentHotel.id}" name="rentalId"/>
+					<input type="hidden" th:value="${plan.id}" name="planId"/>
+					<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
 			</form></td>
 		</tr>
 	</table>
-	<form th:action="@{/addHotel/{id}(id=${id})}" method='POST'>
+	<form th:object="${plan}" th:action="@{/addHotel/{id}(id=${id})}" method='POST' onsubmit="return validateHotel(this);">
 		<div class="form-floating">
-			<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state2" required>
+			<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state2" data-style="customSelect">
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>
@@ -325,21 +337,22 @@
 				<option value="WY">Wyoming</option>
 			</select>
 		</div>
+		<p id="alert4" class="alert alert-danger" style="display: none; margin-top: 6px; margin-bottom: 0px;">State Field Must Not Be Empty!</p>
 		<br>
 		<div class="row" style = "margin:1px;">
 			<div class="form-floating col">
-				<input type="date" name="startDate" id="startDate2" size="20" class="form-control" required> 
+				<input type="date" name="startDate" id="startDate2" size="20" class="form-control"> 
 				<label for="startDate">Start Date</label>
 			</div>
 			<div class="form-floating col">
-				<input type="date" name="endDate" id="endDate2" size="20" class="form-control" required> 
+				<input type="date" name="endDate" id="endDate2" size="20" class="form-control"> 
 				<label for="endDate">End Date</label>
 			</div>
 			<p id="alert5" class="alert alert-danger" style="display: none; margin-top: 6px;">Start Date Field Must Not Be Empty!</p>
 			<p id="alert6" class="alert alert-danger" style="display: none; margin-top: 6px;">End Date Field Must Not Be Empty!</p>
 			<p id="alert7" class="alert alert-danger" style="display: none; margin-top: 6px;">End Date Can Not Be Before Start Date!</p>
 		</div>
-		<p id="alert4" class="alert alert-danger" style="display: none; margin-top: 6px; margin-bottom: 0px;">State Field Must Not Be Empty!</p>
+		
 		<br>
 		<input name="id" id="id" type="hidden" th:field="*{id}" required>
 		<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="See Avalible Hotels" />
