@@ -19,9 +19,10 @@ public class ActivityController {
 	public String addActivity(Model model) {
 		Activity a = new Activity();
 		model.addAttribute("newActivity", a);
-		return "input";
+		return "addActivity";
 	}
 	
+<<<<<<< HEAD
 	@GetMapping("/editActivity/{id}")
 	public String editActivity(@PathVariable("id") long id, Model model) {
 		Activity a = ar.findById(id).orElse(null);
@@ -31,10 +32,15 @@ public class ActivityController {
 	
 	@PostMapping("/updateActivity/{id}")
 	public String updateActivity(Activity a, Model model) {
+=======
+	@PostMapping("/inputActivity")
+	public String addNewActivity(@ModelAttribute Activities a, Model model) {
+>>>>>>> 3553dc0 (added create and view all activities and updated admin page with links)
 		ar.save(a);
 		return viewAllActivities(model);
 	}
 	
+<<<<<<< HEAD
 	@GetMapping("/deleteActivity/{id}")
 	public String deleteActivity(@PathVariable("id") long id, Model model) {
 		Activity a = ar.findById(id).orElse(null);
@@ -50,4 +56,16 @@ public class ActivityController {
 		model.addAttribute("allActivities",ar.findAll());
 		return "results";
 	}
+=======
+	@GetMapping("/viewAllActivities")
+	public String viewAllActivities(Model model) {
+		if(ar.findAll().isEmpty()) {
+			return addNewActivity(model);
+		}
+		model.addAttribute("activities", ar.findAll());
+		return "viewAllActivities";
+	}
+	
+	
+>>>>>>> 3553dc0 (added create and view all activities and updated admin page with links)
 }
