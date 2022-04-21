@@ -155,11 +155,15 @@
 <form th:object="${newHotel}" th:action="@{/inputHotel/{id}(id=${id})}" method='POST' onsubmit="return checkForm(this);">
 <div class="form-floating">
 <input name="name" id="name" class="form-control" type="text" th:field="*{name}" required>
-<label for="hotelName">Hotel Name</label>
+<label for="name">Hotel Name</label>
 </div>
 <div class="form-floating">
 <input name="roomNumber" id="roomNumber" class="form-control" type="number" th:field="*{roomNumber}" required>
 <label for="roomNumber">Room Number</label>
+</div>
+<div class="form-floating">
+<input name="phoneNumber" id="phoneNumber" class="form-control" type="text" th:field="*{phoneNumber}" required>
+<label for="phoneNumber">Room Number</label>
 </div>
 <div class="form-floating">
 <input name="price" id="price" class="form-control" type="number" th:field="*{pricePerDay}" required>

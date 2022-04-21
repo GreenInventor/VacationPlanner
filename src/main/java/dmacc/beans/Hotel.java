@@ -21,6 +21,7 @@ public class Hotel {
 	private long id;
 	private String name;
 	private int roomNumber;
+	private String phoneNumber;
 	private ArrayList<LocalDate> daysRented;
 	private Address address;
 	private double pricePerDay;

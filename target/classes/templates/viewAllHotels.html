@@ -159,6 +159,7 @@
 			
 				<th>Hotel Name</th>
 				<th>Room Number</th>
+				<th>Phone Number</th>
 				<th>Price</th>
 				<th>Street Address</th>
 				<th>City </th>
@@ -170,6 +171,7 @@
 			
  			<td th:text = "${currentHotel.name}">
 			<td th:text = "${currentHotel.roomNumber}"/>
+			<td th:text = "${currentHotel.phoneNumber}"/>
 			<td th:text = "${#numbers.formatCurrency(currentHotel.pricePerDay)}"/> 
 			<td th:text = "${currentHotel.address.street}"/>
 			<td th:text = "${currentHotel.address.city}"/>
