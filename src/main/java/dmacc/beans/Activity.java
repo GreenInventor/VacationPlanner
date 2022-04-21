@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Activities {
+public class Activity {
 	@Id
 	@GeneratedValue
 	private long id;
