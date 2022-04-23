@@ -1,6 +1,7 @@
 package dmacc.beans;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,4 +25,6 @@ public class Event {
 	private Address address;
 	private String phoneNumber;
 	private LocalDate date;
+	private LocalTime startTime;
+	private LocalTime endTime;
 }
