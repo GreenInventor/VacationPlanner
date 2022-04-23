@@ -27,6 +27,8 @@ public class Planner {
 	private List<HotelRental> hotelRentals;
 	@ManyToMany
 	private List<Activity> activities;
+	@ManyToMany
+	private List<EventTicket> events;
 	@ManyToOne
 	private Account account;
 	@OneToMany
