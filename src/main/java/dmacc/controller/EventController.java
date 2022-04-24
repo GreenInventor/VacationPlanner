@@ -1,9 +1,14 @@
 package dmacc.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +40,19 @@ public class EventController {
 		Event e = new Event();
 		model.addAttribute("newEvent", e);
 		model.addAttribute("id", id);
-		return "addEvent";
+		return "event";
 	}
 	
 
 	@PostMapping("/addEvent/{id}")
 	public String addEvent(Event e, Model model, @PathVariable("id") long id) {
+		e.setStartTime(LocalTime.parse(e.getStartTime() , DateTimeFormatter.ofPattern( "HH:mm" , Locale.US)).format( DateTimeFormatter.ofPattern("h:mm a")));
+		e.setEndTime(LocalTime.parse(e.getEndTime() , DateTimeFormatter.ofPattern( "HH:mm" , Locale.US)).format( DateTimeFormatter.ofPattern("h:mm a")));
+		SimpleDateFormat myFormat = new SimpleDateFormat("M/d/yyyy");
+		SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			e.setDate( myFormat.format(fromUser.parse(e.getDate())));
+		} catch (ParseException e1) {}
 		eventRepo.save(e);
 		return viewAllEvents(model, id);
 	}
@@ -60,7 +72,7 @@ public class EventController {
 		if(action.equals("Edit")) {
 			model.addAttribute("newEvent", e);
 			model.addAttribute("id", id);
-			return "addEvent";
+			return "event";
 		}else {
 			eventRepo.delete(e);
 			return viewAllEvents(model, id);

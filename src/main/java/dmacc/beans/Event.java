@@ -24,7 +24,7 @@ public class Event {
 	private int avalibleTickets;
 	private Address address;
 	private String phoneNumber;
-	private LocalDate date;
-	private LocalTime startTime;
-	private LocalTime endTime;
+	private String date;
+	private String startTime;
+	private String endTime;
 }
