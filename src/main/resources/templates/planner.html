@@ -250,7 +250,7 @@
 			<td th:text="${#numbers.formatCurrency(currentEvent.totalPrice)}"/>
 			<td th:text="${currentEvent.numberOfTickets}"/>
 			<td><form th:action="@{/removeEvent/{id}(id=${id})}" method='POST'>
-			<input type="hidden" th:value="${currentEvent.id}" name="activityId"/>
+			<input type="hidden" th:value="${currentEvent.id}" name="eventId"/>
 			<input type="hidden" th:value="${plan.id}" name="planId"/>
 				<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
 			</form></td>

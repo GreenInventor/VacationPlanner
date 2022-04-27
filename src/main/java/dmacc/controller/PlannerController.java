@@ -16,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import dmacc.beans.Account;
 import dmacc.beans.Car;
 import dmacc.beans.CarRental;
+import dmacc.beans.Event;
+import dmacc.beans.EventTicket;
 import dmacc.beans.Hotel;
 import dmacc.beans.HotelRental;
 import dmacc.beans.Planner;
 import dmacc.repository.AccountRepository;
 import dmacc.repository.CarRentalRepository;
 import dmacc.repository.CarRepository;
+import dmacc.repository.EventRepository;
+import dmacc.repository.EventTicketRepository;
 import dmacc.repository.HotelRentalRepository;
 import dmacc.repository.HotelRepository;
 import dmacc.repository.PlannerRepository;
@@ -40,6 +44,10 @@ public class PlannerController {
 	CarRentalRepository carRentalRepo; 
 	@Autowired
 	HotelRentalRepository hotelRentalRepo; 
+	@Autowired
+	EventTicketRepository etRepo;
+	@Autowired
+	EventRepository eventRepo;
 	
 	@GetMapping("/adminHome/{id}")
 	public String viewAllPlans(Model model, @PathVariable("id") long id) {
@@ -77,6 +85,7 @@ public class PlannerController {
 			Planner p = repo.getById(plannerId);
 			List<CarRental> rentals = p.getCarRentals();
 			List<HotelRental> hRentals = p.getHotelRentals();
+			List<EventTicket> eventTickets = p.getEvents();
 			for(CarRental r : rentals) {
 				LocalDate startDate = r.getRentalStartDate();
 				LocalDate endDate = r.getRentalEndDate();
@@ -102,6 +111,12 @@ public class PlannerController {
 				h.setDaysRented(dates);
 				hotelRepo.save(h);
 				hotelRentalRepo.delete(hr);
+			}
+			for(EventTicket et :eventTickets) {
+				Event event = et.getEvent();
+				event.setAvalibleTickets(event.getAvalibleTickets() + et.getNumberOfTickets());			
+				eventRepo.save(event);
+				etRepo.delete(et);
 			}
 			repo.delete(p);
 			model.addAttribute("plans", repo.findByAccountId(id));

@@ -145,4 +145,20 @@ public class EventController {
 			return planEvent(model, planId, id, state, startDate, endDate, numberOfPeople);
 		}
 	}
+	@PostMapping("/removeEvent/{id}") 
+	public String removeEvent(Model model, @RequestParam(name="eventId") String eventId, @RequestParam(name="planId") String planId,@PathVariable("id") long id) {
+		EventTicket event = etRepo.getById(Long.parseLong(eventId));;
+		Event e = event.getEvent();
+		e.setAvalibleTickets(e.getAvalibleTickets() + event.getNumberOfTickets());
+		eventRepo.save(e);
+		Planner plan = plannerRepo.getById(Long.parseLong(planId));
+		List<EventTicket> events = plan.getEvents();
+		events.remove(event);
+		plan.setEvents(events);
+		plannerRepo.save(plan);
+		etRepo.delete(event);
+		model.addAttribute("id", id);
+		model.addAttribute("plan", plan);
+		return "planner";
+	}
 }
