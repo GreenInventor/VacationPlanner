@@ -2,10 +2,13 @@ package dmacc.beans;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +27,8 @@ public class Event {
 	private int avalibleTickets;
 	private Address address;
 	private String phoneNumber;
-	private String date;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate date;
 	private String startTime;
 	private String endTime;
 }

@@ -1,14 +1,9 @@
 package dmacc.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +41,6 @@ public class EventController {
 
 	@PostMapping("/addEvent/{id}")
 	public String addEvent(Event e, Model model, @PathVariable("id") long id) {
-		e.setStartTime(LocalTime.parse(e.getStartTime() , DateTimeFormatter.ofPattern( "HH:mm" , Locale.US)).format( DateTimeFormatter.ofPattern("h:mm a")));
-		e.setEndTime(LocalTime.parse(e.getEndTime() , DateTimeFormatter.ofPattern( "HH:mm" , Locale.US)).format( DateTimeFormatter.ofPattern("h:mm a")));
-		SimpleDateFormat myFormat = new SimpleDateFormat("M/d/yyyy");
-		SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			e.setDate( myFormat.format(fromUser.parse(e.getDate())));
-		} catch (ParseException e1) {}
 		eventRepo.save(e);
 		return viewAllEvents(model, id);
 	}
@@ -84,6 +72,8 @@ public class EventController {
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
 		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1)).collect(Collectors.toList());
+		
+		
 		List<Event> events = eventRepo.findByAddressStateAndAvalibleTicketsGreaterThanAndDateInOrderByAddressCity(state, Integer.parseInt(numberOfPeople) - 1, listOfDates);
 		List<String> cities = new ArrayList<String>();
 		for(Event e : events) {
@@ -98,11 +88,14 @@ public class EventController {
 		model.addAttribute("events", events);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
+		model.addAttribute("numberOfPeople", numberOfPeople);
 			return "selectEvent";
 				}
 	@PostMapping("/selectEvent/{id}")
 	public String selectEvent(Model model, @PathVariable("id") long id, @RequestParam(name="id") String eventId, @RequestParam(name="planId") String planId, @RequestParam(name="numberOfPeople") String numberOfPeople) {
 		Event event = eventRepo.getById(Long.parseLong(eventId));
+		event.setAvalibleTickets(event.getAvalibleTickets() - Integer.parseInt(numberOfPeople));
+		eventRepo.save(event);
 		Planner plan = plannerRepo.getById(Long.parseLong(planId));
 		EventTicket eventInfo = new EventTicket();
 		eventInfo.setEvent(event);
@@ -139,6 +132,7 @@ public class EventController {
 				model.addAttribute("state", state);
 				model.addAttribute("startDate", startDate);
 				model.addAttribute("endDate", endDate);
+				model.addAttribute("numberOfPeople", numberOfPeople);
 			return "selectEvent";
 		}else {
 			return planEvent(model, planId, id, state, startDate, endDate, numberOfPeople);

@@ -221,9 +221,11 @@
 		<td th:text = "${currentEvent.address.city}"/>
 		<td th:text = "${currentEvent.address.state}"/>
 		<td th:text = "${currentEvent.address.zip}"/>
-		<td th:text = "${currentEvent.date}"/>
-		<td th:text = "${currentEvent.startTime}"/>
-		<td th:text = "${currentEvent.endTime}"/>
+		<td th:text = "${#temporals.format(currentEvent.date, 'M/d/yyyy')}"/>
+		<th:block th:with="sdf = ${new java.text.SimpleDateFormat('HH:mm')}">
+		<td th:text = "${#dates.format(sdf.parse(currentEvent.startTime),'h:m a')}"/>
+		<td th:text = "${#dates.format(sdf.parse(currentEvent.endTime),'h:m a')}"/>
+		</th:block>
 		<td th:text = "${currentEvent.avalibleTickets}"/>
 		<td th:text = "${#numbers.formatCurrency(currentEvent.ticketPrice)}">
 		<td>
