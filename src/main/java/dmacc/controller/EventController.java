@@ -109,6 +109,13 @@ public class EventController {
 		model.addAttribute("plan", plan);
 		return "planner";
 	}
+	@PostMapping("/findEventByState/{id}")
+	public String findEventByState(Model model, @RequestParam(name = "state") String state, @PathVariable("id") long id) {
+		List<Event> e = eventRepo.findByAddressStateOrderByAddressCity(state);
+		model.addAttribute("events", e);
+		model.addAttribute("id", id);
+		return "viewAllEvents";
+	}
 	@PostMapping("/findEventByCity/{id}")
 	public String findEventByCity(Model model, @PathVariable("id") long id, @RequestParam(name="city") String city, @RequestParam(name="planId") String planId, @RequestParam(name="state") String state, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="numberOfPeople") String numberOfPeople) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

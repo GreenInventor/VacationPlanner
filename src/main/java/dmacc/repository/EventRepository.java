@@ -15,4 +15,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 	List<Event> findByAddressCityAndAvalibleTicketsGreaterThanAndDateInOrderByName(String city, int tickets, List<LocalDate> date);
 
+	List<Event> findByAddressStateOrderByAddressCity(String state);
+
 }

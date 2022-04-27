@@ -47,6 +47,13 @@ public class ActivityController {
 		model.addAttribute("id", id);
 		return "viewAllActivities";
 	}
+	@PostMapping("/findActivityByState/{id}")
+	public String findActivityByState(Model model, @RequestParam(name = "state") String state, @PathVariable("id") long id) {
+		List<Activity> a = ar.findByAddressStateOrderByAddressCity(state);
+		model.addAttribute("activities", a);
+		model.addAttribute("id", id);
+		return "viewAllActivities";
+	}
 	@PostMapping("/editActivity/{id}") 
 	public String editActivity(Model model, @RequestParam(name="id") String activityId, @RequestParam(name="action") String action, @PathVariable("id") long id) {
 		Activity a = ar.getById(Long.parseLong(activityId));

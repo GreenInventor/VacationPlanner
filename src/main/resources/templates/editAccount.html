@@ -2,21 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Create Dealership</title>
+<title>Account Settings</title>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link th:href= "@{/css/dashboard.css}" rel="stylesheet">
+<link th:href="@{/css/dashboard.css}" rel="stylesheet">
 <link rel="icon" th:href="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}">
 <style>
+
 @media (max-width: 768px) {
 .sidebar {
   position: static;
   }
 }
+ .sidebar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll; 
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
 		.form-floating{
 		padding-bottom: 5px;
 		}
@@ -27,35 +38,27 @@
     .customSelect{
   background-color: #f8f9fa;
 }
-.sidebar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    overflow-y: scroll; 
-}
-
-.sidebar::-webkit-scrollbar {
-    display: none;
-}
 		</style>
 </head>
 <body>
-<header
-		class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img th:src="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
-		<div class="navbar-nav ms-auto">
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+ <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" ><img th:src="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}" width="30" height="30" class="d-inline-block align-top" alt=""> Vacation Planner</a>
+   <div class="navbar-nav ms-auto" th:unless="${accountType == 'admin'}">
+      		<a class="nav-link px-3" th:href="@{/userHome/{id}(id=${id})}">View Plans</a>
+  		</div>
+   <div class="navbar-nav ms-auto" th:if="${accountType == 'admin'}">
       <a class="nav-link px-3" th:href="@{/userHome/{id}(id=${id})}">View As User</a>
   </div>
    <div class="navbar-nav">
-      <a class="nav-link px-3" th:href="@{/accountSettings/{id}(id=${id})}">Account Settings</a>
+      <a class="nav-link px-3 active" th:href="@{/accountSettings/{id}(id=${id})}">Account Settings</a>
   </div>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="../">Sign out</a>
+      <a class="nav-link px-3" href="/">Sign out</a>
     </div>
   </div>
-	</header>
-
-<div class="container-fluid">
+</header>
+<div class="container-fluid" th:if="${accountType == 'admin'}">
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
       <div class="position-sticky pt-3 overflow-auto">
@@ -73,13 +76,13 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link active" th:href="@{/inputDealership/{id}(id=${id})}">
+            <a class="nav-link" th:href="@{/inputDealership/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               Create Dealership
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link acitve" th:href="@{/viewDealerships/{id}(id=${id})}">
+            <a class="nav-link" th:href="@{/viewDealerships/{id}(id=${id})}">
               <span data-feather="file-text"></span>
               View Dealerships
             </a>
@@ -148,13 +151,20 @@
     </nav>
     </div>
     </div>
-    <br>
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 form-signin">
 <script>
 function checkForm(form){
 	let error = false;
 	let y = document.getElementsByClassName('customSelect');
 	y[0].style.boxShadow = "none";
+	document.getElementById("email").style.boxShadow = "none";
+	document.getElementById("password").style.boxShadow = "none";
+	document.getElementById("confirmPassword").style.boxShadow = "none";
+	document.getElementById("firstName").style.boxShadow = "none";
+	document.getElementById("lastName").style.boxShadow = "none";
+	document.getElementById("phoneNumber").style.boxShadow = "none";
+	document.getElementById("street").style.boxShadow = "none";
+	document.getElementById("city").style.boxShadow = "none";
+	document.getElementById("zip").style.boxShadow = "none";
 	document.getElementById("alert1").style.display = "none";
 	document.getElementById("alert2").style.display = "none";
 	document.getElementById("alert3").style.display = "none";
@@ -163,93 +173,162 @@ function checkForm(form){
 	document.getElementById("alert6").style.display = "none";
 	document.getElementById("alert7").style.display = "none";
 	document.getElementById("alert8").style.display = "none";
-	document.getElementById("name").style.boxShadow = "none";
-	document.getElementById("phoneNumber").style.boxShadow = "none";
-	document.getElementById("street").style.boxShadow = "none";
-	document.getElementById("city").style.boxShadow = "none";
-	document.getElementById("zip").style.boxShadow = "none";
+	document.getElementById("alert9").style.display = "none";
+	document.getElementById("alert10").style.display = "none";
+	document.getElementById("alert11").style.display = "none";
+	document.getElementById("alert12").style.display = "none";
+	document.getElementById("alert13").style.display = "none";
+	document.getElementById("alert14").style.display = "none";
+	document.getElementById("alert15").style.display = "none";
+	document.getElementById("alert16").style.display = "none";
+	
 	if(form.zip.value ==""){
-		document.getElementById("alert7").style.display = "block";
+		document.getElementById("alert15").style.display = "block";
 		document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 		form.zip.focus();
 		error = true;
 	}
 	else if(!form.zip.value.match(/(^[0-9]{4}?[0-9]$)/)){
-		document.getElementById("alert8").style.display = "block";
+		document.getElementById("alert16").style.display = "block";
 		document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 		form.zip.focus();
 		error = true;
 	}
 	if(form.state.value ==""){
-		document.getElementById("alert6").style.display = "block";
+		document.getElementById("alert14").style.display = "block";
 		document.getElementById("state").style.outline = "5px auto solid red";
 		y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 		form.state.focus();
 		error = true;
 	}
 	if(form.city.value ==""){
-		document.getElementById("alert5").style.display = "block";
+		document.getElementById("alert13").style.display = "block";
 		document.getElementById("city").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 		form.city.focus();
 		error = true;
 	}
 	if(form.street.value ==""){
-		document.getElementById("alert4").style.display = "block";
+		document.getElementById("alert12").style.display = "block";
 		error = true;
 		document.getElementById("street").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 		form.street.focus();
 	}
 	if(form.phoneNumber.value ==""){
-		document.getElementById("alert2").style.display = "block";
+		document.getElementById("alert10").style.display = "block";
 		document.getElementById("phoneNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 		form.phoneNumber.focus();
 		error = true;
 	}
 	else if(!form.phoneNumber.value.match(/^\(\d{3}\)\d{3}\-\d{4}$/m)){
-		document.getElementById("alert3").style.display = "block";
+		document.getElementById("alert11").style.display = "block";
 		document.getElementById("phoneNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 		form.phoneNumber.focus();
 		error = true;
 	}
-	if(form.name.value ==""){
-		document.getElementById("alert1").style.display = "block";
-		document.getElementById("name").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
-		form.city.focus();
+	if(form.lastName.value ==""){
+		document.getElementById("alert9").style.display = "block";
+		document.getElementById("lastName").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.lastName.focus();
 		error = true;
 	}
-	
+	if(form.firstName.value ==""){
+		document.getElementById("alert8").style.display = "block";
+		document.getElementById("firstName").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.firstName.focus();
+		error = true;
+	}
+	if(form.confirmPassword.value ==""){
+		document.getElementById("alert6").style.display = "block";
+		document.getElementById("confirmPassword").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.confirmPassword.focus();
+		error = true;
+	}
+	else if(form.confirmPassword.value != form.password.value){
+		document.getElementById("alert7").style.display = "block";
+		document.getElementById("confirmPassword").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.confirmPassword.focus();
+		error = true;
+	}
+	if(form.password.value == ""){
+		document.getElementById("alert4").style.display = "block";
+		document.getElementById("password").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.password.focus();
+		error = true;
+	}
+	else if(!form.password.value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/)){
+		document.getElementById("alert5").style.display = "block";
+		document.getElementById("password").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.password.focus();
+		error = true;
+	}
+	if(form.email.value==""){
+		document.getElementById("alert2").style.display = "block";
+		document.getElementById("email").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.email.focus();
+		error = true;
+	}
+	else if(!form.email.value.match(/.+\@.+\..+/)){
+		document.getElementById("alert3").style.display = "block";
+		document.getElementById("email").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.email.focus();
+		error = true;
+	}
 	if(error == true) return false;
 	else return true;
 }
-
-
-
 </script>
-<form th:object="${newDealership}" th:action="@{/inputDealership/{id}(id=${id})}" method='POST' onsubmit="return checkForm(this);">
-<input name="id" id="id" type="hidden" th:field="*{id}">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 text-center">
+<br>
+<form th:object="${newAccount}" th:action="@{/accountSettings/{id}(id=${id})}" method="POST" onsubmit="return checkForm(this);">
+<input type="hidden" id="id" name="id" th:value="*{id}">
+<input type="hidden" id="accountType" name="accountType" th:value="*{accountType}">
 <div class="form-floating">
-<input name="name" id="name" class="form-control" size = "20" th:field="*{name}">
-<label for="name">Name</label>
+<input type="text" class="form-control" id="email" name="email" th:field="*{email}">
+<label for="email">Email address</label>
 </div>
-<p id="alert1" class="alert alert-danger" style="display: none">Name Field Must Not Be Empty!</p>
+<p id="alert1" class="alert alert-danger" style="display: none" th:text="${error}"></p>
+<p id="alert2" class="alert alert-danger" style="display: none">Email Field Must Not Be Empty!</p>
+<p id="alert3" class="alert alert-danger" style="display:none">Invalid Email!</p>
 <div class="form-floating">
-<input name="phoneNumber" id="phoneNumber" class="form-control" th:field="*{phoneNumber}">
+<input type="text" id="password" class="form-control" th:field="*{password}">
+ <label for="password">Password</label>
+</div>
+<p id="alert4" class="alert alert-danger" style="display:none">Password Field Must Not Be Empty!</p>
+<p id="alert5" class="alert alert-danger" style="display:none">Password Must Be At Least 8 Characters And Must Have At Least 1 Upercase, 1 Lowercase, 1 Number, And 1 Special Character!</p>
+<div class="form-floating">
+<input name="confirmPassword" id="confirmPassword" class="form-control" th:field="*{confirmPassword}" >
+ <label for="confirmPassword">Confirm Password</label>
+</div>
+<p id="alert6" class="alert alert-danger" style="display:none">Confirm Password Field Must Not Be Empty!</p>
+<p id="alert7" class="alert alert-danger" style="display:none">Password Fields Must Match!</p>
+<div class="form-floating">
+<input name="firstName" id="firstName" class="form-control" th:field="*{firstName}" >
+ <label for="firstName">First Name</label>
+</div>
+<p id="alert8" class="alert alert-danger" style="display:none">First Name Field Must Not Be Empty!</p>
+<div class="form-floating">
+<input name="lastName" id="lastName" class="form-control" th:field="*{lastName}" >
+ <label for="lastName">Last Name</label>
+</div>
+<p id="alert9" class="alert alert-danger" style="display:none">Last Name Field Must Not Be Empty!</p>
+<div class="form-floating">
+<input type ="tel" name="phoneNumber" id="phoneNumber" class="form-control" th:field="*{phoneNumber}">
  <label for="phoneNumber">Phone Number</label>
 </div>
-<p id="alert2" class="alert alert-danger" style="display: none">Phone Number Field Must Not Be Empty!</p>
-<p id="alert3" class="alert alert-danger" style="display:none">Invalid Phone Number! Format: (###)###-####</p>
+<p id="alert10" class="alert alert-danger" style="display:none">Phone Number Field Must Not Be Empty!</p>
+<p id="alert11" class="alert alert-danger" style="display:none">Invalid Phone Number! Format: (###)###-####</p>
 <div class="form-floating">
-<input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}">
+<input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}" >
 <label for="street">Street</label>
 </div>
-<p id="alert4" class="alert alert-danger" style="display: none">Street Field Must Not Be Empty!</p>
+<p id="alert12" class="alert alert-danger" style="display: none">Street Field Must Not Be Empty!</p>
 <div class="form-floating">
-<input name="address.city" id="city" class="form-control" size="20" th:field="*{address.city}">
+<input name="address.city" id="city" class="form-control" size="20" th:field="*{address.city}" >
 <label for="city">City</label>
 </div>
-<p id="alert5" class="alert alert-danger" style="display: none">City Field Must Not Be Empty!</p>
+<p id="alert13" class="alert alert-danger" style="display: none">City Field Must Not Be Empty!</p>
 <div class="form-floating">
-<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="address.state" id="state" th:field="*{address.state}" data-style="customSelect">
+<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="address.state" id="state" th:field="*{address.state}" data-style="customSelect" >
 <option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -303,16 +382,17 @@ function checkForm(form){
 </select>
 <label for="state">State</label>
 </div>
-<p id="alert6" class="alert alert-danger" style="display: none">State Field Must Not Be Empty!</p>
+<p id="alert14" class="alert alert-danger" style="display: none; margin-top: 6px;">State Field Must Not Be Empty!</p>
 <br>
 <div class="form-floating">
 <input name="address.zip" id="zip" class="form-control" size="20" th:field="*{address.zip}">
 <label for="zip">Zip</label>
 </div>
-<p id="alert7" class="alert alert-danger" style="display: none">Zip Field Must Not Be Empty!</p>
-<p id="alert8" class="alert alert-danger" style="display: none">Invalid Zip code!</p>
+<p id="alert15" class="alert alert-danger" style="display: none">Zip Field Must Not Be Empty!</p>
+<p id="alert16" class="alert alert-danger" style="display: none">Invalid Zip code!</p>
 <input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Submit" />
 </form>
-</main>
+<br>
+  </main>
 </body>
 </html>

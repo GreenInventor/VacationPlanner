@@ -23,7 +23,7 @@
 	</form>
   		</div>
    <div class="navbar-nav">
-      <a class="nav-link px-3" href="#">Account Settings</a>
+      <a class="nav-link px-3" th:href="@{/accountSettings/{id}(id=${id})}">Account Settings</a>
   </div>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
@@ -68,8 +68,10 @@
 			
  			<td th:text = "${currentEvent.name}">
 		<td th:text = "${#numbers.formatCurrency(currentEvent.ticketPrice)}">
-		<td th:text = "${currentEvent.date}">
-		<td th:text = "${currentEvent.startTime} + ' - ' + ${currentEvent.endTime}">
+		<td th:text = "${#temporals.format(currentEvent.date, 'M/d/yyyy')}"/>
+		<th:block th:with="sdf = ${new java.text.SimpleDateFormat('HH:mm')}">
+			<td th:text="${#dates.format(sdf.parse(currentEvent.startTime),'h:m a')} + ' - ' + ${#dates.format(sdf.parse(currentEvent.endTime),'h:m a')}"/>
+			</th:block>
 		<td th:text = "${currentEvent.phoneNumber}">
 		<td th:text = "${currentEvent.address.street}"/>
 		<td th:text = "${currentEvent.address.city}"/>
@@ -80,7 +82,7 @@
 <input type ="hidden" name ="id" th:value="${currentEvent.id}">
 <input type ="hidden" name="planId"  th:value="${planId}" required>
 <input type ="hidden" name="numberOfPeople"  th:value="${numberOfPeople}" required>
-<input class="btn btn-warning btn-sm w-100" type = "submit" value= "Add Activity" name= "action">
+<input class="btn btn-warning btn-sm w-100" type = "submit" value= "Add Event" name= "action">
 </form>
 </td>
 			</tr>
