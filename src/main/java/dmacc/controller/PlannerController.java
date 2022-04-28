@@ -37,25 +37,25 @@ public class PlannerController {
 	@Autowired
 	AccountRepository aRepo;
 	@Autowired
-	HotelRepository hotelRepo; 
+	HotelRepository hotelRepo;
 	@Autowired
-	CarRepository carRepo; 
+	CarRepository carRepo;
 	@Autowired
-	CarRentalRepository carRentalRepo; 
+	CarRentalRepository carRentalRepo;
 	@Autowired
-	HotelRentalRepository hotelRentalRepo; 
+	HotelRentalRepository hotelRentalRepo;
 	@Autowired
 	EventTicketRepository etRepo;
 	@Autowired
 	EventRepository eventRepo;
-	
+
 	@GetMapping("/adminHome/{id}")
 	public String viewAllPlans(Model model, @PathVariable("id") long id) {
 		model.addAttribute("plans", repo.findAll());
 		model.addAttribute("id", id);
 		return "adminHome";
 	}
-	
+
 	@GetMapping("/createPlan/{id}")
 	public String addNewPlan(Model model, @PathVariable("id") long id) {
 		Planner p = new Planner();
@@ -63,7 +63,7 @@ public class PlannerController {
 		model.addAttribute("id", id);
 		return "plan";
 	}
-	
+
 	@PostMapping("/createPlan/{id}")
 	public String addNewPlan(Planner p, Model model, @PathVariable("id") long id) {
 		Account a = aRepo.getById(id);
@@ -74,47 +74,47 @@ public class PlannerController {
 		model.addAttribute("plan", p);
 		return "planner";
 	}
-	
-	@PostMapping("/editPlan/{id}") 
-	public String updatePlanner(@RequestParam("id") long plannerId, Model model, @PathVariable("id") long id, @RequestParam(name="action") String action) {
+
+	@PostMapping("/editPlan/{id}")
+	public String updatePlanner(@RequestParam("id") long plannerId, Model model, @PathVariable("id") long id, @RequestParam(name = "action") String action) {
 		model.addAttribute("id", id);
-		if(action.equals("Edit")) {
+		if (action.equals("Edit")) {
 			model.addAttribute("plan", repo.getById(plannerId));
 			return "planner";
-		}else {
+		} else {
 			Planner p = repo.getById(plannerId);
 			List<CarRental> rentals = p.getCarRentals();
 			List<HotelRental> hRentals = p.getHotelRentals();
 			List<EventTicket> eventTickets = p.getEvents();
-			for(CarRental r : rentals) {
+			for (CarRental r : rentals) {
 				LocalDate startDate = r.getRentalStartDate();
 				LocalDate endDate = r.getRentalEndDate();
-				List<LocalDate> listOfDates = startDate.datesUntil(endDate.plusDays(1)).collect(Collectors.toList());	
+				List<LocalDate> listOfDates = startDate.datesUntil(endDate.plusDays(1)).collect(Collectors.toList());
 				Car c = r.getCar();
 				ArrayList<LocalDate> dates = c.getDaysRented();
-				for(LocalDate date : listOfDates) {
+				for (LocalDate date : listOfDates) {
 					dates.remove(date);
 				}
 				c.setDaysRented(dates);
 				carRepo.save(c);
 				carRentalRepo.delete(r);
 			}
-			for(HotelRental hr : hRentals) {
+			for (HotelRental hr : hRentals) {
 				LocalDate startDate = hr.getRentalStartDate();
 				LocalDate endDate = hr.getRentalEndDate();
-				List<LocalDate> listOfDates = startDate.datesUntil(endDate.plusDays(1)).collect(Collectors.toList());	
+				List<LocalDate> listOfDates = startDate.datesUntil(endDate.plusDays(1)).collect(Collectors.toList());
 				Hotel h = hr.getHotel();
 				ArrayList<LocalDate> dates = h.getDaysRented();
-				for(LocalDate date : listOfDates) {
+				for (LocalDate date : listOfDates) {
 					dates.remove(date);
 				}
 				h.setDaysRented(dates);
 				hotelRepo.save(h);
 				hotelRentalRepo.delete(hr);
 			}
-			for(EventTicket et :eventTickets) {
+			for (EventTicket et : eventTickets) {
 				Event event = et.getEvent();
-				event.setAvalibleTickets(event.getAvalibleTickets() + et.getNumberOfTickets());			
+				event.setAvalibleTickets(event.getAvalibleTickets() + et.getNumberOfTickets());
 				eventRepo.save(event);
 				etRepo.delete(et);
 			}
@@ -122,15 +122,15 @@ public class PlannerController {
 			model.addAttribute("plans", repo.findByAccountId(id));
 			return "home";
 		}
-		
 	}
-	
+
 	@PostMapping("/update/{id}")
 	public String revisePlanner(Planner p, Model model, @PathVariable("id") long id) {
 		repo.save(p);
 		return viewAllPlans(model, id);
 	}
-	@PostMapping("/editName/{id}") 
+
+	@PostMapping("/editName/{id}")
 	public String editName(@RequestParam("id") long plannerId, @RequestParam("name") String name, Model model, @PathVariable("id") long id) {
 		Planner p = repo.getById(plannerId);
 		p.setName(name);
@@ -138,6 +138,5 @@ public class PlannerController {
 		model.addAttribute("plan", p);
 		model.addAttribute("id", id);
 		return "planner";
-		
 	}
 }

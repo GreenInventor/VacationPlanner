@@ -72,8 +72,7 @@ public class HotelController {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
-		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1))
-				.collect(Collectors.toList());
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1)).collect(Collectors.toList());
 
 		for (LocalDate date : listOfDates) {
 			System.out.println(date);
@@ -120,14 +119,14 @@ public class HotelController {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
-		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1))
-				.collect(Collectors.toList());
+		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1)).collect(Collectors.toList());
 		HotelRental rental = new HotelRental();
 		Hotel hotel = repo.getById(Long.parseLong(hotelId));
 		ArrayList<LocalDate> rentalDates = new ArrayList<LocalDate>();
 		try {
 			rentalDates.addAll(hotel.getDaysRented());
 		} catch (Exception e) {
+			// TODO
 		}
 
 		rentalDates.addAll(listOfDates);
@@ -191,8 +190,7 @@ public class HotelController {
 	}
 
 	@PostMapping("/cancelHotelRental/{id}")
-	public String cancelHotelRental(Model model, @RequestParam(name = "rentalId") String rentalId,
-			@RequestParam(name = "planId") String planId, @PathVariable("id") long id) {
+	public String cancelHotelRental(Model model, @RequestParam(name = "rentalId") String rentalId, @RequestParam(name = "planId") String planId, @PathVariable("id") long id) {
 		HotelRental rental = rentalRepo.getById(Long.parseLong(rentalId));
 		LocalDate startDate = rental.getRentalStartDate();
 		LocalDate endDate = rental.getRentalEndDate();
@@ -214,5 +212,4 @@ public class HotelController {
 		model.addAttribute("plan", plan);
 		return "planner";
 	}
-
 }
