@@ -198,7 +198,7 @@
 	</form>
 	<br>
 	
-	<table class="table text-center table-bordered caption-top" style = "margin-bottom:0px;"> <!-- Rental Car Section -->
+	<table class="table text-center table-bordered caption-top" style = "margin-bottom:0px;"> <!-- Activity Section -->
 		<tr>
 			<th>Activity</th>
 			<th>Address</th>
@@ -278,7 +278,7 @@
 	</form>
 	<br>
 	<br>
-		<table class="table text-center table-bordered caption-top" style = "margin-bottom:0px;"> <!-- Rental Car Section -->
+		<table class="table text-center table-bordered caption-top" style = "margin-bottom:0px;"> <!-- Event Section -->
 		<tr>
 			<th>Event</th>
 			<th>Address</th>
@@ -597,14 +597,14 @@
 		<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="See Avalible Hotels" />
 	</form>
 	
-	<table class="table text-center table-bordered caption-top"> <!-- Destinations Section -->
+	<table class="table text-center table-bordered caption-top"> <!-- Restraunts Section -->
 		<tr>
 			<th colspan ="3">Restaurants</th>
 		</tr>
 		<tr> <!-- List of Restaurants -->
 			<td></td>
 			<td></td>
-			<td><form th:action="@{/deleteRestaurants/{id}(id=${id})}" method='POST'> <!-- Delete Destination -->
+			<td><form th:action="@{/deleteRestaurants/{id}(id=${id})}" method='POST'> <!-- Delete Restraunt -->
 				<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
 			</form></td>
 		</tr>
