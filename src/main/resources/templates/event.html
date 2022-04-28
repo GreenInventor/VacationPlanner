@@ -185,19 +185,14 @@
 				document.getElementById("alert12").style.display = "none";
 				document.getElementById("alert13").style.display = "none";
 				document.getElementById("alert14").style.display = "none";
-				document.getElementById("alert15").style.display = "none";
-
+				
 				if (form.avalibleTickets.value == 0 || form.avalibleTickets.value == "") {
 					document.getElementById("alert14").style.display = "block";
-					document.getElementById("avalibleTickets").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
-					form.mpg.focus();
-					error = true;
-				} else if (!numberFormat.test(form.avalibleTickets.value)) {
-					document.getElementById("alert15").style.display = "block";
 					document.getElementById("avalibleTickets").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 					form.avalibleTickets.focus();
 					error = true;
 				} 
+				
 				if (form.ticketPrice.value == 0.0 || form.ticketPrice.value == ""
 						|| form.ticketPrice.value == 0) {
 					document.getElementById("alert12").style.display = "block";
@@ -210,7 +205,7 @@
 								- (form.tikcetPrice.value.indexOf(".") + 1) > 2) {
 					document.getElementById("alert13").style.display = "block";
 					document.getElementById("ticketPrice").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
-					form.price.focus();
+					form.ticketPrice.focus();
 					error = true;
 				}
 				if(form.endTime.value ==""){
@@ -277,11 +272,9 @@
 				if(form.name.value ==""){
 					document.getElementById("alert1").style.display = "block";
 					document.getElementById("name").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
-					form.city.focus();
+					form.name.focus();
 					error = true;
 				}
-				
-
 				if (error == true)
 					return false;
 				else
@@ -375,7 +368,7 @@
 					<option value="WY">Wyoming</option>
 				</select> <label for="state">State</label>
 			</div>
-			<p id="alert6" class="alert alert-danger" style="display: none">State
+			<p id="alert6" class="alert alert-danger" style="display: none; margin-top: 6px;">State
 				Field Must Not Be Empty!</p>
 			<br>
 			<div class="form-floating">
@@ -420,8 +413,6 @@
 			</div>
 			<p id="alert14" class="alert alert-danger" style="display: none">Tickets
 				Avalible Field Must Not Be Empty!</p>
-			<p id="alert15" class="alert alert-danger" style="display: none">Please
-				Enter A Valid Amount Of Tickets Avalible!</p>
 
 
 			<input class="w-100 btn btn-lg btn-primary" name="submit"

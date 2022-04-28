@@ -142,17 +142,102 @@
     </div>
     </div>
     <br>
+    <script>
+    function validateActivity(form){
+    	let error = false;
+    	let priceFormat = /^\d+(?:\.\d+)?(?:,\d+(?:\.\d+)?)*$/gm;
+    	document.getElementById("alert1").style.display = "none";
+		document.getElementById("alert2").style.display = "none";
+		document.getElementById("alert3").style.display = "none";
+    	document.getElementById("alert4").style.display = "none";
+		document.getElementById("alert5").style.display = "none";
+		document.getElementById("alert6").style.display = "none";
+		document.getElementById("alert7").style.display = "none";
+		document.getElementById("alert8").style.display = "none";
+		let y = document.getElementsByClassName('customSelect');
+		y[0].style.boxShadow = "none";
+		document.getElementById("street").style.boxShadow = "none";
+		document.getElementById("city").style.boxShadow = "none";
+		document.getElementById("state").style.boxShadow = "none";
+		document.getElementById("zip").style.boxShadow = "none";
+		document.getElementById("activityName").style.boxShadow = "none";
+		document.getElementById("price").style.boxShadow = "none";
+		
+    	
+		if(form.zip.value ==""){
+			document.getElementById("alert7").style.display = "block";
+			document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.zip.focus();
+			error = true;
+		}
+		else if(!form.zip.value.match(/(^[0-9]{4}?[0-9]$)/)){
+			document.getElementById("alert8").style.display = "block";
+			document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.zip.focus();
+			error = true;
+		}
+		if(form.state.value ==""){
+			document.getElementById("alert6").style.display = "block";
+			document.getElementById("state").style.outline = "5px auto solid red";
+			y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.state.focus();
+			error = true;
+		}
+		if(form.city.value ==""){
+			document.getElementById("alert5").style.display = "block";
+			document.getElementById("city").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.city.focus();
+			error = true;
+		}
+		if(form.street.value ==""){
+			document.getElementById("alert4").style.display = "block";
+			error = true;
+			document.getElementById("street").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.street.focus();
+		}
+		if (form.price.value == "") {
+		document.getElementById("alert2").style.display = "block";
+		document.getElementById("price").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.price.focus();
+		error = true;
+	} else if (!priceFormat.test(form.price.value)
+			|| form.price.value.indexOf(".") != -1
+			&& form.price.value.length
+					- (form.price.value.indexOf(".") + 1) > 2) {
+		document.getElementById("alert3").style.display = "block";
+		document.getElementById("price").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+		form.price.focus();
+		error = true;
+	}
+		if(form.activityName.value ==""){
+			document.getElementById("alert1").style.display = "block";
+			document.getElementById("activityName").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.activityName.focus();
+			error = true;
+		}
+    	if(error == true) return false
+    	else return true;
+    }
+    
+    
+    </script>
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 text-center">
-	<form th:object="${newActivity}" th:action="@{/addActivity/{id}(id=${id})}" method='POST'>
+	<form th:object="${newActivity}" th:action="@{/addActivity/{id}(id=${id})}" method='POST' onsubmit="return validateActivity(this);">
 	<input name="id" id="id" type="hidden" th:field="*{id}">
 		<div class="form-floating">	
 		<input name="activityName" class="form-control" th:field="*{activityName}" size="20">
 		<label for="activityName">Activity Name</label>
 		</div>
+		<p id="alert1" class="alert alert-danger" style="display: none">
+				Name Field Must Not Be Empty!</p>
 	<div class="form-floating">	
 		<input name="price" class="form-control" th:field="*{price}" size="20">
 		<label for="price">Price</label>
 	</div>
+	<p id="alert2" class="alert alert-danger" style="display: none">
+				Price Field Must Not Be Empty!</p>
+			<p id="alert3" class="alert alert-danger" style="display: none">Please
+				Enter A Valid Price!</p>
 <div class="form-floating">
 <input name="address.street" id="street" class="form-control" size="20" th:field="*{address.street}">
 <label for="street">Street</label>
@@ -218,7 +303,7 @@
 </select>
 <label for="state">State</label>
 </div>
-<p id="alert6" class="alert alert-danger" style="display: none">State Field Must Not Be Empty!</p>
+<p id="alert6" class="alert alert-danger" style="display: none; margin-top: 6px;">State Field Must Not Be Empty!</p>
 <br>
 <div class="form-floating">
 <input name="address.zip" id="zip" class="form-control" size="20" th:field="*{address.zip}">
