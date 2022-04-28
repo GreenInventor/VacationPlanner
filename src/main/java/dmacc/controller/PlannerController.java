@@ -139,4 +139,9 @@ public class PlannerController {
 		model.addAttribute("id", id);
 		return "planner";
 	}
+	@PostMapping("/viewPlanDetails/{id}")
+	public String viewPlanDetails(Model model, @PathVariable("id") long id, @RequestParam("id") Long planId) {
+	model.addAttribute("plan", repo.getById(planId));
+		return "planDetails";
+	}
 }

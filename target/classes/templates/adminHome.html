@@ -165,27 +165,17 @@
 	<th>Id</th>
 	<th>Name</th>
 	<th>User</th>
-	<th>Destination</th>
-	<th>Activities</th>
-	<th>Hotels</th>
-	<th>Cars</th>
+	<th>View Details</th>
+	
 </tr>
 <tr th:each="currentPlan : ${plans}">
 <td th:text="${currentPlan.id}" />
 <td th:text="${currentPlan.name}" />
 <td th:text="${currentPlan.account.firstName} + ' ' + ${currentPlan.account.lastName} " />
-<td th:text="${currentPlan.destination}" />
-<td><form th:action="@{/viewPlansActivities/{id}(id=${id})}" method='POST'>
+
+<td><form th:action="@{/viewPlanDetails/{id}(id=${id})}" method='POST'>
 <input type ="hidden" name ="id" th:value="${currentPlan.id}">
-<input class="btn btn-primary btn-sm w-100" type = "submit" value= "View Activities" name= "action">
-</form></td>
-<td><form th:action="@{/viewPlansHotels/{id}(id=${id})}" method='POST'>
-<input type ="hidden" name ="id" th:value="${currentPlan.id}">
-<input class="btn btn-primary btn-sm w-100" type = "submit" value= "View Hotels" name= "action">
-</form></td>
-<td><form th:action="@{/viewPlansCars/{id}(id=${id})}" method='POST'>
-<input type ="hidden" name ="id" th:value="${currentPlan.id}">
-<input class="btn btn-primary btn-sm w-100" type = "submit" value= "View Cars" name= "action">
+<input class="btn btn-primary btn-sm w-100" type = "submit" value= "View More Details" name= "action">
 </form></td>
 </tr>
 </table>
