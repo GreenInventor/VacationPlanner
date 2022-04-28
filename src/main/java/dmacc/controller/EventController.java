@@ -29,7 +29,7 @@ public class EventController {
 	PlannerRepository plannerRepo;
 	@Autowired
 	EventTicketRepository etRepo;
-	
+
 	@GetMapping("/addEvent/{id}")
 	public String addEvent(Model model, @PathVariable("id") long id) {
 		Event e = new Event();
@@ -37,50 +37,53 @@ public class EventController {
 		model.addAttribute("id", id);
 		return "event";
 	}
-	
 
 	@PostMapping("/addEvent/{id}")
 	public String addEvent(Event e, Model model, @PathVariable("id") long id) {
 		eventRepo.save(e);
 		return viewAllEvents(model, id);
 	}
-	
+
 	@GetMapping("/viewAllEvents/{id}")
 	public String viewAllEvents(Model model, @PathVariable("id") long id) {
-		if(eventRepo.findAll().isEmpty()) {
+		if (eventRepo.findAll().isEmpty()) {
 			return addEvent(model, id);
 		}
 		model.addAttribute("events", eventRepo.findAll());
 		model.addAttribute("id", id);
 		return "viewAllEvents";
 	}
-	@PostMapping("/editEvent/{id}") 
-	public String editEvent(Model model, @RequestParam(name="id") String eventId, @RequestParam(name="action") String action, @PathVariable("id") long id) {
+
+	@PostMapping("/editEvent/{id}")
+	public String editEvent(Model model, @RequestParam(name = "id") String eventId, @RequestParam(name = "action") String action, @PathVariable("id") long id) {
 		Event e = eventRepo.getById(Long.parseLong(eventId));
-		if(action.equals("Edit")) {
+		if (action.equals("Edit")) {
 			model.addAttribute("newEvent", e);
 			model.addAttribute("id", id);
 			return "event";
-		}else {
+		} else {
 			eventRepo.delete(e);
 			return viewAllEvents(model, id);
-		}	
+		}
 	}
-	@PostMapping("/planEvent/{id}") 
-	public String planEvent(Model model, @RequestParam(name="id") String planId, @PathVariable("id") long id, @RequestParam(name="state") String state, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="numberOfPeople") String numberOfPeople) {
+
+	@PostMapping("/planEvent/{id}")
+	public String planEvent(Model model, @RequestParam(name = "id") String planId, @PathVariable("id") long id,
+			@RequestParam(name = "state") String state, @RequestParam(name = "startDate") String startDate,
+			@RequestParam(name = "endDate") String endDate,
+			@RequestParam(name = "numberOfPeople") String numberOfPeople) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
 		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1)).collect(Collectors.toList());
-		
-		
+
 		List<Event> events = eventRepo.findByAddressStateAndAvalibleTicketsGreaterThanAndDateInOrderByAddressCity(state, Integer.parseInt(numberOfPeople) - 1, listOfDates);
 		List<String> cities = new ArrayList<String>();
-		for(Event e : events) {
-				if(!cities.contains(e.getAddress().getCity())) {
+		for (Event e : events) {
+			if (!cities.contains(e.getAddress().getCity())) {
 				cities.add(e.getAddress().getCity());
 			}
-			}
+		}
 		model.addAttribute("planId", planId);
 		model.addAttribute("id", id);
 		model.addAttribute("cities", cities);
@@ -89,10 +92,13 @@ public class EventController {
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
 		model.addAttribute("numberOfPeople", numberOfPeople);
-			return "selectEvent";
-				}
+		return "selectEvent";
+	}
+
 	@PostMapping("/selectEvent/{id}")
-	public String selectEvent(Model model, @PathVariable("id") long id, @RequestParam(name="id") String eventId, @RequestParam(name="planId") String planId, @RequestParam(name="numberOfPeople") String numberOfPeople) {
+	public String selectEvent(Model model, @PathVariable("id") long id, @RequestParam(name = "id") String eventId,
+			@RequestParam(name = "planId") String planId,
+			@RequestParam(name = "numberOfPeople") String numberOfPeople) {
 		Event event = eventRepo.getById(Long.parseLong(eventId));
 		event.setAvalibleTickets(event.getAvalibleTickets() - Integer.parseInt(numberOfPeople));
 		eventRepo.save(event);
@@ -109,6 +115,7 @@ public class EventController {
 		model.addAttribute("plan", plan);
 		return "planner";
 	}
+
 	@PostMapping("/findEventByState/{id}")
 	public String findEventByState(Model model, @RequestParam(name = "state") String state, @PathVariable("id") long id) {
 		List<Event> e = eventRepo.findByAddressStateOrderByAddressCity(state);
@@ -116,38 +123,43 @@ public class EventController {
 		model.addAttribute("id", id);
 		return "viewAllEvents";
 	}
+
 	@PostMapping("/findEventByCity/{id}")
-	public String findEventByCity(Model model, @PathVariable("id") long id, @RequestParam(name="city") String city, @RequestParam(name="planId") String planId, @RequestParam(name="state") String state, @RequestParam(name="startDate") String startDate, @RequestParam(name="endDate") String endDate, @RequestParam(name="numberOfPeople") String numberOfPeople) {
+	public String findEventByCity(Model model, @PathVariable("id") long id, @RequestParam(name = "city") String city,
+			@RequestParam(name = "planId") String planId, @RequestParam(name = "state") String state,
+			@RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate,
+			@RequestParam(name = "numberOfPeople") String numberOfPeople) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate formatedStartDate = LocalDate.parse(startDate, formatter);
 		LocalDate formatedEndDate = LocalDate.parse(endDate, formatter);
 		List<LocalDate> listOfDates = formatedStartDate.datesUntil(formatedEndDate.plusDays(1)).collect(Collectors.toList());
 		List<String> cities = new ArrayList<String>();
 		System.out.println(city);
-		if(!city.equals("All Cities")) {
-			List<Event> e = eventRepo.findByAddressCityAndAvalibleTicketsGreaterThanAndDateInOrderByName(city, Integer.parseInt(numberOfPeople) - 1, listOfDates);	
-			List<Event> stateEvents = eventRepo.findByAddressStateAndAvalibleTicketsGreaterThanAndDateInOrderByAddressCity(state, Integer.parseInt(numberOfPeople) - 1, listOfDates);
-			for(Event event : stateEvents) {
-					if(!cities.contains(event.getAddress().getCity())) {
-						cities.add(event.getAddress().getCity());
+		if (!city.equals("All Cities")) {
+			List<Event> e = eventRepo.findByAddressCityAndAvalibleTicketsGreaterThanAndDateInOrderByName(city, Integer.parseInt(numberOfPeople) - 1, listOfDates);
+			List<Event> stateEvents = eventRepo.findByAddressStateAndAvalibleTicketsGreaterThanAndDateInOrderByAddressCity(state,Integer.parseInt(numberOfPeople) - 1, listOfDates);
+			for (Event event : stateEvents) {
+				if (!cities.contains(event.getAddress().getCity())) {
+					cities.add(event.getAddress().getCity());
 				}
 			}
-				model.addAttribute("planId", planId);
-				model.addAttribute("events", e);
-				model.addAttribute("id", id);
-				model.addAttribute("cities", cities);
-				model.addAttribute("state", state);
-				model.addAttribute("startDate", startDate);
-				model.addAttribute("endDate", endDate);
-				model.addAttribute("numberOfPeople", numberOfPeople);
+			model.addAttribute("planId", planId);
+			model.addAttribute("events", e);
+			model.addAttribute("id", id);
+			model.addAttribute("cities", cities);
+			model.addAttribute("state", state);
+			model.addAttribute("startDate", startDate);
+			model.addAttribute("endDate", endDate);
+			model.addAttribute("numberOfPeople", numberOfPeople);
 			return "selectEvent";
-		}else {
+		} else {
 			return planEvent(model, planId, id, state, startDate, endDate, numberOfPeople);
 		}
 	}
-	@PostMapping("/removeEvent/{id}") 
-	public String removeEvent(Model model, @RequestParam(name="eventId") String eventId, @RequestParam(name="planId") String planId,@PathVariable("id") long id) {
-		EventTicket event = etRepo.getById(Long.parseLong(eventId));;
+
+	@PostMapping("/removeEvent/{id}")
+	public String removeEvent(Model model, @RequestParam(name = "eventId") String eventId, @RequestParam(name = "planId") String planId, @PathVariable("id") long id) {
+		EventTicket event = etRepo.getById(Long.parseLong(eventId));
 		Event e = event.getEvent();
 		e.setAvalibleTickets(e.getAvalibleTickets() + event.getNumberOfTickets());
 		eventRepo.save(e);

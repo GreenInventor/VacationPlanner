@@ -20,6 +20,7 @@ public class AccountController {
 	AccountRepository repo;
 	@Autowired
 	PlannerRepository pRepo;
+
 	@GetMapping("/userHome/{id}")
 	public String userHome(Model model, @PathVariable("id") long id) {
 		model.addAttribute("id", id);
@@ -64,20 +65,20 @@ public class AccountController {
 			model.addAttribute("id", l.getId());
 			if (l.getAccountType().equals("user")) {
 				model.addAttribute("plans", pRepo.findByAccountId(l.getId()));
-				return "home"; 
+				return "home";
 			} else {
 				model.addAttribute("plans", pRepo.findAll());
 				model.addAttribute("users", repo.findByAccountType("user"));
 				model.addAttribute("admins", repo.findByAccountType("admin"));
 				return "adminHome";
 			}
-
 		} else {
 			model.addAttribute("newAccount", a);
 			model.addAttribute("error", "Incorrect Email Or Password!");
 			return "index";
 		}
 	}
+
 	@GetMapping("/accountSettings/{id}")
 	public String accountSettings(Model model, @PathVariable("id") long id) {
 		Account a = repo.getById(id);
@@ -85,15 +86,15 @@ public class AccountController {
 		model.addAttribute("accountType", a.getAccountType());
 		return "editAccount";
 	}
+
 	@PostMapping("/accountSettings/{id}")
 	public String accountSettings(Account a, Model model, @PathVariable("id") long id) {
 		repo.save(a);
-		if(a.getAccountType().equals("admin")) {
+		if (a.getAccountType().equals("admin")) {
 			model.addAttribute("plans", pRepo.findByAccountId(id));
 			model.addAttribute("users", repo.findAll());
 			return "adminHome";
-		}
-		else {
+		} else {
 			model.addAttribute("plans", pRepo.findByAccountId(a.getId()));
 			return "home";
 		}
