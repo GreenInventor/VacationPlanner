@@ -53,6 +53,8 @@ public class PlannerController {
 	public String viewAllPlans(Model model, @PathVariable("id") long id) {
 		model.addAttribute("plans", repo.findAll());
 		model.addAttribute("id", id);
+		model.addAttribute("users", aRepo.findByAccountType("user"));
+		model.addAttribute("admins", aRepo.findByAccountType("admin"));
 		return "adminHome";
 	}
 

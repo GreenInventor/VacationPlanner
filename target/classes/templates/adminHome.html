@@ -157,8 +157,11 @@
     <br>
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 text-center">
     <h1>Welcome To The Administrator Home Page</h1>
+    <button onclick="displayPlans()" class="btn btn-sm btn-primary">Toggle Plans</button>
+    <button onclick="displayAdmins()" class="btn btn-sm btn-primary">Toggle Administrators</button>
+    <button onclick="displayUsers()" class="btn btn-sm btn-primary">Toggle Users</button>
 
-<div class="table-responsive">
+<div class="table-responsive" id="plans">
 <table class="table text-center table-bordered caption-top">
 <caption class="text-center">User Plans</caption>
 <tr>
@@ -180,6 +183,77 @@
 </tr>
 </table>
 </div>
+
+<div class="table-responsive" id="admins">
+<table class="table text-center table-bordered caption-top">
+<caption class="text-center">Administrators</caption>
+<tr>
+	<th>Id</th>
+	<th>Email</th>
+	<th>Name</th>
+	<th>Address</th>
+	<th>Phone Number</th>
+	
+</tr>
+<tr th:each="currentUser : ${admins}">
+<td th:text="${currentUser.id}" />
+<td th:text="${currentUser.email}" />
+<td th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName} " />
+<td th:text="${currentUser.address.street} + ' ' + ${currentUser.address.city} + ' ' + ${currentUser.address.state} + ' ' + ${currentUser.address.zip}"/>
+<td th:text="${currentUser.phoneNumber}" />
+</tr>
+</table>
+</div>
+<div class="table-responsive" id="users">
+<table class="table text-center table-bordered caption-top">
+<caption class="text-center">Users</caption>
+<tr>
+	<th>Id</th>
+	<th>Email</th>
+	<th>Name</th>
+	<th>Address</th>
+	<th>Phone Number</th>
+	
+</tr>
+<tr th:each="currentUser : ${users}">
+<td th:text="${currentUser.id}" />
+<td th:text="${currentUser.email}" />
+<td th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName} " />
+<td th:text="${currentUser.address.street} + ' ' + ${currentUser.address.city} + ' ' + ${currentUser.address.state} + ' ' + ${currentUser.address.zip}"/>
+<td th:text="${currentUser.phoneNumber}" />
+</tr>
+</table>
+</div>
+<br>
 </main>
+<script>
+function displayPlans(){
+	 var x = document.getElementById("plans");
+	  if (window.getComputedStyle(x).display === "none") {
+		  x.style.display = "block";
+	  }
+	  else{
+		  x.style.display = "none";
+	  }
+}
+function displayAdmins(){
+	 var x = document.getElementById("admins");
+	  if (window.getComputedStyle(x).display === "none") {
+		  x.style.display = "block";
+	  }
+	  else{
+		  x.style.display = "none";
+	  }
+}
+function displayUsers(){
+	 var x = document.getElementById("users");
+	  if (window.getComputedStyle(x).display === "none") {
+		  x.style.display = "block";
+	  }
+	  else{
+		  x.style.display = "none";
+	  }
+}
+</script>
 </body>
 </html>
