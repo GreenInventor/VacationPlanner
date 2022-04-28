@@ -19,12 +19,12 @@ public class RestaurantController {
 	@Autowired
 	PlannerRepository plannerRepo;
 	
-	@GetMapping("/inputRestaurant/{id}")
+	@GetMapping("/addRestaurant/{id}")
 	public String addNewRestaurant(Model model, @PathVariable("id") long id) {
 		Restaurant r = new Restaurant();
 		model.addAttribute("newRestaurant", r);
 		model.addAttribute("id", id);
-		return "restaurant";
+		return "addRestaurant";
 	}
 
 	@PostMapping("/inputRestaurant/{id}")

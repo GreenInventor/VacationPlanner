@@ -169,12 +169,12 @@
 	<script>
 		//input validation goes here
 	</script>
-		<form th:object="${newRestaurant}" th:action="@{/inputRestaurant}" method='POST' onsubmit="return checkForm(this);">
+		<form th:object="${newRestaurant}" th:action="@{/inputRestaurant/{id}(id=${id})}" method='POST' onsubmit="return checkForm(this);">
 			<input name="id" id="id" type="hidden" th:field="*{id}">
 			
 			<div class="form-floating">
-				<input name="rname" id="rname" class="form-control" size="20" th:field="*{rname}">
-				<label for="rname">Name</label>
+				<input name="name" id="name" class="form-control" size="20" th:field="*{name}">
+				<label for="name">Name</label>
 			</div>
 			<p id="alert1" class="alert alert-danger" style="display: none">Name Field Must Not Be Empty!</p>
 			
