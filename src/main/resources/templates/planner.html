@@ -123,6 +123,7 @@
 		}
 		function validateEvent(form){
 			let error = false
+			let numberFormat = /^[0-9]+$/;
 			let y = document.getElementsByClassName('customSelect');
 			y[1].style.boxShadow = "none";
 			document.getElementById("alert10").style.display = "none";
@@ -130,6 +131,7 @@
 			document.getElementById("alert12").style.display = "none";
 			document.getElementById("alert13").style.display = "none";
 			document.getElementById("alert14").style.display = "none";
+			document.getElementById("alert20").style.display = "none";
 			document.getElementById("startDate3").style.boxShadow = "none";
 			document.getElementById("endDate3").style.boxShadow = "none";
 			document.getElementById("numberOfPeople").style.boxShadow = "none";
@@ -137,8 +139,14 @@
 			
 			let startDate = form.startDate.value
 			let endDate = form.endDate.value
-			if(form.numberOfPeople.value ==""){
+			if(form.numberOfPeople.value =="" || form.numberOfPeople.value == 0){
 				document.getElementById("alert14").style.display = "block";
+				document.getElementById("numberOfPeople").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.numberOfPeople.focus();
+				error = true;
+			}
+			else if(!numberFormat.test(form.numberOfPeople.value)){
+				document.getElementById("alert20").style.display = "block";
 				document.getElementById("numberOfPeople").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 				form.numberOfPeople.focus();
 				error = true;
@@ -174,6 +182,7 @@
 		
 		function validateRestaurant(form){
 			let error = false;
+			let numberFormat = /^[0-9]+$/;
 			let y = document.getElementsByClassName('customSelect');
 			y[4].style.boxShadow = "none";
 			document.getElementById("alert15").style.display = "none";
@@ -181,6 +190,7 @@
 			document.getElementById("alert17").style.display = "none";
 			document.getElementById("alert18").style.display = "none";
 			document.getElementById("alert19").style.display = "none";
+			document.getElementById("alert21").style.display = "none";
 			document.getElementById("date").style.boxShadow = "none";
 			document.getElementById("startTime").style.boxShadow = "none";
 			document.getElementById("endTime").style.boxShadow = "none";
@@ -188,6 +198,12 @@
 			if(form.numberOfPeople.value == ""){
 				document.getElementById("alert19").style.display = "block";
 				document.getElementById("numberOfPeople2").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+				form.numberOfPeople.focus();
+				error = true;
+			}
+			else if(!numberFormat.test(form.numberOfPeople.value)){
+				document.getElementById("alert21").style.display = "block";
+				document.getElementById("numberOfPeople").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 				form.numberOfPeople.focus();
 				error = true;
 			}
@@ -426,10 +442,11 @@
 			<p id="alert13" class="alert alert-danger" style="display: none; margin-top: 6px;">End Date Can Not Be Before Start Date!</p>
 		</div>
 		<div class="form-floating">
-		<input type="number" name="numberOfPeople" id="numberOfPeople" size="20" class="form-control" min="1"> 
+		<input type="number" name="numberOfPeople" id="numberOfPeople" size="20" class="form-control"> 
 				<label for="NumberOfPeople">Number Of Tickets</label>
 		</div>
 			<p id="alert14" class="alert alert-danger" style="display: none; margin-top: 6px;">Number Of Tickets Field Must Not Be Empty!</p>
+			<p id="alert20" class="alert alert-danger" style="display: none">Please Enter A Valid Number Of Tickets</p>
 		<br>
 		<input name="id" id="id" type="hidden" th:field="*{id}" required>
 		<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="See Events" />
@@ -645,7 +662,7 @@
 		<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="See Avalible Hotels" />
 	</form>
 	<br>
-	<table class="table text-center table-bordered caption-top" style = "margin-bottom:0px;"> <!-- Hotels Section -->
+	<table class="table text-center table-bordered caption-top" style = "margin-bottom:0px;"> <!-- Restaurant Section -->
 		<tr>
 			<th>Restaurant</th>
 			<th>Phone Number</th>
@@ -656,7 +673,7 @@
 			<th>Price</th>
 			<th>Cancel Reservation</th>
 		</tr>
-		<tr th:each="currentRestaurant : ${plan.reservations}"> <!-- List of Hotels -->
+		<tr th:each="currentRestaurant : ${plan.reservations}"> <!-- List of Restaurants -->
 			<td th:text="${currentRestaurant.restaurant.name}"/>
 			<td th:text="${currentRestaurant.restaurant.phoneNumber}"/>
 			<td th:text="${currentRestaurant.restaurant.address.street} + ' ' + ${currentRestaurant.restaurant.address.city} + ' ' + ${currentRestaurant.restaurant.address.state} + ' ' + ${currentRestaurant.restaurant.address.zip}"/>
@@ -665,9 +682,9 @@
 			<td th:text="${#dates.format(sdf.parse(currentRestaurant.startTime),'h:m a')} + ' - ' + ${#dates.format(sdf.parse(currentRestaurant.endTime),'h:m a')}"/>
 			</th:block>
 			<td th:text="${currentRestaurant.numberOfPeople}"/>
-			<td th:text="${#numbers.formatCurrency(currentHotel.price)}"/>
-			<td><form th:action="@{/cancelReservation/{id}(id=${id})}" method='POST'> <!-- Delete Hotel -->
-					<input type="hidden" th:value="${currentHotel.id}" name="rentalId"/>
+			<td th:text="${#numbers.formatCurrency(currentRestaurant.restaurant.price)}"/>
+			<td><form th:action="@{/cancelReservation/{id}(id=${id})}" method='POST'> <!-- Restaurant Hotel -->
+					<input type="hidden" th:value="${currentRestaurant.id}" name="reservationId"/>
 					<input type="hidden" th:value="${plan.id}" name="planId"/>
 					<input style ="width: 100%;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
 			</form></td>
@@ -749,10 +766,11 @@
 			<p id="alert18" class="alert alert-danger" style="display: none; margin-top: 6px;">End Time Field Must Not Be Empty!</p>	
 		</div>
 		<div class="form-floating">
-		<input type="number" name="numberOfPeople" id="numberOfPeople2" size="20" class="form-control" min="1"> 
+		<input type="number" name="numberOfPeople" id="numberOfPeople2" size="20" class="form-control"> 
 				<label for="NumberOfPeople2">Number Of People</label>
 		</div>
 			<p id="alert19" class="alert alert-danger" style="display: none; margin-top: 6px;">Number Of People Field Must Not Be Empty!</p>
+			<p id="alert21" class="alert alert-danger" style="display: none">Please Enter A Valid Number Of People</p>
 		<br>
 		<input name="id" id="id" type="hidden" th:field="*{id}" required>
 		<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="See Restaurants" />

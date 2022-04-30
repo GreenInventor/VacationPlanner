@@ -13,6 +13,9 @@
 <link th:href= "@{/css/dashboard.css}" rel="stylesheet">
 <link rel="icon" th:href="@{../img/letter-vp-triangle-logo-design-260nw-1324887731-modified-removebg-preview.png}">
 <style>
+    .customSelect{
+  background-color: #f8f9fa;
+}
 @media (max-width: 768px) {
 .sidebar {
   position: static;
@@ -36,53 +39,107 @@
 <script>
 	function checkForm(form)
 	{
-		return true;
-		let re = /^[\w ]+$/;
 		
-		if(!re.test(form.name.value))
-		{
-			alert("Hotel name contains invalid characters.");
-			form.name.focus();
-			return false;
-		}
+		let error = false;
+		let priceFormat = /^\d+(?:\.\d+)?(?:,\d+(?:\.\d+)?)*$/gm;
+		let numberFormat = /^[0-9]+$/;
+		let y = document.getElementsByClassName('customSelect');
+		y[0].style.boxShadow = "none";
+		document.getElementById("alert1").style.display = "none";
+		document.getElementById("alert2").style.display = "none";
+		document.getElementById("alert3").style.display = "none";
+		document.getElementById("alert4").style.display = "none";
+		document.getElementById("alert5").style.display = "none";
+		document.getElementById("alert6").style.display = "none";
+		document.getElementById("alert7").style.display = "none";
+		document.getElementById("alert8").style.display = "none";
+		document.getElementById("alert9").style.display = "none";
+		document.getElementById("alert10").style.display = "none";
+		document.getElementById("alert11").style.display = "none";
+		document.getElementById("alert12").style.display = "none";
+		document.getElementById("name").style.boxShadow = "none";
+		document.getElementById("phoneNumber").style.boxShadow = "none";
+		document.getElementById("street").style.boxShadow = "none";
+		document.getElementById("city").style.boxShadow = "none";
+		document.getElementById("zip").style.boxShadow = "none";
+		document.getElementById("roomNumber").style.boxShadow = "none";
+		document.getElementById("price").style.boxShadow = "none";
 		
-		if(form.roomNumber.value < 0)
-		{
-			alert("Please enter a room number greater than 0");
-			form.roomNumber.focus();
-			return false;
-		}
-		
-		if(form.price.value < 0)
-		{
-			alert("Please enter a price greater than 0");
-			form.price.focus();
-			return false;
-		}
-		
-		if(!re.test(form.street.value))
-		{
-			alert("Street contains invalid characters.");
-			form.street.focus();
-			return false;
-		}
-		
-		if(!re.test(form.city.value))
-		{
-			alert("City contains invalid characters.");
-			form.city.focus();
-			return false;
-		}
-		
-		
-		if(form.zip.value < 0)
-		{
-			alert("Please enter a zip greater than 0");
+		if(form.zip.value ==""){
+			document.getElementById("alert7").style.display = "block";
+			document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
 			form.zip.focus();
-			return false;
+			error = true;
 		}
-		
-		return true;
+		else if(!form.zip.value.match(/(^[0-9]{4}?[0-9]$)/)){
+			document.getElementById("alert8").style.display = "block";
+			document.getElementById("zip").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.zip.focus();
+			error = true;
+		}
+		if(form.state.value ==""){
+			document.getElementById("alert6").style.display = "block";
+			document.getElementById("state").style.outline = "5px auto solid red";
+			y[0].style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.state.focus();
+			error = true;
+		}
+		if(form.city.value ==""){
+			document.getElementById("alert5").style.display = "block";
+			document.getElementById("city").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.city.focus();
+			error = true;
+		}
+		if(form.street.value ==""){
+			document.getElementById("alert4").style.display = "block";
+			error = true;
+			document.getElementById("street").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.street.focus();
+		}
+		if(form.price.value == 0.0 || form.price.value == "" ||form.price.value == 0){
+			document.getElementById("alert10").style.display = "block";
+			document.getElementById("price").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.price.focus();
+			error = true;
+		}
+		else if(!priceFormat.test(form.price.value) || form.price.value.indexOf(".") != -1 && form.price.value.length - (form.price.value.indexOf(".") + 1) > 2){
+			document.getElementById("alert11").style.display = "block";
+			document.getElementById("price").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.price.focus();
+			error = true;
+		}
+		if(form.phoneNumber.value ==""){
+			document.getElementById("alert2").style.display = "block";
+			document.getElementById("phoneNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.phoneNumber.focus();
+			error = true;
+		}
+		else if(!form.phoneNumber.value.match(/^\(\d{3}\)\d{3}\-\d{4}$/m)){
+			document.getElementById("alert3").style.display = "block";
+			document.getElementById("phoneNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.phoneNumber.focus();
+			error = true;
+		}
+		if(form.roomNumber.value =="" || form.roomNumber.value == 0){
+			document.getElementById("alert9").style.display = "block";
+			document.getElementById("roomNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.roomNumber.focus();
+			error = true;
+		}
+		else if(!numberFormat.test(form.roomNumber.value)){
+			document.getElementById("alert12").style.display = "block";
+			document.getElementById("roomNumber").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.roomNumber.focus();
+			error = true;
+		}
+		if(form.name.value ==""){
+			document.getElementById("alert1").style.display = "block";
+			document.getElementById("name").style.boxShadow = "0 0 0 0.2rem rgba(255, 0, 0, 0.25)";
+			form.city.focus();
+			error = true;
+		}
+		if(error == true) return false;
+		else return true;
 	}
 </script>
 <header
@@ -213,32 +270,42 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
 <form th:object="${newHotel}" th:action="@{/inputHotel/{id}(id=${id})}" method='POST' onsubmit="return checkForm(this);">
+<input name="id" id="id" type="hidden" th:field="*{id}">
 <div class="form-floating">
-<input name="name" id="name" class="form-control" type="text" th:field="*{name}" required>
+<input name="name" id="name" class="form-control" type="text" th:field="*{name}">
 <label for="name">Hotel Name</label>
 </div>
+<p id="alert1" class="alert alert-danger" style="display: none">Name Field Must Not Be Empty!</p>
 <div class="form-floating">
-<input name="roomNumber" id="roomNumber" class="form-control" type="number" th:field="*{roomNumber}" required>
+<input name="roomNumber" id="roomNumber" class="form-control" type="number" th:field="*{roomNumber}">
 <label for="roomNumber">Room Number</label>
 </div>
+<p id="alert9" class="alert alert-danger" style="display: none">Phone Number Field Must Not Be Empty!</p>
+<p id="alert12" class="alert alert-danger" style="display: none">Please Enter A Valid Room Number</p>
 <div class="form-floating">
-<input name="phoneNumber" id="phoneNumber" class="form-control" type="text" th:field="*{phoneNumber}" required>
+<input name="phoneNumber" id="phoneNumber" class="form-control" type="text" th:field="*{phoneNumber}">
 <label for="phoneNumber">Phone Number</label>
 </div>
+<p id="alert2" class="alert alert-danger" style="display: none">Phone Number Field Must Not Be Empty!</p>
+<p id="alert3" class="alert alert-danger" style="display:none">Invalid Phone Number! Format: (###)###-####</p>
 <div class="form-floating">
-<input name="price" id="price" class="form-control" type="number" th:field="*{pricePerDay}" required>
+<input name="price" id="price" class="form-control" type="number" th:field="*{pricePerDay}">
 <label for="price">Price</label>
 </div>
+<p id="alert10" class="alert alert-danger" style="display: none">Price Field Must Not Be Empty!</p>
+			<p id="alert11" class="alert alert-danger" style="display: none">Please Enter A Valid Price!</p>
 <div class="form-floating">
-<input name="street" id="street" class="form-control" type="text" th:field="*{address.street}" required>
+<input name="street" id="street" class="form-control" type="text" th:field="*{address.street}">
 <label for="street">Street</label>
 </div>
+<p id="alert4" class="alert alert-danger" style="display: none">Street Field Must Not Be Empty!</p>
 <div class="form-floating">
-<input name="city" id="city" class="form-control" type="text" th:field="*{address.city}" required>
+<input name="city" id="city" class="form-control" type="text" th:field="*{address.city}">
 <label for="city">City</label>
 </div>
+<p id="alert5" class="alert alert-danger" style="display: none">City Field Must Not Be Empty!</p>
 <div class="form-floating">
-<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state" th:field="*{address.state}" required>
+<select class="selectpicker form-control" data-live-search="true" title= "Select A State" name="state" id="state" th:field="*{address.state}" data-style="customSelect">
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
 	<option value="AZ">Arizona</option>
@@ -292,11 +359,14 @@
 </select>
 <label for="state">State</label>
 </div>
+<p id="alert6" class="alert alert-danger" style="display: none; margin-top:6px;">State Field Must Not Be Empty!</p>
 <br>
 <div class="form-floating">
-<input name="zip" id="zip" class="form-control" type="number" th:field="*{address.zip}" required><br/>
+<input name="zip" id="zip" class="form-control" type="text" th:field="*{address.zip}">
 <label for="zip">Zip</label>
 </div>
+<p id="alert7" class="alert alert-danger" style="display: none">Zip Field Must Not Be Empty!</p>
+<p id="alert8" class="alert alert-danger" style="display: none">Invalid Zip code!</p>
 <input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Submit" />
 </form>
 <br>

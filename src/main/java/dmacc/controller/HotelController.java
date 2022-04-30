@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import dmacc.beans.Car;
+import dmacc.beans.CarRental;
+import dmacc.beans.Dealership;
 import dmacc.beans.Hotel;
 import dmacc.beans.HotelRental;
 import dmacc.beans.Planner;
@@ -40,7 +43,7 @@ public class HotelController {
 	}
 
 	@PostMapping("/inputHotel/{id}")
-	public String addNewHotel(@ModelAttribute Hotel h, Model model, @PathVariable("id") long id) {
+	public String addNewHotel(Hotel h, Model model, @PathVariable("id") long id) {
 		repo.save(h);
 		return viewAllHotels(model, id);
 	}
@@ -211,5 +214,27 @@ public class HotelController {
 		model.addAttribute("id", id);
 		model.addAttribute("plan", plan);
 		return "planner";
+	}
+	@PostMapping("/editHotel/{id}")
+	public String editHotel(Model model, @RequestParam(name = "id") String hotelId, @RequestParam(name = "action") String action, @PathVariable("id") long id) {
+		Hotel h = repo.getById(Long.parseLong(hotelId));
+		model.addAttribute("id", id);
+		if (action.equals("Edit")) {
+			model.addAttribute("newHotel", h);
+			return "hotel";
+		} else {
+			List<HotelRental> rentals = rentalRepo.findByHotel(h);
+			for (HotelRental rental : rentals) {
+				List<HotelRental> hr = new ArrayList<HotelRental>();
+				hr.add(rental);
+				Planner p = plannerRepo.findAllByHotelRentalsIn(hr);
+				List<HotelRental> r = p.getHotelRentals();
+				r.remove(rental);
+				plannerRepo.save(p);
+				rentalRepo.delete(rental);
+			}
+			repo.delete(h);
+			return viewAllHotels(model, id);
+		}
 	}
 }

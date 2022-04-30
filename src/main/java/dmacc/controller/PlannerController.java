@@ -21,6 +21,7 @@ import dmacc.beans.EventTicket;
 import dmacc.beans.Hotel;
 import dmacc.beans.HotelRental;
 import dmacc.beans.Planner;
+import dmacc.beans.Reservation;
 import dmacc.repository.AccountRepository;
 import dmacc.repository.CarRentalRepository;
 import dmacc.repository.CarRepository;
@@ -29,6 +30,7 @@ import dmacc.repository.EventTicketRepository;
 import dmacc.repository.HotelRentalRepository;
 import dmacc.repository.HotelRepository;
 import dmacc.repository.PlannerRepository;
+import dmacc.repository.ReservationRepository;
 
 @Controller
 public class PlannerController {
@@ -48,6 +50,8 @@ public class PlannerController {
 	EventTicketRepository etRepo;
 	@Autowired
 	EventRepository eventRepo;
+	@Autowired
+	ReservationRepository rRepo;
 
 	@GetMapping("/adminHome/{id}")
 	public String viewAllPlans(Model model, @PathVariable("id") long id) {
@@ -88,6 +92,7 @@ public class PlannerController {
 			List<CarRental> rentals = p.getCarRentals();
 			List<HotelRental> hRentals = p.getHotelRentals();
 			List<EventTicket> eventTickets = p.getEvents();
+			List<Reservation> reservations = p.getReservations();
 			for (CarRental r : rentals) {
 				LocalDate startDate = r.getRentalStartDate();
 				LocalDate endDate = r.getRentalEndDate();
@@ -119,6 +124,9 @@ public class PlannerController {
 				event.setAvalibleTickets(event.getAvalibleTickets() + et.getNumberOfTickets());
 				eventRepo.save(event);
 				etRepo.delete(et);
+			}
+			for (Reservation r : reservations) {
+				rRepo.delete(r);
 			}
 			repo.delete(p);
 			model.addAttribute("plans", repo.findByAccountId(id));

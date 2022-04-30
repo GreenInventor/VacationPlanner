@@ -62,6 +62,10 @@ public class EventController {
 			model.addAttribute("id", id);
 			return "event";
 		} else {
+			List<EventTicket> eventTickets = etRepo.findByEvent(e);
+			for(EventTicket eventTicket : eventTickets) {
+				etRepo.delete(eventTicket);	
+			}
 			eventRepo.delete(e);
 			return viewAllEvents(model, id);
 		}

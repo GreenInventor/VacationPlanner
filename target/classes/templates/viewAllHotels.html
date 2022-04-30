@@ -213,7 +213,6 @@
 	<input class="w-100 btn btn-lg btn-primary" name="submit" type="submit" value="Filter" />
 	</form>
 	<br>
-	<form>
 	<div class="table-responsive">
 		<table class="table text-center table-bordered">
 			<tr>
@@ -226,6 +225,7 @@
 				<th>City </th>
 				<th>State</th>
 				<th>Zip Code</th>
+				<th>Action</th>
 				
 			</tr>
 			<tr th:each="currentHotel : ${hotels}">
@@ -238,10 +238,15 @@
 			<td th:text = "${currentHotel.address.city}"/>
 			<td th:text = "${currentHotel.address.state}"/>
 			<td th:text = "${currentHotel.address.zip}"/>
-			
+			<td>
+<form th:action="@{/editHotel/{id}(id=${id})}" method='POST'>
+<input type ="hidden" name ="id" th:value="${currentHotel.id}">
+<input style ="width: 60px;" class="btn btn-warning btn-sm" type = "submit" value= "Edit" name= "action">
+<input style ="width: 60px; margin-top: 2px;" class="btn btn-danger btn-sm" type = "submit" value= "Delete" name= "action">
+</form>
+</td>
 		</table>
 		</div>
-	</form>
 	</main>
 </body>
 </html>
