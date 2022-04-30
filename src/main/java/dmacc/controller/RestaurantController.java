@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import dmacc.beans.Restaurant;
 import dmacc.repository.PlannerRepository;
@@ -41,5 +42,17 @@ public class RestaurantController {
 		model.addAttribute("restaurants", repo.findAll());
 		model.addAttribute("id", id);
 		return "viewAllRestaurants";
+	}
+	@PostMapping("/editRestaurants/{id}")
+	public String editRestaurants(Model model, @RequestParam(name = "id") String eventId, @RequestParam(name = "action") String action, @PathVariable("id") long id) {
+		Restaurant r = repo.getById(Long.parseLong(eventId));
+		if (action.equals("Edit")) {
+			model.addAttribute("newRestaurant", r);
+			model.addAttribute("id", id);
+			return "event";
+		} else {
+			repo.delete(r);
+			return viewAllRestaurants(model, id);
+		}
 	}
 }
